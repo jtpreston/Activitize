@@ -1,0 +1,3 @@
+rootProject.name = 'ActivitizeReactNative'
+
+include ':app'
