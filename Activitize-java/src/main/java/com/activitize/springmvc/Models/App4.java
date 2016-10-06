@@ -1,10 +1,10 @@
-package com.activitize;
+package com.activitize.springmvc.Models;
 
 /**
  * Hello world!
  *
  */
-public class App 
+public class App4
 {
     public static void main( String[] args )
     {

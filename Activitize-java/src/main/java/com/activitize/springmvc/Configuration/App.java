@@ -1,4 +1,4 @@
-package com.activitize;
+package com.activitize.springmvc.Configuration;
 
 /**
  * Hello world!

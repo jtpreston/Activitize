@@ -1,10 +1,10 @@
-package com.activitize;
+package com.activitize.springmvc.DAO;
 
 /**
  * Hello world!
  *
  */
-public class App 
+public class App3
 {
     public static void main( String[] args )
     {
