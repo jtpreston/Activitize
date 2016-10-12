@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`events` (
   `number_not_going` INT NOT NULL DEFAULT 0,
   `subevent` TINYINT(1) NOT NULL,
   `subevent_parent_id` INT NULL,
+  `friend_group_id` INT,
   PRIMARY KEY (`event_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
