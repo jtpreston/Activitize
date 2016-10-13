@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.activitize.springmvc.Models.UserHasEvent;
 
 @Repository("userHasEventDao")
-public class UserHasEventDaoImpl {
+public class UserHasEventDaoImpl extends AbstractDao<Integer, UserHasEvent> implements UserHasEventDao {
 
 }

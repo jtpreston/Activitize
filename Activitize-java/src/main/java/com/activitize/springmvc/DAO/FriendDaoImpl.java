@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.activitize.springmvc.Models.Friend;
 
 @Repository("friendDao")
-public class FriendDaoImpl {
+public class FriendDaoImpl extends AbstractDao<Integer, Friend> implements FriendDao {
 
 }

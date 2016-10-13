@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.activitize.springmvc.Models.Reply;
 
 @Repository("replyDao")
-public class ReplyDaoImpl {
+public class ReplyDaoImpl extends AbstractDao<Integer, Reply> implements ReplyDao {
 
 }

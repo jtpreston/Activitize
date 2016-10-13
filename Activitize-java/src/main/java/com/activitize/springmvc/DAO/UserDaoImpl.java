@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.activitize.springmvc.Models.User;
 
 @Repository("userDao")
-public class UserDaoImpl {
+public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
 }

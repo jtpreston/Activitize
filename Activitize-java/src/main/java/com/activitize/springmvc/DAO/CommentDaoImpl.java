@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.activitize.springmvc.Models.Comment;
 
 @Repository("commentDao")
-public class CommentDaoImpl {
+public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements CommentDao {
 
 }
