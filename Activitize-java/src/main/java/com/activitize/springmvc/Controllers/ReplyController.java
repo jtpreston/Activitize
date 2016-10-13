@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.activitize.springmvc.Models.Reply;
+import com.activitize.springmvc.Services.CommentService;
+import com.activitize.springmvc.Services.ReplyService;
+
 @Controller
 @RequestMapping("/reply")
 public class ReplyController {
+	
+	@Autowired
+    ReplyService service;
 
 }

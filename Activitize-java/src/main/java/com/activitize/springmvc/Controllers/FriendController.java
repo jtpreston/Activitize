@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.activitize.springmvc.Models.Friend;
+import com.activitize.springmvc.Services.CommentService;
+import com.activitize.springmvc.Services.FriendService;
+
 @Controller
 @RequestMapping("/friend")
 public class FriendController {
+	
+	@Autowired
+    FriendService service;
 
 }

@@ -15,8 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.activitize.springmvc.Models.Comment;
+import com.activitize.springmvc.Services.CommentService;
+
 @Controller
 @RequestMapping("/comment")
 public class CommentController {
+	
+	@Autowired
+    CommentService service;
 
 }
