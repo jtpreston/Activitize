@@ -20,5 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="users_has_events")
 public class UserHasEvent {
+	
+	public UserHasEvent() {
+		
+	}
 
 }

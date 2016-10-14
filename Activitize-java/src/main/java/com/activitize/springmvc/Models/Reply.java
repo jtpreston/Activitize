@@ -20,5 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="replies_to_comments")
 public class Reply {
+	
+	public Reply() {
+		
+	}
 
 }

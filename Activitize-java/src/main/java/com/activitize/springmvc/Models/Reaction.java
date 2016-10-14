@@ -20,5 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="reactions")
 public class Reaction {
+	
+	public Reaction() {
+		
+	}
 
 }

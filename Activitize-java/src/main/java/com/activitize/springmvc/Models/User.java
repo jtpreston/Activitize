@@ -21,4 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="users")
 public class User {
     
+	public User() {
+		
+	}
+	
 }

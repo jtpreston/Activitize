@@ -21,4 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="events")
 public class Event {
 
+	public Event() {
+		
+	}
+	
 }

@@ -20,5 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friends")
 public class Friend {
+	
+	public Friend() {
+		
+	}
 
 }

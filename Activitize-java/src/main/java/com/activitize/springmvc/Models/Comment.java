@@ -20,5 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="comments")
 public class Comment {
-
+	
+	public Comment() {
+		
+	}
+	
 }
