@@ -20,31 +20,48 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="users")
 public class User {
- 	
+ 	@Id
+	@NotNull	
 	private int user_id;
-		   
+	@NotNull
+	@Size(max=256)   
+	@Column(name = "username", nullable = false)
 	private String username;
-
+	@NotNull
+	@Size(max=256)
+	@Column(name = "password", nullable = false)
 	private String password;
-	
+	@NotNull
+	@Size(max=256)
+	@Column(name = "first_name", nullable = false)
 	private String first_name;
-
+	@NotNull
+	@Size(max=256)
+	@Column(name = "last_name", nullable = false)
 	private String last_name;
-
+	@NotNull
+	@Size(max=256)
+	@Column(name = "nickname", nullable = false)
 	private String nickname;
-
+	@NotNull
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@Column(name = "age", nullable = false)
 	private LocalDate age;
-
+	@NotNull
+	@Size(max=256)
+	@Column(name = "email", nullable = false)
 	private String email;
-	
+	@Column(name = "phone_number", nullable = true)
 	private int phone_number;
-
+	@Size(max=256)
+	@Column(name = "path_to_profile_picture", nullable = true)
 	private String path_to_profile_picture;
-
+	@NotNull
+	@Column(name = "number_of_friends", nullable = false)
 	private int number_of_friends;
-
+	@NotNull
 	private boolean using_facebook;
-
+	@Column(name = "facebook_user_id", nullable = true)
 	private long facebook_user_id;
 	public User() {
 		

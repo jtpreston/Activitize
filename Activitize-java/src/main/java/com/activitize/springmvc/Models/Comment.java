@@ -20,21 +20,30 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="comments")
 public class Comment {
-	
+	@NotNull
+	@Column(name = "comment_id", nullable = false)
 	private int comment_id;
-
+	@NotNull
+	@Column(name = "comment", nullable = false)
 	private String comment;
-		
+	@NotNull
+	@Column(name = "timestamp", nullable = false)
 	private LocalDate timestamp;
-
+	@NotNull
+	@Size(max = 256)
+	@Column(name = "username", nullable = false)
 	private String username;
-
+	@NotNull
+	@Column(name = "events_event_id", nullable = false)
 	private int events_event_id;
-
+	@NotNull
+	@Column(name = "number_of_replies", nullable = false)
 	private int number_of_replies;
-
+	@NotNull
+	@Column(name = "yeah", nullable = false)
 	private int yeah;
-
+	@NotNull
+	@Column(name = "nah", nullable = false)
 	private int nah;
 	public Comment() {
 		

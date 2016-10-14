@@ -20,11 +20,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="replies_to_comments")
 public class Reply {
-	
+	@NotNull
+	@Column(name = "replies_to_comments_id", nullable = false)
 	private int replies_to_comments_id;
-	
+	@NotNull
+	@Column(name = "comments_comment_id", nullable = false)
 	private int comments_comment_id;
-
+	@NotNull
+	@Column(name = "comments_events_event_id", nullable = false)
 	private int comments_events_event_id;
 	public Reply() {
 		

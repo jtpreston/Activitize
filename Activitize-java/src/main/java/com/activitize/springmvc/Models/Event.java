@@ -20,35 +20,43 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="events")
 public class Event {
-	
+	@NotNull
 	private int event_id;
-
+	@NotNull
+	@Size(max = 256)
+	@Column(name = "event_name", nullable = false)
+	private String event_name;
+	@NotNull
+	@Column(name = "event_start", nullable = false)
 	private LocalDate event_start;
-		
+	@Column(name = "event_end", nullable = true)	
 	private LocalDate event_end;
-
+	@Column(name = "description", nullable = true)
 	private String description;
-	
+	@NotNull
+	@Size(max = 256)
+	@Column(name = "location", nullable = false)
 	private String location;
-	
+	@NotNull
 	private boolean priv;
-		
+	@NotNull
+	@Column(name = "name_of_comments", nullable = false)
 	private int number_of_comments;
-
-	private String number_of_comments;
-
-	private int number_of_comments;
-
+	@Size(max = 256)
+	@Column(name = "path_to_event_picture", nullable = true)
 	private String path_to_event_picture;
-
+	@NotNull
+	@Column(name = "number_going", nullable = false)
 	private int number_going;
-
+	@NotNull
+	@Column(name = "number_not_going", nullable = false)
 	private int number_not_going;
-
+	@NotNull
+	@Column(name = "subevent", nullable = false)
 	private boolean subevent;
-
+	@Column(name = "subevent_parent_id", nullable = true)
 	private int subevent_parent_id;
-
+	@Column(name = "friend_group_id", nullable = true)
 	private int friend_group_id;
 	public Event() {
 		
@@ -58,6 +66,12 @@ public class Event {
 	}
 	public void setEventId(int id) {
 		this.event_id = id;
+	}
+	public String getEventName() {
+		return event_name;
+	}
+	public void setEventName(String event) {
+		this.event_name = event;
 	}
 	public LocalDate getEventStart() {
 		return event_start;

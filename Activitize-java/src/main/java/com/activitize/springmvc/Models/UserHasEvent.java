@@ -20,15 +20,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="users_has_events")
 public class UserHasEvent {
-	
+	@NotNull
+	@Column(name = "users_user_id", nullable = false)
 	private int users_user_id;
-	
+	@NotNull
+	@Column(name = "events_event_id", nullable = false)
 	private int events_event_id;
-
+	@NotNull
+	@Column(name = "favorite", nullable = false)
 	private boolean favorite;
-	
+	@NotNull
+	@Column(name = "admin", nullable = false)
 	private boolean admin;
-
+	@NotNull
+	@Column(name = "going", nullable = false)
 	private boolean going;
 	
 	public UserHasEvent() {

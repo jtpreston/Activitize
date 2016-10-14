@@ -20,9 +20,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friends")
 public class Friend {
-	
+	@NotNull
+	@Column(name = "friends_id", nullable = false)
 	private int friends_id;
-
+	@NotNull
+	@Column(name = "users_user_id", nullable = false)
 	private int users_user_id;
 	public Friend() {
 		

@@ -20,15 +20,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friend_groups")
 public class FriendGroup {
-	
+	@NotNull
+	@Column(name = "friend_groups_id", nullable = false)
 	private int friend_groups_id;
-
+	@NotNull
+	@Column(name = "users_user_id", nullable = false)
 	private int users_user_id;
-
+	@NotNull
+	@Size(max = 256)
+	@Column(name = "group_name", nullable = false)
 	private String group_name;
-
+	@NotNull
+	@Column(name = "group_size", nullable = false)
 	private int group_size;
-
+	@NotNull	
+	@Size(max = 256)
+	@Column(name = "group_owner", nullable = false)
 	private String group_owner;
 	public FriendGroup() {
 		

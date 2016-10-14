@@ -20,15 +20,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="reactions")
 public class Reaction {
-	
+	@NotNull
+	@Column(name = "reactions_id", nullable = false)
 	private int reactions_id;
-	
+	@NotNull
+	@Column(name = "comments_comment_id", nullable = false)
 	private int comments_comment_id;
-
+	@NotNull
+	@Column(name = "comments_events_event_id", nullable = false)
 	private int comments_events_event_id;
-
+	@NotNull
+	@Size(max = 256)
+	@Column(name = "username", nullable = false)
 	private String username;
-
+	@NotNull
+	@Column(name = "yeah", nullable = false)
 	private boolean yeah;
 	public Reaction() {
 		
