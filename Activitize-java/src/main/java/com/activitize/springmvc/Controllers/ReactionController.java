@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.activitize.springmvc.Models.Reaction;
-import com.activitize.springmvc.Services.CommentService;
 import com.activitize.springmvc.Services.ReactionService;
 
 @Controller

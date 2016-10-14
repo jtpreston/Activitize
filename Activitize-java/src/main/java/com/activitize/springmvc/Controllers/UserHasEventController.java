@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.activitize.springmvc.Models.FriendGroup;
-import com.activitize.springmvc.Services.FriendGroupService;
+import com.activitize.springmvc.Models.UserHasEvent;
+import com.activitize.springmvc.Services.UserHasEventService;
 
 @Controller
-@RequestMapping("/friendgroup")
-public class FriendGroupController {
+@RequestMapping("/userhasevent")
+public class UserHasEventController {
 	
 	@Autowired
-    FriendGroupService service;
+    UserHasEventService service;
 
 }
