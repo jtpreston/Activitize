@@ -12,12 +12,18 @@ import {
   Image,
   TouchableHighlight,
   Navigator,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 
-var background = require('./img/login.jpeg');
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginManager,
+} = FBSDK;
 
-export class Login extends React.Component{
+var background = require('../../img/login.jpeg');
+
+export class SignUp extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +31,24 @@ export class Login extends React.Component{
       password: ''
     };
   }
+
+  login() {
+    var view = this;
+    LoginManager.logInWithReadPermissions(['public_profile']).then(
+      function(result) {
+        if (result.isCancelled) {
+          Alert.alert('Login was cancelled');
+      } else {
+          Alert.alert('Login was successful with permissions: '
+        + result.grantedPermissions.toString());
+          view.gotoNext();
+      }
+    },
+    function(error) {
+      Alert.alert('Login failed with error: ' + error);
+    });
+  }
+
   render() {
     return (
       <Navigator
@@ -35,9 +59,9 @@ export class Login extends React.Component{
   renderScene(route, navigator) {
     return (
         <View style={styles.container}>
-            <Image style={styles.bg} source={background} />
+        <Image style={styles.bg} source={background} />
             <View style={styles.header}>
-                <Image style={styles.mark} source={require('./img/logo2.png')} />
+                <Image style={styles.mark} source={require('../../img/logo2.png')} />
             </View>
             <View style={styles.inputs}>
                 <View style={styles.inputContainer}>
@@ -59,18 +83,23 @@ export class Login extends React.Component{
                         value={this.state.password}
                     />
                 </View>
-                <View style={styles.forgotContainer}>
-                    <Text style={styles.greyFont}>Forgot Password</Text>
+                <View style={styles.inputContainer}>
+                    <TextInput
+                        secureTextEntry={true}
+                        style={[styles.input, styles.whiteFont]}
+                        placeholder="Verify Password"
+                        placeholderTextColor="#FFF"
+                        onChangeText={(password) => this.setState({password})}
+                        value={this.state.password}
+                    />
                 </View>
             </View>
               <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
-                <Text style={styles.whiteFont}>Sign In</Text>
+                <Text style={styles.whiteFont}>Sign up</Text>
               </TouchableHighlight>
-            <View style={styles.signup}>
-              <TouchableOpacity onPress={this.signUp.bind(this)}>
-                <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
-              </TouchableOpacity>
-            </View>
+              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
+                <Text style={styles.whiteFont}>Sign up with Facebook</Text>
+              </TouchableHighlight>
         </View>
     );
   }
@@ -78,12 +107,6 @@ export class Login extends React.Component{
     this.props.navigator.push({
       id: 'EventFeed',
       name: 'Events',
-    });
-  }
-  signUp() {
-    this.props.navigator.push({
-      id: 'SignUp',
-      name: 'SignUp',
     });
   }
 }
@@ -110,7 +133,7 @@ var styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
-      backgroundColor: 'transparent'
+      //backgroundColor: '#A9A9A9'
     },
     bg: {
         position: 'absolute',
@@ -140,7 +163,6 @@ var styles = StyleSheet.create({
       flex: .15
     },
     inputs: {
-        marginTop: 10,
         marginBottom: 10,
         flex: .25
     },
@@ -177,5 +199,10 @@ var styles = StyleSheet.create({
     },
     whiteFont: {
       color: '#FFF'
+    },
+    facebook: {
+        backgroundColor: '#3b5998',
+        padding: 20,
+        alignItems: 'center'
     }
 });

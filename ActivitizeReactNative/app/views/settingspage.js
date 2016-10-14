@@ -35,7 +35,7 @@ export class SettingsPage extends React.Component{
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
         <View style={styles.header}>
-                <Image style={styles.mark} source={require('./img/profile_blank.png')} />
+                <Image style={styles.mark} source={require('../../img/profile_blank.png')} />
         </View>
         <View style={styles.profile_info}>
           <TouchableOpacity>

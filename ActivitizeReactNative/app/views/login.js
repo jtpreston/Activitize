@@ -1,64 +1,141 @@
 'use strict';
-var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 
-var {
+import React, { Component } from 'react';
+import {
   AppRegistry,
   StyleSheet,
   View,
   Text,
   TextInput,
-  Image
-} = React;
+  Image,
+  TouchableHighlight,
+  Navigator,
+  TouchableOpacity,
+  NativeModules,
+  Alert
+} from 'react-native';
 
-class Login extends React.Component {
-  getInitialState() {
-    return {
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginManager,
+} = FBSDK;
+
+var background = require('../../img/login.jpeg');
+
+export class Login extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       username: '',
-      password: ''
-    }
-  },
+      password: '',
+      result: '...'    
+    };
+  }
+
+  login() {
+    var view = this;
+    LoginManager.logInWithReadPermissions(['public_profile']).then(
+      function(result) {
+        if (result.isCancelled) {
+          Alert.alert('Login was cancelled');
+      } else {
+          Alert.alert('Login was successful with permissions: '
+        + result.grantedPermissions.toString());
+          view.gotoNext();
+      }
+    },
+    function(error) {
+      Alert.alert('Login failed with error: ' + error);
+    });
+  }
+
   render() {
     return (
+      <Navigator
+          renderScene={this.renderScene.bind(this)}
+      />
+    );
+  }
+  renderScene(route, navigator) {
+    return (
         <View style={styles.container}>
-            <Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
+            <Image style={styles.bg} source={background} />
             <View style={styles.header}>
-                <Image style={styles.mark} source={{uri: 'http://i.imgur.com/da4G0Io.png'}} />
+                <Image style={styles.mark} source={require('../../img/logo2.png')} />
             </View>
             <View style={styles.inputs}>
                 <View style={styles.inputContainer}>
-                    <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
                     <TextInput 
                         style={[styles.input, styles.whiteFont]}
                         placeholder="Username"
                         placeholderTextColor="#FFF"
+                        onChangeText={(username) => this.setState({username})}
                         value={this.state.username}
                     />
                 </View>
                 <View style={styles.inputContainer}>
-                    <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
                     <TextInput
-                        password={true}
+                        secureTextEntry={true}
                         style={[styles.input, styles.whiteFont]}
-                        placeholder="Pasword"
+                        placeholder="Password"
                         placeholderTextColor="#FFF"
-                        value={this.state.password}/>
+                        onChangeText={(password) => this.setState({password})}
+                        value={this.state.password}
+                    />
                 </View>
                 <View style={styles.forgotContainer}>
                     <Text style={styles.greyFont}>Forgot Password</Text>
                 </View>
             </View>
-            <View style={styles.signin}>
-                <Text style={styles.whiteFont}>Sign In</Text>
-            </View>
+              <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
+                <Text style={styles.whiteFont}>Sign in</Text>
+              </TouchableHighlight>
+              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
+                <Text style={styles.whiteFont}>Sign in with Facebook</Text>
+              </TouchableHighlight>
             <View style={styles.signup}>
+              <TouchableOpacity onPress={this.signUp.bind(this)}>
                 <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
+              </TouchableOpacity>
             </View>
         </View>
     );
   }
+
+  gotoNext() {
+    this.props.navigator.push({
+      id: 'EventFeed',
+      name: 'Events',
+    });
+  }
+
+  signUp() {
+    this.props.navigator.push({
+      id: 'SignUp',
+      name: 'SignUp',
+    });
+  }
 }
+
+var NavigationBarRouteMapper = {
+  LeftButton(route, navigator, index, navState) {
+    return null;
+  },
+  RightButton(route, navigator, index, navState) {
+    return null;
+  },
+  Title(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+          Login
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+};
 
 var styles = StyleSheet.create({
     container: {
@@ -80,11 +157,11 @@ var styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     mark: {
-        width: 150,
+        width: 250,
         height: 150
     },
     signin: {
-        backgroundColor: '#FF3366',
+        backgroundColor: '#547980',
         padding: 20,
         alignItems: 'center'
     },
@@ -109,9 +186,9 @@ var styles = StyleSheet.create({
       height: 20
     },
     inputContainer: {
-        padding: 10,
+        padding: 20,
         borderWidth: 1,
-        borderBottomColor: '#CCC',
+        borderBottomColor: '#FFF',
         borderColor: 'transparent'
     },
     input: {
@@ -119,8 +196,8 @@ var styles = StyleSheet.create({
         left: 61,
         top: 12,
         right: 0,
-        height: 20,
-        fontSize: 14
+        height: 40,
+        fontSize: 12
     },
     forgotContainer: {
       alignItems: 'flex-end',
@@ -131,8 +208,10 @@ var styles = StyleSheet.create({
     },
     whiteFont: {
       color: '#FFF'
+    },
+    facebook: {
+        backgroundColor: '#3b5998',
+        padding: 20,
+        alignItems: 'center'
     }
-})
-
-AppRegistry.registerComponent('Login', () => Login);
-module.exports = Login;
+});
