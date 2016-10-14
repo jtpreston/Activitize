@@ -15,7 +15,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-export class SettingsPage extends React.Component{
+export class EditProfile extends React.Component{
   constructor(props) {
     super(props);
     this.state = {};
@@ -34,34 +34,9 @@ export class SettingsPage extends React.Component{
   renderScene(route, navigator) {
     return (
       <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
-        <View style={styles.header}>
-                <Image style={styles.mark} source={require('../../img/profile_blank.png')} />
-        </View>
-        <View style={styles.profile_info}>
-          <TouchableOpacity onPress={this.editProfile.bind(this)}>
-            <Text style={styles.name}>FirstName LastName</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.profile_info}>
-          <View>
-          <TouchableHighlight style={styles.button} underlayColor='#BFE9DB'>
-            <Text style={styles.display}>My Events</Text>
-          </TouchableHighlight>
-          </View>
-          <View>
-          <TouchableHighlight style={styles.button} underlayColor='#BFE9DB'>
-            <Text style={styles.display}>Friends</Text>
-          </TouchableHighlight>
-          </View>
-        </View>
+        <Text>Edit profile info goes here</Text>
       </View>
     );
-  }
-  editProfile() {
-    this.props.navigator.push({
-      id: 'EditProfile',
-      name: 'EditProfile',
-    });
   }
 }
 
@@ -79,9 +54,14 @@ var NavigationBarRouteMapper = {
   RightButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.popToTop()}>
+          onPress={() => {
+            navigator.parentNavigator.push({
+            id: 'SettingsPage',
+            name: 'SettingsPage',
+            });
+          }}>
         <Text style={{color: 'white', margin: 10,}}>
-          Log out
+          Submit
         </Text>
       </TouchableOpacity>
     );
