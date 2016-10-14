@@ -66,7 +66,7 @@ public class UserHasEvent {
 	public boolean getGoing() {
 		return going;
 	}
-	public boolean setGoing(boolean going) {
+	public void setGoing(boolean going) {
 		this.going = going;
 	}
 }

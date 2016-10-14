@@ -48,7 +48,7 @@ public class Reaction {
 	public int getCommentsCommentId() {
 		return comments_comment_id;
 	}
-	public void setCommentsCommentId(int comment {
+	public void setCommentsCommentId(int comment) {
 		this.comments_comment_id = comment;
 	}
 	public int getCommentsEventsEventId() {

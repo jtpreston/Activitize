@@ -47,7 +47,7 @@ public class Reply {
 	public int getCommentsEventsEventId() {
 		return comments_events_event_id;
 	}
-	public int setCommentsEventsEventId(int comments_events) {
+	public void setCommentsEventsEventId(int comments_events) {
 		this.comments_events_event_id = comments_events;
 	}
 }

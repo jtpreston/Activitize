@@ -56,7 +56,7 @@ public class FriendGroup {
 		return group_name;
 	}
 	public void setGroupName(String groupName) {
-		this.group_name = groupname;
+		this.group_name = groupName;
 	}
 	public int getGroupSize() {
 		return group_size;

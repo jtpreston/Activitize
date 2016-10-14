@@ -130,7 +130,7 @@ public class Event {
 	public boolean getSubevent() {
 		return subevent;
 	}
-	public boolean setSubevent(boolean sub) {
+	public void setSubevent(boolean sub) {
 		this.subevent = sub;
 	}
 	public int getSubeventParentId() {
