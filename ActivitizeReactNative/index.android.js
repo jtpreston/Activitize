@@ -9,45 +9,66 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Navigator
 } from 'react-native';
 
-class ActivitizeReactNative extends Component {
+'use strict';
+
+import { Login } from './login'
+import { EventFeed } from './eventfeed'
+import { NewEvent } from './newevent'
+import { SettingsPage } from './settingspage'
+import { SignUp } from './signup'
+
+class ActivitizeReactNative extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Navigator
+          initialRoute={{id: 'Login', name: 'Login'}}
+          renderScene={this.renderScene.bind(this)}
+          configureScene={(route) => {
+            if (route.sceneConfig) {
+              return route.sceneConfig;
+            }
+            return Navigator.SceneConfigs.FadeAndroid;
+          }} />
     );
   }
-}
+  renderScene(route, navigator) {
+    var routeId = route.id;
+    if (routeId === 'Login') {
+      return (
+        <Login
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'EventFeed') {
+      return (
+        <EventFeed
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'NewEvent') {
+      return (
+        <NewEvent
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'SettingsPage') {
+      return (
+        <SettingsPage
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'SignUp') {
+      return (
+        <SignUp
+          navigator={navigator} />
+      );
+    }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+  }
+}
 
 AppRegistry.registerComponent('ActivitizeReactNative', () => ActivitizeReactNative);
