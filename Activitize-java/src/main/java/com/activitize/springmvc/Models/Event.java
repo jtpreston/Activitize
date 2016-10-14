@@ -38,6 +38,7 @@ public class Event {
 	@Column(name = "location", nullable = false)
 	private String location;
 	@NotNull
+	@Column(name = "priv", nullable = false)
 	private boolean priv;
 	@NotNull
 	@Column(name = "name_of_comments", nullable = false)
