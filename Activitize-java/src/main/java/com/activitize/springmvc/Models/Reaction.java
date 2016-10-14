@@ -36,37 +36,49 @@ public class Reaction {
 	@NotNull
 	@Column(name = "yeah", nullable = false)
 	private boolean yeah;
+	
 	public Reaction() {
 		
 	}
+	
 	public int getReactionsId() {
 		return reactions_id;
 	}
+	
 	public void setReactionsId(int reactions) {
 		this.reactions_id = reactions;
 	}
+	
 	public int getCommentsCommentId() {
 		return comments_comment_id;
 	}
+	
 	public void setCommentsCommentId(int comment) {
 		this.comments_comment_id = comment;
 	}
+	
 	public int getCommentsEventsEventId() {
 		return comments_events_event_id;
 	}
+	
 	public void setCommentsEventsEventId(int event) {
 		this.comments_events_event_id = event;
 	}
+	
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String user) {
 		this.username = user;
 	}
+	
 	public boolean getYeah() {
 		return yeah;
 	}
+	
 	public void setYeah(boolean yeah) {
 		this.yeah = yeah;
 	}
+	
 }

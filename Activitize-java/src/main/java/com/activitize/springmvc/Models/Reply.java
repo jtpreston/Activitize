@@ -29,25 +29,33 @@ public class Reply {
 	@NotNull
 	@Column(name = "comments_events_event_id", nullable = false)
 	private int comments_events_event_id;
+	
 	public Reply() {
 		
 	}
+	
 	private int getRepliesToCommentsId() {
 		return replies_to_comments_id;
-	}	
+	}
+	
 	private void setRepliesToCommentsId(int reply) {
 		this.replies_to_comments_id = reply;
 	}
+	
 	public int getCommentsCommentId() {
 		return comments_comment_id;
 	}
+	
 	public void setCommentsCommentId(int comment) {
 		this.comments_comment_id = comment;
 	}
+	
 	public int getCommentsEventsEventId() {
 		return comments_events_event_id;
 	}
+	
 	public void setCommentsEventsEventId(int comments_events) {
 		this.comments_events_event_id = comments_events;
 	}
+	
 }

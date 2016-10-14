@@ -39,34 +39,45 @@ public class UserHasEvent {
 	public UserHasEvent() {
 		
 	}
+	
 	public int getUsersUserId() {
 		return users_user_id;
 	}
+	
 	public void setUsersUserId(int usersid) {
 		this.users_user_id = usersid;
-	}	
+	}
+	
 	public int getEventsEventId() {
 		return events_event_id;
 	}
+	
 	public void setEventsEventId(int eventid) {
 		this.events_event_id = eventid;
 	}
+	
 	public boolean getFavorite() {
 		return favorite;
 	}
+	
 	public void setFavorite(boolean favorite) {
 		this.favorite = favorite;
 	}
+	
 	public boolean getAdmin() {
 		return admin;
 	}
+	
 	public void setAdmin(boolean admin) {	
 		this.admin = admin;
 	}
+	
 	public boolean getGoing() {
 		return going;
 	}
+	
 	public void setGoing(boolean going) {
 		this.going = going;
 	}
+	
 }

@@ -37,36 +37,47 @@ public class FriendGroup {
 	@Size(max = 256)
 	@Column(name = "group_owner", nullable = false)
 	private String group_owner;
+	
 	public FriendGroup() {
 		
 	}
+	
 	public int getFriendGroupsId() {
 		return friend_groups_id;
 	}
+	
 	public void setFriendGroupsId(int friendgroup) {
 		this.friend_groups_id = friendgroup;
 	}
+	
 	public int getUsersUserId() {	
 		return users_user_id;
 	}
+	
 	public void setUsersUserId(int usersid) {
 		this.users_user_id = usersid;
 	}
+	
 	public String getGroupName() {
 		return group_name;
 	}
+	
 	public void setGroupName(String groupName) {
 		this.group_name = groupName;
 	}
+	
 	public int getGroupSize() {
 		return group_size;
 	}
+	
 	public void setGroupSize(int size) {
 		this.group_size = size;
 	}
+	
 	public String getGroupOwner() {
 		return group_owner;
 	}
+	
 	public void setGroupOwner(String groupOwner) {
 		this.group_owner = groupOwner;
 	}
