@@ -21,8 +21,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="friends")
 public class Friend {
 	
+	private int friends_id;
+
+	private int users_user_id;
 	public Friend() {
 		
 	}
-
+	public int getFriendsId() {
+		return friends_id;
+	}
+	public void setFriendsId(int friendId) {
+		this.friends_id = friendId;
+	}
+	public int getUsersUserId() {
+		return users_user_id;
+	}
+	public void setUsersUserId(int userId) {
+		this.users_user_id = userId;
+	}
 }
