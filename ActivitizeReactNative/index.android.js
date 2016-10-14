@@ -15,11 +15,11 @@ import {
 
 'use strict';
 
-import { Login } from './login'
-import { EventFeed } from './eventfeed'
-import { NewEvent } from './newevent'
-import { SettingsPage } from './settingspage'
-import { SignUp } from './signup'
+import { Login } from './app/views/login'
+import { EventFeed } from './app/views/eventfeed'
+import { NewEvent } from './app/views/newevent'
+import { SettingsPage } from './app/views/settingspage'
+import { SignUp } from './app/views/signup'
 
 class ActivitizeReactNative extends React.Component {
   render() {
