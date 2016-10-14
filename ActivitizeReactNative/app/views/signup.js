@@ -100,6 +100,11 @@ export class SignUp extends React.Component{
               <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
                 <Text style={styles.whiteFont}>Sign up with Facebook</Text>
               </TouchableHighlight>
+              <View style={styles.signup}>
+              <TouchableOpacity onPress={this.signIn.bind(this)}>
+                <Text style={styles.greyFont}>Already have an account?<Text style={styles.whiteFont}>  Sign in</Text></Text>
+              </TouchableOpacity>
+            </View>
         </View>
     );
   }
@@ -108,6 +113,10 @@ export class SignUp extends React.Component{
       id: 'EventFeed',
       name: 'Events',
     });
+  }
+
+  signIn() {
+    this.props.navigator.popToTop();
   }
 }
 

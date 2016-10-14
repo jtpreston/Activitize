@@ -97,7 +97,7 @@ export class Login extends React.Component{
               </TouchableHighlight>
             <View style={styles.signup}>
               <TouchableOpacity onPress={this.signUp.bind(this)}>
-                <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
+                <Text style={styles.greyFont}>Don't have an account?<Text style={styles.whiteFont}>  Sign up</Text></Text>
               </TouchableOpacity>
             </View>
         </View>
