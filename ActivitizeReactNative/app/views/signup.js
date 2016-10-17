@@ -28,7 +28,8 @@ export class SignUp extends React.Component{
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      verifyPassword: ''
     };
   }
 
@@ -89,8 +90,8 @@ export class SignUp extends React.Component{
                         style={[styles.input, styles.whiteFont]}
                         placeholder="Verify Password"
                         placeholderTextColor="#FFF"
-                        onChangeText={(password) => this.setState({password})}
-                        value={this.state.password}
+                        onChangeText={(verifyPassword) => this.setState({verifyPassword})}
+                        value={this.state.verifyPassword}
                     />
                 </View>
             </View>
