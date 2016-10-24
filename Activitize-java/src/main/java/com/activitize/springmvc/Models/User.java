@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
  
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -46,7 +47,7 @@ public class User {
 	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "age", nullable = false)
-	private LocalDate age;
+	private DateTime age;
 	@NotNull
 	@Size(max=256)
 	@Column(name = "email", nullable = false)
@@ -116,11 +117,11 @@ public class User {
 		this.nickname = nickname;
 	}
 	
-	public LocalDate getAge() {
+	public DateTime getAge() {
 		return age;
 	}
 	
-	public void setAge(LocalDate age) {
+	public void setAge(DateTime age) {
 		this.age = age;
 	}
 	

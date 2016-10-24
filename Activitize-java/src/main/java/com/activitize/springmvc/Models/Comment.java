@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
  
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,7 +29,7 @@ public class Comment {
 	private String comment;
 	@NotNull
 	@Column(name = "timestamp", nullable = false)
-	private LocalDate timestamp;
+	private DateTime timestamp;
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "username", nullable = false)
@@ -66,11 +67,11 @@ public class Comment {
 		this.comment = comment;
 	}
 	
-	public LocalDate getTimestamp() {
+	public DateTime getTimestamp() {
 		return timestamp;
 	}
 	
-	public void setTimestamp(LocalDate time) {
+	public void setTimestamp(DateTime time) {
 		this.timestamp = time;
 	}
 	

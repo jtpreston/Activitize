@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
  
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,9 +29,9 @@ public class Event {
 	private String event_name;
 	@NotNull
 	@Column(name = "event_start", nullable = false)
-	private LocalDate event_start;
+	private DateTime event_start;
 	@Column(name = "event_end", nullable = true)	
-	private LocalDate event_end;
+	private DateTime event_end;
 	@Column(name = "description", nullable = true)
 	private String description;
 	@NotNull
@@ -80,19 +81,19 @@ public class Event {
 		this.event_name = event;
 	}
 	
-	public LocalDate getEventStart() {
+	public DateTime getEventStart() {
 		return event_start;
 	}
 	
-	public void setEventStart(LocalDate start) {
+	public void setEventStart(DateTime start) {
 		this.event_start = start;
 	}
 	
-	public LocalDate getEventEnd() {
+	public DateTime getEventEnd() {
 		return event_end;
 	}
 	
-	public void setEventEnd(LocalDate end) {
+	public void setEventEnd(DateTime end) {
 		this.event_end = end;
 	}
 	
