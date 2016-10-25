@@ -28,6 +28,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="events")
 public class Event {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	private int event_id;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
@@ -52,16 +54,16 @@ public class Event {
 	private boolean priv;
 	@NotNull
 	@Column(name = "name_of_comments", nullable = false)
-	private int number_of_comments;
+	private int number_of_comments = 0;
 	@Size(max = 256)
 	@Column(name = "path_to_event_picture", nullable = true)
 	private String path_to_event_picture;
 	@NotNull
 	@Column(name = "number_going", nullable = false)
-	private int number_going;
+	private int number_going = 1;
 	@NotNull
 	@Column(name = "number_not_going", nullable = false)
-	private int number_not_going;
+	private int number_not_going = 0;
 	@NotNull
 	@Column(name = "subevent", nullable = false)
 	private boolean subevent;
@@ -73,7 +75,25 @@ public class Event {
 	public Event() {
 		
 	}
-	
+	public Event(int event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
+			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
+			private int subevent_parent_id, int friend_group_id) 
+	{
+		this.event_id = event_id;
+		this.event_name = event_name;
+		this.event_start = event_start;
+		this.event_end = event_end;
+		this.description = description;
+		this.location = location;
+		this.priv = priv;
+		this.number_of_comments = number_of_commnets;
+		this.path_to_event_picture = path_to_event_picture;
+		this.number_going = number_going;
+		this.subevent = subevent;
+		this.subevent_parent_id = subevent_parent_id;
+		this.friend_group_id = friend_group_id;	
+	}
+			
 	public int getEventId() {
 		return event_id;
 	}

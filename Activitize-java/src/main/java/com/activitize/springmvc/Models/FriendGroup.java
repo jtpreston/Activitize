@@ -20,6 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friend_groups")
 public class FriendGroup {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	@Column(name = "friend_groups_id", nullable = false)
 	private int friend_groups_id;
@@ -32,7 +34,7 @@ public class FriendGroup {
 	private String group_name;
 	@NotNull
 	@Column(name = "group_size", nullable = false)
-	private int group_size;
+	private int group_size = 1;
 	@NotNull	
 	@Size(max = 256)
 	@Column(name = "group_owner", nullable = false)
@@ -41,7 +43,13 @@ public class FriendGroup {
 	public FriendGroup() {
 		
 	}
-	
+	public FriendGroup(int friend_groups_id, int users_user_id, String group_name, int group_size, String group_owner) {
+		this.friend_groups_id = friend_groups_id;
+		this.users_user_id = users_user_id;
+		this.group_name = group_name;
+		this.group_size = group_size;
+		this.group_owner = group_owner;
+	}
 	public int getFriendGroupsId() {
 		return friend_groups_id;
 	}

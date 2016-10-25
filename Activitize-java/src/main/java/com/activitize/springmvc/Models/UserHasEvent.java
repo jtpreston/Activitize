@@ -39,7 +39,13 @@ public class UserHasEvent {
 	public UserHasEvent() {
 		
 	}
-	
+	public UserHasEvent(int users_user_id, int events_event_id, boolean favorite, boolean admin, boolean going) {
+		this.users_user_id = users_user_id;
+		this.events_event_id = events_event_id;
+		this.favorite = favorite;
+		this.admin = admin;
+		this.going = going;
+	}
 	public int getUsersUserId() {
 		return users_user_id;
 	}

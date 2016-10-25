@@ -20,6 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="reactions")
 public class Reaction {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	@Column(name = "reactions_id", nullable = false)
 	private int reactions_id;
@@ -40,7 +42,13 @@ public class Reaction {
 	public Reaction() {
 		
 	}
-	
+	public Reaction(int reactions_id, int comments_comment_id, int comments_events_event_id, String username, boolean yeah) {
+		this.reactions_id = reactions_id;
+		this.comments_comment_id = comments_comment_id;
+		this.comments_events_event_id = comments_events_event_id;
+		this.username = username;
+		this.yeah = yeah;
+	}
 	public int getReactionsId() {
 		return reactions_id;
 	}

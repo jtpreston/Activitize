@@ -29,6 +29,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="users")
 public class User {
  	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull	
 	private int user_id;
  	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -72,7 +73,7 @@ public class User {
 	private String path_to_profile_picture;
 	@NotNull
 	@Column(name = "number_of_friends", nullable = false)
-	private int number_of_friends;
+	private int number_of_friends = 0;
 	@NotNull
 	private boolean using_facebook;
 	@Column(name = "facebook_user_id", nullable = true)
@@ -81,7 +82,24 @@ public class User {
 	public User() {
 		
 	}
-	
+	public User(int user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
+			String email, int phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
+			long facebook_user_id) 
+	{
+		this.user_id = user_id;
+		this.username = username;	
+		this.password = password;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.nickname = nickname;
+		this.age = age;
+		this.email = email;
+		this.phone_number = phone_number;
+		this.path_to_profile_picture = path_to_profile_picture;
+		this.number_of_friends = number_of_friends;
+		this.using_facebook = using_facebook;
+		this.facebook_user_id = facebook_user_id;
+	}
 	public int getId() {
 		return user_id;
 	}

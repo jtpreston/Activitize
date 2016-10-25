@@ -20,6 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="replies_to_comments")
 public class Reply {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	@Column(name = "replies_to_comments_id", nullable = false)
 	private int replies_to_comments_id;
@@ -33,7 +35,11 @@ public class Reply {
 	public Reply() {
 		
 	}
-	
+	public Reply(int replies_to_comments_id, int comments_comment_id, int comments_events_event_id) {
+		this.replies_to_comments_id = replies_to_comments_id;
+		this.comments_comment_id = comments_comment_id;
+		this.comments_events_event_id = comments_events_event_id;
+	}
 	private int getRepliesToCommentsId() {
 		return replies_to_comments_id;
 	}

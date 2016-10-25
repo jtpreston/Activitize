@@ -20,6 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friends")
 public class Friend {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	@Column(name = "friends_id", nullable = false)
 	private int friends_id;
@@ -35,7 +37,12 @@ public class Friend {
 	public Friend() {
 		
 	}
-	
+	public Friend(int friends_id, int users_user_id, int other_user_id, boolean status) {
+		this.friends_id = friends_id;
+		this.users_user_id = users_user_id;
+		this.other_user_id = other_user_id;
+		this.status = status;
+	}
 	public int getFriendsId() {
 		return friends_id;
 	}

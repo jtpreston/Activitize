@@ -21,6 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="comments")
 public class Comment {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	@Column(name = "comment_id", nullable = false)
 	private int comment_id;
@@ -39,18 +41,28 @@ public class Comment {
 	private int events_event_id;
 	@NotNull
 	@Column(name = "number_of_replies", nullable = false)
-	private int number_of_replies;
+	private int number_of_replies = 0;
 	@NotNull
 	@Column(name = "yeah", nullable = false)
-	private int yeah;
+	private int yeah = 0;
 	@NotNull
 	@Column(name = "nah", nullable = false)
-	private int nah;
+	private int nah = 0;
 	
 	public Comment() {
 		
 	}
-	
+	public Comment(int comment_id, String comment, DateTime timestamp, String username, int events_event_id, 
+		int number_of_replies, int yeah, int nah) {
+		this.comment_id = comment_id;
+		this.comment = comment;
+		this.timestamp = timestamp;
+		this.username = username;
+		this.events_event_id = events_event_id;
+		this.number_of_replies = number_of_replies;
+		this.yeah = yeah;
+		this.nah = nah;
+	}
 	public int getCommentId() {
 		return comment_id;
 	}
