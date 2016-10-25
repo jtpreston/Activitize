@@ -149,6 +149,8 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `activitizedb`.`friends` (
   `friends_id` INT NOT NULL AUTO_INCREMENT,
   `users_user_id` INT NOT NULL,
+  `other_user_id` INT NOT NULL,
+  `using_facebook` TINYINT(1) NOT NULL,
   PRIMARY KEY (`friends_id`, `users_user_id`),
   CONSTRAINT `fk_friends_users1`
     FOREIGN KEY (`users_user_id`)

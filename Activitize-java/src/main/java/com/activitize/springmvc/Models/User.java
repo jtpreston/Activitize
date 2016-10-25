@@ -1,11 +1,18 @@
 package com.activitize.springmvc.Models;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -24,6 +31,12 @@ public class User {
  	@Id
 	@NotNull	
 	private int user_id;
+ 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_has_events", joinColumns = {
+			@JoinColumn(name = "users_user_id", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "events_event_id",
+					nullable = false, updatable = false) })
+ 	private Set<Event> events = new HashSet<Event>(0);
 	@NotNull
 	@Size(max=256)   
 	@Column(name = "username", nullable = false)
@@ -47,7 +60,7 @@ public class User {
 	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "age", nullable = false)
-	private DateTime age;
+	private LocalDate age;
 	@NotNull
 	@Size(max=256)
 	@Column(name = "email", nullable = false)
@@ -71,6 +84,14 @@ public class User {
 	
 	public int getId() {
 		return user_id;
+	}
+	
+	public Set<Event> getCategories() {
+		return this.events;
+	}
+
+	public void setCategories(Set<Event> events) {
+		this.events = events;
 	}
 	
 	public void setId(int user_id) {
@@ -117,11 +138,11 @@ public class User {
 		this.nickname = nickname;
 	}
 	
-	public DateTime getAge() {
+	public LocalDate getAge() {
 		return age;
 	}
 	
-	public void setAge(DateTime age) {
+	public void setAge(LocalDate age) {
 		this.age = age;
 	}
 	

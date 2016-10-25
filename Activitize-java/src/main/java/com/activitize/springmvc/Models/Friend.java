@@ -26,6 +26,11 @@ public class Friend {
 	@NotNull
 	@Column(name = "users_user_id", nullable = false)
 	private int users_user_id;
+	@NotNull
+	@Column(name = "other_user_id", nullable = false)
+	private int other_user_id;
+	@NotNull
+	private boolean status;
 	
 	public Friend() {
 		
@@ -45,6 +50,22 @@ public class Friend {
 	
 	public void setUsersUserId(int userId) {
 		this.users_user_id = userId;
+	}
+	
+	public int getOtherUserId() {
+		return other_user_id;
+	}
+	
+	public void setOtherUserId(int other_user_id) {
+		this.other_user_id = other_user_id;
+	}
+	
+	public boolean getStatus() {
+		return status;
+	}
+	
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 	
 }

@@ -1,13 +1,20 @@
 package com.activitize.springmvc.Models;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,6 +30,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Event {
 	@NotNull
 	private int event_id;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+ 	private Set<User> users = new HashSet<User>(0);
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "event_name", nullable = false)
@@ -71,6 +80,14 @@ public class Event {
 	
 	public void setEventId(int id) {
 		this.event_id = id;
+	}
+	
+	public Set<User> getCategories() {
+		return this.users;
+	}
+
+	public void setCategories(Set<User> users) {
+		this.users = users;
 	}
 	
 	public String getEventName() {
