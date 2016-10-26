@@ -77,7 +77,7 @@ public class Event {
 	}
 	public Event(int event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
-			private int subevent_parent_id, int friend_group_id) 
+			int subevent_parent_id, int friend_group_id) 
 	{
 		this.event_id = event_id;
 		this.event_name = event_name;
@@ -86,7 +86,7 @@ public class Event {
 		this.description = description;
 		this.location = location;
 		this.priv = priv;
-		this.number_of_comments = number_of_commnets;
+		this.number_of_comments = number_of_comments;
 		this.path_to_event_picture = path_to_event_picture;
 		this.number_going = number_going;
 		this.subevent = subevent;
