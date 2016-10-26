@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.activitize.springmvc.DAO.FriendGroupDao;
+import com.activitize.springmvc.DAO.UserDao;
 import com.activitize.springmvc.Models.FriendGroup;
 
 @Service("friendGroupService")
 @Transactional
-public class FriendGroupServiceImpl {
+public class FriendGroupServiceImpl implements FriendGroupService {
 
+	@Autowired
+    private FriendGroupDao dao;
+	
 }

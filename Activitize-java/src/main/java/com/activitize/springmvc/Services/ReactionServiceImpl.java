@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.activitize.springmvc.DAO.ReactionDao;
+import com.activitize.springmvc.DAO.UserDao;
 import com.activitize.springmvc.Models.Reaction;
 
 @Service("reactionService")
 @Transactional
-public class ReactionServiceImpl {
+public class ReactionServiceImpl implements ReactionService {
 
+	@Autowired
+    private ReactionDao dao;
+	
 }

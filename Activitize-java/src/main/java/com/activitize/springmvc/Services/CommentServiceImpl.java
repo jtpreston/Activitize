@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.activitize.springmvc.DAO.CommentDao;
+import com.activitize.springmvc.DAO.UserDao;
 import com.activitize.springmvc.Models.Comment;
 
 @Service("commentService")
 @Transactional
-public class CommentServiceImpl {
+public class CommentServiceImpl implements CommentService {
     
+	@Autowired
+    private CommentDao dao;
+	
 }
