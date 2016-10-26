@@ -42,6 +42,7 @@ public class Reaction {
 	public Reaction() {
 		
 	}
+	
 	public Reaction(int reactions_id, int comments_comment_id, int comments_events_event_id, String username, boolean yeah) {
 		this.reactions_id = reactions_id;
 		this.comments_comment_id = comments_comment_id;
@@ -49,6 +50,7 @@ public class Reaction {
 		this.username = username;
 		this.yeah = yeah;
 	}
+	
 	public int getReactionsId() {
 		return reactions_id;
 	}

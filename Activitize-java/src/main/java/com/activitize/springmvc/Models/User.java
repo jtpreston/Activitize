@@ -87,10 +87,10 @@ public class User {
 	public User() {
 		
 	}
+	
 	public User(int user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, int phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
-			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups) 
-	{
+			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups) {
 		this.user_id = user_id;
 		this.username = username;	
 		this.password = password;
@@ -107,6 +107,7 @@ public class User {
 		this.friends = friends;
 		this.friendGroups = friendGroups;
 	}
+	
 	public int getId() {
 		return user_id;
 	}

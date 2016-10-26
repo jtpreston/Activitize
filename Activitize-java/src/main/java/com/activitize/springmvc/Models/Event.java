@@ -78,10 +78,10 @@ public class Event {
 	public Event() {
 		
 	}
+	
 	public Event(int event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
-			int subevent_parent_id, int friend_group_id, Set<Comment> comments) 
-	{
+			int subevent_parent_id, int friend_group_id, Set<Comment> comments) {
 		this.event_id = event_id;
 		this.event_name = event_name;
 		this.event_start = event_start;

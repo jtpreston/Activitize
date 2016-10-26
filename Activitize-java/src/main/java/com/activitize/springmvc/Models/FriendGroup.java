@@ -49,6 +49,7 @@ public class FriendGroup {
 	public FriendGroup() {
 		
 	}
+	
 	public FriendGroup(int friend_groups_id, int users_user_id, String group_name, int group_size, String group_owner, User user) {
 		this.friend_groups_id = friend_groups_id;
 		this.users_user_id = users_user_id;
@@ -57,6 +58,7 @@ public class FriendGroup {
 		this.group_owner = group_owner;
 		this.user = user;
 	}
+	
 	public int getFriendGroupsId() {
 		return friend_groups_id;
 	}

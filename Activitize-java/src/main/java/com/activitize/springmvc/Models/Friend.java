@@ -43,6 +43,7 @@ public class Friend {
 	public Friend() {
 		
 	}
+	
 	public Friend(int friends_id, int users_user_id, int other_user_id, boolean status, User user) {
 		this.friends_id = friends_id;
 		this.users_user_id = users_user_id;
@@ -50,6 +51,7 @@ public class Friend {
 		this.status = status;
 		this.user = user;
 	}
+	
 	public int getFriendsId() {
 		return friends_id;
 	}

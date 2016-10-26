@@ -51,6 +51,9 @@ public class Comment {
 	@NotNull
 	@Column(name = "nah", nullable = false)
 	private int nah = 0;
+	@NotNull
+	@Column(name = "replies_to_comments_id", nullable = true)
+	private int replies_to_comments_id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
@@ -58,8 +61,9 @@ public class Comment {
 	public Comment() {
 		
 	}
+	
 	public Comment(int comment_id, String comment, DateTime timestamp, String username, int events_event_id, 
-		int number_of_replies, int yeah, int nah, Event event) {
+		int number_of_replies, int yeah, int nah, int replies_to_comments_id, Event event) {
 		this.comment_id = comment_id;
 		this.comment = comment;
 		this.timestamp = timestamp;
@@ -68,8 +72,10 @@ public class Comment {
 		this.number_of_replies = number_of_replies;
 		this.yeah = yeah;
 		this.nah = nah;
+		this.replies_to_comments_id = replies_to_comments_id;
 		this.event = event;
 	}
+	
 	public int getCommentId() {
 		return comment_id;
 	}
@@ -132,6 +138,14 @@ public class Comment {
 	
 	public void setNah(int nah) {
 		this.nah = nah;
+	}
+	
+	public int getRepliesToCommentsId() {
+		return replies_to_comments_id;
+	}
+	
+	public void setRepliesToCommentsId(int replies_to_comments_id) {	
+		this.replies_to_comments_id = replies_to_comments_id;
 	}
 	
 	public Event getEvent() {

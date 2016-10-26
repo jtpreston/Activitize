@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`comments` (
   `number_of_replies` INT NOT NULL DEFAULT 0,
   `yeah` INT NOT NULL DEFAULT 0,
   `nah` INT NOT NULL DEFAULT 0,
+  `replies_to_comments_id` INT,
   PRIMARY KEY (`comment_id`, `events_event_id`),
   INDEX `fk_comments_events1_idx` (`events_event_id` ASC),
   CONSTRAINT `fk_comments_events1`
