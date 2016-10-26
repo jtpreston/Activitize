@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -38,17 +41,21 @@ public class Reaction {
 	@NotNull
 	@Column(name = "yeah", nullable = false)
 	private boolean yeah;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "comment_id", nullable = false)
+	private Comment comment;
 	
 	public Reaction() {
 		
 	}
 	
-	public Reaction(int reactions_id, int comments_comment_id, int comments_events_event_id, String username, boolean yeah) {
+	public Reaction(int reactions_id, int comments_comment_id, int comments_events_event_id, String username, boolean yeah, Comment comment) {
 		this.reactions_id = reactions_id;
 		this.comments_comment_id = comments_comment_id;
 		this.comments_events_event_id = comments_events_event_id;
 		this.username = username;
 		this.yeah = yeah;
+		this.comment = comment;
 	}
 	
 	public int getReactionsId() {
@@ -89,6 +96,14 @@ public class Reaction {
 	
 	public void setYeah(boolean yeah) {
 		this.yeah = yeah;
+	}
+	
+	public Comment getComment() {
+		return comment;
+	}
+	
+	public void setComment(Comment comment) {
+		this.comment = comment;
 	}
 	
 }

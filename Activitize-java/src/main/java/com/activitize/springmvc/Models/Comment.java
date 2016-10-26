@@ -1,6 +1,8 @@
 package com.activitize.springmvc.Models;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -57,13 +60,17 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reactions")
+ 	private Set<Reaction> reactions = new HashSet<Reaction>(0);
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "replies_to_comments")
+ 	private Set<Reply> repliesToComments = new HashSet<Reply>(0);
 	
 	public Comment() {
 		
 	}
 	
 	public Comment(int comment_id, String comment, DateTime timestamp, String username, int events_event_id, 
-		int number_of_replies, int yeah, int nah, int replies_to_comments_id, Event event) {
+		int number_of_replies, int yeah, int nah, int replies_to_comments_id, Event event, Set<Reaction> reactions, Set<Reply> repliesToComments) {
 		this.comment_id = comment_id;
 		this.comment = comment;
 		this.timestamp = timestamp;
@@ -74,6 +81,8 @@ public class Comment {
 		this.nah = nah;
 		this.replies_to_comments_id = replies_to_comments_id;
 		this.event = event;
+		this.reactions = reactions;
+		this.repliesToComments = repliesToComments;
 	}
 	
 	public int getCommentId() {
@@ -154,6 +163,22 @@ public class Comment {
 	
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+	
+	public Set<Reaction> getReactions() {
+		return reactions;
+	}
+
+	public void setReactions(Set<Reaction> reactions) {
+		this.reactions = reactions;
+	}
+	
+	public Set<Reply> getReplies() {
+		return repliesToComments;
+	}
+
+	public void setReplies(Set<Reply> repliesToComments) {
+		this.repliesToComments = repliesToComments;
 	}
 	
 }

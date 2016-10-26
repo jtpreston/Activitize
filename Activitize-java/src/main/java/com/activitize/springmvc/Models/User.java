@@ -113,7 +113,7 @@ public class User {
 	}
 	
 	public Set<Event> getEvents() {
-		return this.events;
+		return events;
 	}
 
 	public void setEvents(Set<Event> events) {
@@ -121,7 +121,7 @@ public class User {
 	}
 	
 	public Set<Friend> getFriends() {
-		return this.friends;
+		return friends;
 	}
 
 	public void setFriends(Set<Friend> friends) {
@@ -129,7 +129,7 @@ public class User {
 	}
 	
 	public Set<FriendGroup> getFriendGroups() {
-		return this.friendGroups;
+		return friendGroups;
 	}
 
 	public void setFriendGroups(Set<FriendGroup> friendGroups) {
@@ -214,6 +214,10 @@ public class User {
 	
 	public int getNumberOfFriends() {
 		return number_of_friends;
+	}
+	
+	public void setNumberOfFriends(int number_of_friends) {
+		this.number_of_friends = number_of_friends;
 	}
 	
 	public boolean getUsingFacebook() {

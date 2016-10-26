@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -31,15 +34,19 @@ public class Reply {
 	@NotNull
 	@Column(name = "comments_events_event_id", nullable = false)
 	private int comments_events_event_id;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "comment_id", nullable = false)
+	private Comment comment;
 	
 	public Reply() {
 		
 	}
 	
-	public Reply(int replies_to_comments_id, int comments_comment_id, int comments_events_event_id) {
+	public Reply(int replies_to_comments_id, int comments_comment_id, int comments_events_event_id, Comment comment) {
 		this.replies_to_comments_id = replies_to_comments_id;
 		this.comments_comment_id = comments_comment_id;
 		this.comments_events_event_id = comments_events_event_id;
+		this.comment = comment;
 	}
 	
 	private int getRepliesToCommentsId() {
@@ -64,6 +71,14 @@ public class Reply {
 	
 	public void setCommentsEventsEventId(int comments_events) {
 		this.comments_events_event_id = comments_events;
+	}
+	
+	public Comment getComment() {
+		return comment;
+	}
+	
+	public void setComment(Comment comment) {
+		this.comment = comment;
 	}
 	
 }
