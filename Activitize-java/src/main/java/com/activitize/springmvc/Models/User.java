@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -38,6 +39,10 @@ public class User {
 			inverseJoinColumns = { @JoinColumn(name = "events_event_id",
 					nullable = false, updatable = false) })
  	private Set<Event> events = new HashSet<Event>(0);
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "friends")
+ 	private Set<Friend> friends = new HashSet<Friend>(0);
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "friend_groups")
+ 	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
 	@NotNull
 	@Size(max=256)   
 	@Column(name = "username", nullable = false)
@@ -84,7 +89,7 @@ public class User {
 	}
 	public User(int user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, int phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
-			long facebook_user_id) 
+			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups) 
 	{
 		this.user_id = user_id;
 		this.username = username;	
@@ -99,17 +104,35 @@ public class User {
 		this.number_of_friends = number_of_friends;
 		this.using_facebook = using_facebook;
 		this.facebook_user_id = facebook_user_id;
+		this.friends = friends;
+		this.friendGroups = friendGroups;
 	}
 	public int getId() {
 		return user_id;
 	}
 	
-	public Set<Event> getCategories() {
+	public Set<Event> getEvents() {
 		return this.events;
 	}
 
-	public void setCategories(Set<Event> events) {
+	public void setEvents(Set<Event> events) {
 		this.events = events;
+	}
+	
+	public Set<Friend> getFriends() {
+		return this.friends;
+	}
+
+	public void setFriends(Set<Friend> friends) {
+		this.friends = friends;
+	}
+	
+	public Set<FriendGroup> getFriendGroups() {
+		return this.friendGroups;
+	}
+
+	public void setFriendGroups(Set<FriendGroup> friendGroups) {
+		this.friendGroups = friendGroups;
 	}
 	
 	public void setId(int user_id) {

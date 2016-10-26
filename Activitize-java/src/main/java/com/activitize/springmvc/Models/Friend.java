@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -33,15 +36,19 @@ public class Friend {
 	private int other_user_id;
 	@NotNull
 	private boolean status;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 	
 	public Friend() {
 		
 	}
-	public Friend(int friends_id, int users_user_id, int other_user_id, boolean status) {
+	public Friend(int friends_id, int users_user_id, int other_user_id, boolean status, User user) {
 		this.friends_id = friends_id;
 		this.users_user_id = users_user_id;
 		this.other_user_id = other_user_id;
 		this.status = status;
+		this.user = user;
 	}
 	public int getFriendsId() {
 		return friends_id;
@@ -73,6 +80,14 @@ public class Friend {
 	
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

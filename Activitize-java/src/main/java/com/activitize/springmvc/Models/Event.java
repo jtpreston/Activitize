@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,8 @@ public class Event {
 	private int event_id;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
  	private Set<User> users = new HashSet<User>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comments")
+	private Set<Comment> comments = new HashSet<Comment>(0);
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "event_name", nullable = false)
@@ -77,7 +80,7 @@ public class Event {
 	}
 	public Event(int event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
-			int subevent_parent_id, int friend_group_id) 
+			int subevent_parent_id, int friend_group_id, Set<Comment> comments) 
 	{
 		this.event_id = event_id;
 		this.event_name = event_name;
@@ -91,7 +94,8 @@ public class Event {
 		this.number_going = number_going;
 		this.subevent = subevent;
 		this.subevent_parent_id = subevent_parent_id;
-		this.friend_group_id = friend_group_id;	
+		this.friend_group_id = friend_group_id;
+		this.comments = comments;
 	}
 			
 	public int getEventId() {
@@ -100,6 +104,14 @@ public class Event {
 	
 	public void setEventId(int id) {
 		this.event_id = id;
+	}
+	
+	public Set<Comment> getComments() {
+		return this.comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	public Set<User> getCategories() {

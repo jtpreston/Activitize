@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -39,16 +42,20 @@ public class FriendGroup {
 	@Size(max = 256)
 	@Column(name = "group_owner", nullable = false)
 	private String group_owner;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 	
 	public FriendGroup() {
 		
 	}
-	public FriendGroup(int friend_groups_id, int users_user_id, String group_name, int group_size, String group_owner) {
+	public FriendGroup(int friend_groups_id, int users_user_id, String group_name, int group_size, String group_owner, User user) {
 		this.friend_groups_id = friend_groups_id;
 		this.users_user_id = users_user_id;
 		this.group_name = group_name;
 		this.group_size = group_size;
 		this.group_owner = group_owner;
+		this.user = user;
 	}
 	public int getFriendGroupsId() {
 		return friend_groups_id;
@@ -88,6 +95,14 @@ public class FriendGroup {
 	
 	public void setGroupOwner(String groupOwner) {
 		this.group_owner = groupOwner;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -48,12 +51,15 @@ public class Comment {
 	@NotNull
 	@Column(name = "nah", nullable = false)
 	private int nah = 0;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "event_id", nullable = false)
+	private Event event;
 	
 	public Comment() {
 		
 	}
 	public Comment(int comment_id, String comment, DateTime timestamp, String username, int events_event_id, 
-		int number_of_replies, int yeah, int nah) {
+		int number_of_replies, int yeah, int nah, Event event) {
 		this.comment_id = comment_id;
 		this.comment = comment;
 		this.timestamp = timestamp;
@@ -62,6 +68,7 @@ public class Comment {
 		this.number_of_replies = number_of_replies;
 		this.yeah = yeah;
 		this.nah = nah;
+		this.event = event;
 	}
 	public int getCommentId() {
 		return comment_id;
@@ -125,6 +132,14 @@ public class Comment {
 	
 	public void setNah(int nah) {
 		this.nah = nah;
+	}
+	
+	public Event getEvent() {
+		return event;
+	}
+	
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 	
 }
