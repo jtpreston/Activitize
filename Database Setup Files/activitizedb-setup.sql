@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`events` (
   `number_not_going` INT NOT NULL DEFAULT 0,
   `subevent` TINYINT(1) NOT NULL,
   `subevent_parent_id` INT NULL,
-  `friend_group_id` INT,
   PRIMARY KEY (`event_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -95,8 +94,8 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`comments` (
   `number_of_replies` INT NOT NULL DEFAULT 0,
   `yeah` INT NOT NULL DEFAULT 0,
   `nah` INT NOT NULL DEFAULT 0,
-  `replies_to_comments_id` INT,
-  PRIMARY KEY (`comment_id`, `events_event_id`),
+  `replies_to_comments_id` INT NULL,
+  PRIMARY KEY (`comment_id`),
   INDEX `fk_comments_events1_idx` (`events_event_id` ASC),
   CONSTRAINT `fk_comments_events1`
     FOREIGN KEY (`events_event_id`)
@@ -113,12 +112,11 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `activitizedb`.`replies_to_comments` (
   `replies_to_comments_id` INT NOT NULL AUTO_INCREMENT,
   `comments_comment_id` INT NOT NULL,
-  `comments_events_event_id` INT NOT NULL,
-  PRIMARY KEY (`replies_to_comments_id`, `comments_comment_id`, `comments_events_event_id`),
-  INDEX `fk_replies_to_comments_comments1_idx` (`comments_comment_id` ASC, `comments_events_event_id` ASC),
+  PRIMARY KEY (`replies_to_comments_id`),
+  INDEX `fk_replies_to_comments_comments1_idx` (`comments_comment_id` ASC),
   CONSTRAINT `fk_replies_to_comments_comments1`
-    FOREIGN KEY (`comments_comment_id` , `comments_events_event_id`)
-    REFERENCES `activitizedb`.`comments` (`comment_id` , `events_event_id`)
+    FOREIGN KEY (`comments_comment_id`)
+    REFERENCES `activitizedb`.`comments` (`comment_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -131,13 +129,12 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `activitizedb`.`reactions` (
   `reactions_id` INT NOT NULL AUTO_INCREMENT,
   `comments_comment_id` INT NOT NULL,
-  `comments_events_event_id` INT NOT NULL,
   `username` VARCHAR(255) NOT NULL,
   `yeah` TINYINT(1) NOT NULL,
-  PRIMARY KEY (`reactions_id`, `comments_comment_id`, `comments_events_event_id`),
+  PRIMARY KEY (`reactions_id`),
   CONSTRAINT `fk_reactions_comments1`
-    FOREIGN KEY (`comments_comment_id` , `comments_events_event_id`)
-    REFERENCES `activitizedb`.`comments` (`comment_id` , `events_event_id`)
+    FOREIGN KEY (`comments_comment_id`)
+    REFERENCES `activitizedb`.`comments` (`comment_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -151,8 +148,8 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`friends` (
   `friends_id` INT NOT NULL AUTO_INCREMENT,
   `users_user_id` INT NOT NULL,
   `other_user_id` INT NOT NULL,
-  `using_facebook` TINYINT(1) NOT NULL,
-  PRIMARY KEY (`friends_id`, `users_user_id`),
+  `status` TINYINT(1) NOT NULL,
+  PRIMARY KEY (`friends_id`),
   CONSTRAINT `fk_friends_users1`
     FOREIGN KEY (`users_user_id`)
     REFERENCES `activitizedb`.`users` (`user_id`)
@@ -171,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`friend_groups` (
   `group_name` VARCHAR(255) NOT NULL,
   `group_size` INT NOT NULL DEFAULT 1,
   `group_owner` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`friend_groups_id`, `users_user_id`),
+  PRIMARY KEY (`friend_groups_id`),
   CONSTRAINT `fk_friend_groups_users1`
     FOREIGN KEY (`users_user_id`)
     REFERENCES `activitizedb`.`users` (`user_id`)
