@@ -33,6 +33,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public User verifyUser(@RequestBody User user) {
+		service.verifyUser(user);
 		return new User();
 	}
 	
@@ -41,6 +42,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse createUser(@RequestBody User user) {
+		service.createUser(user);
 		return new JsonResponse("OK","");
 	}
 	
@@ -49,6 +51,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse deleteUser(@RequestBody User user) {
+		service.deleteUser(user);
 		return new JsonResponse("OK","");
 	}
 	
@@ -57,6 +60,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse editUser(@RequestBody User user) {
+		service.editUser(user);
 		return new JsonResponse("OK","");
 	}
 	
