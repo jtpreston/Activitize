@@ -3,6 +3,7 @@ package com.activitize.springmvc.Models;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,12 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="users_has_events")
 public class UserHasEvent {
-	@NotNull
-	@Column(name = "users_user_id", nullable = false)
-	private int users_user_id;
-	@NotNull
-	@Column(name = "events_event_id", nullable = false)
-	private int events_event_id;
+	@EmbeddedId
+	UserHasEventId id;
 	@NotNull
 	@Column(name = "favorite", nullable = false)
 	private boolean favorite;
@@ -40,28 +37,19 @@ public class UserHasEvent {
 		
 	}
 	
-	public UserHasEvent(int users_user_id, int events_event_id, boolean favorite, boolean admin, boolean going) {
-		this.users_user_id = users_user_id;
-		this.events_event_id = events_event_id;
+	public UserHasEvent(boolean favorite, boolean admin, boolean going) {
+		
 		this.favorite = favorite;
 		this.admin = admin;
 		this.going = going;
 	}
 	
-	public int getUsersUserId() {
-		return users_user_id;
+	public UserHasEventId getId() {
+		return id;
 	}
 	
-	public void setUsersUserId(int usersid) {
-		this.users_user_id = usersid;
-	}
-	
-	public int getEventsEventId() {
-		return events_event_id;
-	}
-	
-	public void setEventsEventId(int eventid) {
-		this.events_event_id = eventid;
+	public void setId(UserHasEventId id) {
+		this.id = id;
 	}
 	
 	public boolean getFavorite() {
