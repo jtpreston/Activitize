@@ -60,9 +60,9 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reactions")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
  	private Set<Reaction> reactions = new HashSet<Reaction>(0);
- 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "replies_to_comments")
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
  	private Set<Reply> repliesToComments = new HashSet<Reply>(0);
 	
 	public Comment() {

@@ -39,9 +39,9 @@ public class User {
 			inverseJoinColumns = { @JoinColumn(name = "events_event_id",
 					nullable = false, updatable = false) })
  	private Set<Event> events = new HashSet<Event>(0);
- 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "friends")
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
  	private Set<Friend> friends = new HashSet<Friend>(0);
- 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "friend_groups")
+ 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
  	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
 	@NotNull
 	@Size(max=256)   

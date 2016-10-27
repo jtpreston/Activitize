@@ -33,9 +33,9 @@ public class Event {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@NotNull
 	private int event_id;
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
  	private Set<User> users = new HashSet<User>(0);
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comments")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	@NotNull
 	@Size(max = 256)
