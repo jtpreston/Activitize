@@ -15,9 +15,10 @@ public interface UserHasEventService {
 	
 	List<UserHasEvent> findAllGoingEventsByUser(User user);
 	
-	void createEvent(UserHasEvent event);
+	void createEvent(UserHasEvent userHasEvent);
 	
-	void deleteEvent(UserHasEvent event);
+	void deleteEvent(UserHasEvent userHasEvent);
 	
-	void editEvent(UserHasEvent event);
+	void editEvent(UserHasEvent userHasEvent);
+	
 }

@@ -12,5 +12,6 @@ public interface ReactionService {
 	
 	void createReaction(Reaction reaction);
 	
-	void deleteEvent(Reaction reaction);
+	void deleteReaction(Reaction reaction);
+	
 }

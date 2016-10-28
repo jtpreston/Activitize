@@ -19,39 +19,32 @@ public class FriendGroupServiceImpl implements FriendGroupService {
 	@Autowired
     private FriendGroupDao dao;
 
-	@Override
 	public FriendGroup findFriendGroupById(int id) {
 		return dao.findFriendGroupById(id);
 	}
 
-	@Override
 	public List<FriendGroup> findFriendGroupsbyUserID(int id) {
 		return dao.findFriendGroupsbyUserID(id);
 	}
 
-	@Override
 	public List<Friend> findFriendGroupsByUsername(String username) {
 		return dao.findFriendGroupsByUsername(username);
 	}
 
-	@Override
 	public List<Friend> findFriendGroupsByUser(User user) {
 		return dao.findFriendGroupsByUser(user);
 	}
 
-	@Override
-	public void addFriendGroup(FriendGroup friends) {
-		dao.addFriendGroup(friends);
+	public void addFriendGroup(FriendGroup friendGroup) {
+		dao.addFriendGroup(friendGroup);
 	}
 
-	@Override
-	public void deleteFriendGroup(FriendGroup friends) {
-		dao.deleteFriendGroup(friends);
+	public void deleteFriendGroup(FriendGroup friendGroup) {
+		dao.deleteFriendGroup(friendGroup);
 	}
 
-	@Override
-	public void addToFriendGroup(FriendGroup friends, Friend friend) {
-		dao.addToFriendGroup(friends, friend);
+	public void addToFriendGroup(FriendGroup friendGroup, Friend friend) {
+		dao.addToFriendGroup(friendGroup, friend);
 	}
 	
 }

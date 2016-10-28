@@ -16,9 +16,10 @@ public interface FriendGroupService {
 	
 	List<Friend> findFriendGroupsByUser(User user);
 			
-	void addFriendGroup(FriendGroup friends);
+	void addFriendGroup(FriendGroup friendGroup);
 	
-	void deleteFriendGroup(FriendGroup friends);
+	void deleteFriendGroup(FriendGroup friendGroup);
 	
-	void addToFriendGroup(FriendGroup friends, Friend friend);
+	void addToFriendGroup(FriendGroup friendGroup, Friend friend);
+	
 }

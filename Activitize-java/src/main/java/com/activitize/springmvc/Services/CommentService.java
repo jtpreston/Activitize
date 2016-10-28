@@ -19,4 +19,5 @@ public interface CommentService {
 	void deleteComment(Comment comment);
 	
 	void editComment(Comment comment);
+	
 }

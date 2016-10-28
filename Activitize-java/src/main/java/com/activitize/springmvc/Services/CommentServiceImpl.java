@@ -19,32 +19,26 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
     private CommentDao dao;
 
-	@Override
 	public Comment findById(int id) {
 		return dao.findById(id);
 	}
-
-	@Override
+	
 	public Comment findByUserAndEvent(User user, Event event) {		// TODO Auto-generated method stub
 		return dao.findByUserAndEvent(user, event);
 	}
-
-	@Override
+	
 	public List<Comment> findAllCommentsForEvent(Event event) {
 		return dao.findAllCommentsForEvent(event);
 	}
-
-	@Override
+	
 	public void createComment(Comment comment) {
 		dao.createComment(comment);
 	}
-
-	@Override
+	
 	public void deleteComment(Comment comment) {
 		dao.deleteComment(comment);		
 	}
-
-	@Override
+	
 	public void editComment(Comment comment) {
 		dao.editComment(comment);
 	}

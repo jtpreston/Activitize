@@ -15,4 +15,5 @@ public interface EventService {
 	void deleteEvent(Event event);
 	
 	void editEvent(Event event);
+	
 }

@@ -18,4 +18,5 @@ public interface FriendService {
 	void addFriend(Friend friend);
 	
 	void deleteFriend(Friend friend);
+	
 }

@@ -15,4 +15,5 @@ public interface ReplyService {
 	void deleteReply(Reply reply);
 	
 	void editReply(Reply reply);
+	
 }
