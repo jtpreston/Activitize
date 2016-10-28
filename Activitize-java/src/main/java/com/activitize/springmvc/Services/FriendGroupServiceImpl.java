@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.activitize.springmvc.DAO.FriendGroupDao;
 import com.activitize.springmvc.DAO.UserDao;
-import com.activitize.springmvc.Models.Friend;
 import com.activitize.springmvc.Models.FriendGroup;
 import com.activitize.springmvc.Models.User;
 
@@ -27,11 +26,13 @@ public class FriendGroupServiceImpl implements FriendGroupService {
 		return dao.findFriendGroupsbyUserID(id);
 	}
 
-	public List<Friend> findFriendGroupsByUsername(String username) {
+	@Override
+	public List<FriendGroup> findFriendGroupsByUsername(String username) {
 		return dao.findFriendGroupsByUsername(username);
 	}
 
-	public List<Friend> findFriendGroupsByUser(User user) {
+	@Override
+	public List<FriendGroup> findFriendGroupsByUser(User user) {
 		return dao.findFriendGroupsByUser(user);
 	}
 
@@ -43,8 +44,9 @@ public class FriendGroupServiceImpl implements FriendGroupService {
 		dao.deleteFriendGroup(friendGroup);
 	}
 
-	public void addToFriendGroup(FriendGroup friendGroup, Friend friend) {
-		dao.addToFriendGroup(friendGroup, friend);
+	@Override
+	public void modifyFriendGroup(FriendGroup friends) {
+		dao.modifyFriendGroup(friends);
 	}
 	
 }

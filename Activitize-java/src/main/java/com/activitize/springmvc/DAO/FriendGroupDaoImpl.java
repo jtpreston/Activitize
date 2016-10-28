@@ -7,7 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.activitize.springmvc.Models.Friend;
 import com.activitize.springmvc.Models.FriendGroup;
 import com.activitize.springmvc.Models.User;
 
@@ -22,11 +21,15 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 		return null;
 	}
 
-	public List<Friend> findFriendGroupsByUsername(String username) {
+	@Override
+	public List<FriendGroup> findFriendGroupsByUsername(String username) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public List<Friend> findFriendGroupsByUser(User user) {
+
+	@Override
+	public List<FriendGroup> findFriendGroupsByUser(User user) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -38,7 +41,8 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 			
 	}
 
-	public void addToFriendGroup(FriendGroup friendGroup, Friend friend) {
+	@Override
+	public void modifyFriendGroup(FriendGroup friends) {
 		
 	}
 
