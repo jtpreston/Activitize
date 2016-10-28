@@ -12,9 +12,9 @@ public interface FriendGroupDao {
 	
 	List<FriendGroup> findFriendGroupsbyUserID(int id);
 		
-	List<Friend> findFriendGroupssByUsername(String username);
+	List<Friend> findFriendGroupsByUsername(String username);
 	
-	List<Friend> findFriendGroupssByUser(User user);
+	List<Friend> findFriendGroupsByUser(User user);
 			
 	void addFriendGroup(FriendGroup friends);
 	

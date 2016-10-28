@@ -15,7 +15,6 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 
 	@Override
 	public Event findById(int id) {
-		// TODO Auto-generated method stub
 		return getByKey(id);
 	}
 

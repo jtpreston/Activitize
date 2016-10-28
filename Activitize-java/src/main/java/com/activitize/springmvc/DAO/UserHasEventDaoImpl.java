@@ -15,7 +15,6 @@ public class UserHasEventDaoImpl extends AbstractDao<Integer, UserHasEvent> impl
 
 	@Override
 	public UserHasEvent findById(int id) {
-		// TODO Auto-generated method stub
 		return getByKey(id);
 	}
 

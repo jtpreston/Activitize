@@ -14,7 +14,6 @@ public class ReactionDaoImpl extends AbstractDao<Integer, Reaction> implements R
 
 	@Override
 	public Reaction findById(int id) {
-		// TODO Auto-generated method stub
 		return getByKey(id);
 	}
 
@@ -31,7 +30,7 @@ public class ReactionDaoImpl extends AbstractDao<Integer, Reaction> implements R
 	}
 
 	@Override
-	public void deleteEvent(Reaction reaction) {
+	public void deleteReaction(Reaction reaction) {
 		// TODO Auto-generated method stub
 		
 	}

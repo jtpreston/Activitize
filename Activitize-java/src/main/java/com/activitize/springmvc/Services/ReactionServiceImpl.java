@@ -16,5 +16,25 @@ public class ReactionServiceImpl implements ReactionService {
 
 	@Autowired
     private ReactionDao dao;
+
+	@Override
+	public Reaction findById(int id) {
+		return dao.findById(id);
+	}
+
+	@Override
+	public List<Reaction> findAllReactionsByCommentID(int id) {
+		return dao.findAllReactionsByCommentID(id);
+	}
+
+	@Override
+	public void createReaction(Reaction reaction) {
+		dao.createReaction(reaction);
+	}
+
+	@Override
+	public void deleteEvent(Reaction reaction) {
+		dao.deleteReaction(reaction);
+	}
 	
 }

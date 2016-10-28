@@ -16,5 +16,30 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Autowired
     private ReplyDao dao;
+
+	@Override
+	public Reply findById(int id) {
+		return dao.findById(id);
+	}
+
+	@Override
+	public List<Reply> findAllRepliesByCommendID(int id) {
+		return dao.findAllRepliesByCommendID(id);
+	}
+
+	@Override
+	public void createReply(Reply reply) {
+		dao.createReply(reply);
+	}
+
+	@Override
+	public void deleteReply(Reply reply) {
+		dao.deleteReply(reply);
+	}
+
+	@Override
+	public void editReply(Reply reply) {
+		dao.editReply(reply);
+	}
 	
 }

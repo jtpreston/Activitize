@@ -15,7 +15,6 @@ public class ReplyDaoImpl extends AbstractDao<Integer, Reply> implements ReplyDa
 
 	@Override
 	public Reply findById(int id) {
-		// TODO Auto-generated method stub
 		return getByKey(id);
 	}
 

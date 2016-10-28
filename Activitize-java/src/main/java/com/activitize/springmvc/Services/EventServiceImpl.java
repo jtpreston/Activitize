@@ -16,5 +16,30 @@ public class EventServiceImpl implements EventService {
 
 	@Autowired
     private EventDao dao;
+
+	@Override
+	public Event findById(int id) {
+		return dao.findById(id);
+	}
+
+	@Override
+	public List<Event> findAllEvents() {
+		return dao.findAllEvents();
+	}
+
+	@Override
+	public void createEvent(Event event) {
+		dao.createEvent(event);
+	}
+
+	@Override
+	public void deleteEvent(Event event) {
+		dao.deleteEvent(event);
+	}
+
+	@Override
+	public void editEvent(Event event) {
+		dao.editEvent(event);
+	}
 	
 }

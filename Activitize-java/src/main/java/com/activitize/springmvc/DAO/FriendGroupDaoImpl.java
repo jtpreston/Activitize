@@ -16,7 +16,6 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 
 	@Override
 	public FriendGroup findFriendGroupById(int id) {
-		// TODO Auto-generated method stub
 		return getByKey(id);
 	}
 
@@ -27,13 +26,13 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 	}
 
 	@Override
-	public List<Friend> findFriendGroupssByUsername(String username) {
+	public List<Friend> findFriendGroupsByUsername(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Friend> findFriendGroupssByUser(User user) {
+	public List<Friend> findFriendGroupsByUser(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}

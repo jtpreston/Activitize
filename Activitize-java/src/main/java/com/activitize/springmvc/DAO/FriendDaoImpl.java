@@ -15,7 +15,6 @@ public class FriendDaoImpl extends AbstractDao<Integer, Friend> implements Frien
 
 	@Override
 	public Friend findFriendById(int id) {
-		// TODO Auto-generated method stub
 		return getByKey(id);
 	}
 
