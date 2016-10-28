@@ -12,45 +12,32 @@ import com.activitize.springmvc.Models.UserHasEvent;
 
 @Repository("userHasEventDao")
 public class UserHasEventDaoImpl extends AbstractDao<Integer, UserHasEvent> implements UserHasEventDao {
-
-	@Override
+	
 	public UserHasEvent findById(int id) {
 		return getByKey(id);
 	}
 
-	@Override
-	public List<UserHasEvent> findAllEventsByUser(User user) {
-		// TODO Auto-generated method stub
+	public List<UserHasEvent> findAllEventsByUser(User user) {		
 		return null;
 	}
 
-	@Override
-	public List<UserHasEvent> findAllAdminEventsByUser(User user) {
-		// TODO Auto-generated method stub
+	public List<UserHasEvent> findAllAdminEventsByUser(User user) {		
 		return null;
 	}
 
-	@Override
-	public List<UserHasEvent> findAllGoingEventsByUser(User user) {
-		// TODO Auto-generated method stub
+	public List<UserHasEvent> findAllGoingEventsByUser(User user) {		
 		return null;
 	}
 
-	@Override
-	public void createEvent(UserHasEvent event) {
-		// TODO Auto-generated method stub
-		
+	public void createEvent(UserHasEvent userHasEvent) {
+				
 	}
 
-	@Override
-	public void deleteEvent(UserHasEvent event) {
-		// TODO Auto-generated method stub
-		
+	public void deleteEvent(UserHasEvent userHasEvent) {
+				
 	}
 
-	@Override
-	public void editEvent(UserHasEvent event) {
-		// TODO Auto-generated method stub
+	public void editEvent(UserHasEvent userHasEvent) {
 		
 	}
 

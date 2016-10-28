@@ -19,4 +19,5 @@ public interface CommentDao {
 	void deleteComment(Comment comment);
 	
 	void editComment(Comment comment);
+	
 }

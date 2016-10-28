@@ -12,5 +12,6 @@ public interface ReactionDao {
 	
 	void createReaction(Reaction reaction);
 	
-	void deleteReaction(Reaction reaction);	
+	void deleteReaction(Reaction reaction);
+	
 }

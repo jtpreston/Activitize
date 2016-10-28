@@ -13,32 +13,23 @@ import com.activitize.springmvc.Models.Reply;
 @Repository("replyDao")
 public class ReplyDaoImpl extends AbstractDao<Integer, Reply> implements ReplyDao {
 
-	@Override
 	public Reply findById(int id) {
 		return getByKey(id);
 	}
-
-	@Override
-	public List<Reply> findAllRepliesByCommendID(int id) {
-		// TODO Auto-generated method stub
+	
+	public List<Reply> findAllRepliesByCommendID(int id) {	
 		return null;
 	}
-
-	@Override
-	public void createReply(Reply reply) {
-		// TODO Auto-generated method stub
+	
+	public void createReply(Reply reply) {	
 		
 	}
-
-	@Override
-	public void deleteReply(Reply reply) {
-		// TODO Auto-generated method stub
+	
+	public void deleteReply(Reply reply) {	
 		
 	}
-
-	@Override
-	public void editReply(Reply reply) {
-		// TODO Auto-generated method stub
+	
+	public void editReply(Reply reply) {	
 		
 	}
 

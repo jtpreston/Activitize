@@ -15,4 +15,5 @@ public interface EventDao {
 	void deleteEvent(Event event);
 	
 	void editEvent(Event event);
+	
 }

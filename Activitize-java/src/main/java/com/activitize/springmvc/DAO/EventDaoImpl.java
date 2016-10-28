@@ -13,32 +13,23 @@ import com.activitize.springmvc.Models.User;
 @Repository("eventDao")
 public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDao {
 
-	@Override
 	public Event findById(int id) {
 		return getByKey(id);
 	}
-
-	@Override
-	public List<Event> findAllEvents() {
-		// TODO Auto-generated method stub
+	
+	public List<Event> findAllEvents() {	
 		return null;
 	}
-
-	@Override
-	public void createEvent(Event event) {
-		// TODO Auto-generated method stub
+	
+	public void createEvent(Event event) {	
 		
 	}
-
-	@Override
-	public void deleteEvent(Event event) {
-		// TODO Auto-generated method stub
+	
+	public void deleteEvent(Event event) {	
 		
 	}
-
-	@Override
-	public void editEvent(Event event) {
-		// TODO Auto-generated method stub
+	
+	public void editEvent(Event event) {	
 		
 	}
 

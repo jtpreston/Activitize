@@ -18,4 +18,5 @@ public interface FriendDao {
 	void addFriend(Friend friend);
 	
 	void deleteFriend(Friend friend);
+	
 }

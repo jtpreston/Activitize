@@ -15,4 +15,5 @@ public interface ReplyDao {
 	void deleteReply(Reply reply);
 	
 	void editReply(Reply reply);
+	
 }
