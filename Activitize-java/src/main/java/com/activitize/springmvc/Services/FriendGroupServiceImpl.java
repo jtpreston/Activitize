@@ -26,12 +26,10 @@ public class FriendGroupServiceImpl implements FriendGroupService {
 		return dao.findFriendGroupsbyUserID(id);
 	}
 
-	@Override
 	public List<FriendGroup> findFriendGroupsByUsername(String username) {
 		return dao.findFriendGroupsByUsername(username);
 	}
 
-	@Override
 	public List<FriendGroup> findFriendGroupsByUser(User user) {
 		return dao.findFriendGroupsByUser(user);
 	}
@@ -44,7 +42,6 @@ public class FriendGroupServiceImpl implements FriendGroupService {
 		dao.deleteFriendGroup(friendGroup);
 	}
 
-	@Override
 	public void modifyFriendGroup(FriendGroup friends) {
 		dao.modifyFriendGroup(friends);
 	}

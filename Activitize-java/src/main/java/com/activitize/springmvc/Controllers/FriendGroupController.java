@@ -41,8 +41,8 @@ public class FriendGroupController {
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
-	public JsonResponse deleteFriendGroup(@RequestBody FriendGroup friends) {
-		service.deleteFriendGroup(friends);
+	public JsonResponse deleteFriendGroup(@RequestBody FriendGroup friendGroup) {
+		service.deleteFriendGroup(friendGroup);
 		return new JsonResponse("OK","");
 	}
 	
@@ -50,8 +50,9 @@ public class FriendGroupController {
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
-	public JsonResponse modifyFriendGroup(@RequestBody FriendGroup friends) {
-		service.modifyFriendGroup(friends);
+	public JsonResponse modifyFriendGroup(@RequestBody FriendGroup friendGroup) {
+		service.modifyFriendGroup(friendGroup);
 		return new JsonResponse("OK","");
 	}
+	
 }

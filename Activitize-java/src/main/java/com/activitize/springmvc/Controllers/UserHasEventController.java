@@ -32,8 +32,8 @@ public class UserHasEventController {
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
-	public JsonResponse createEvent(@RequestBody UserHasEvent event) {
-		service.createEvent(event);
+	public JsonResponse createEvent(@RequestBody UserHasEvent userHasEvent) {
+		service.createEvent(userHasEvent);
 		return new JsonResponse("OK","");
 	}
 	
@@ -41,8 +41,8 @@ public class UserHasEventController {
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
-	public JsonResponse deleteEvent(@RequestBody UserHasEvent event) {
-		service.deleteEvent(event);
+	public JsonResponse deleteEvent(@RequestBody UserHasEvent userHasEvent) {
+		service.deleteEvent(userHasEvent);
 		return new JsonResponse("OK","");
 	}
 	
@@ -50,8 +50,9 @@ public class UserHasEventController {
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
-	public JsonResponse editEvent(@RequestBody UserHasEvent event) {
-		service.editEvent(event);
+	public JsonResponse editEvent(@RequestBody UserHasEvent userHasEvent) {
+		service.editEvent(userHasEvent);
 		return new JsonResponse("OK","");
 	}
+	
 }

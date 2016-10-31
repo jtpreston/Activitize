@@ -21,15 +21,11 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 		return null;
 	}
 
-	@Override
 	public List<FriendGroup> findFriendGroupsByUsername(String username) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public List<FriendGroup> findFriendGroupsByUser(User user) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -41,8 +37,7 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 			
 	}
 
-	@Override
-	public void modifyFriendGroup(FriendGroup friends) {
+	public void modifyFriendGroup(FriendGroup friendGroup) {
 		
 	}
 
