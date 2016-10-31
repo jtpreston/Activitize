@@ -37,6 +37,7 @@ public class Comment {
 	private String comment;
 	@NotNull
 	@Column(name = "timestamp", nullable = false)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime timestamp;
 	@NotNull
 	@Size(max = 256)

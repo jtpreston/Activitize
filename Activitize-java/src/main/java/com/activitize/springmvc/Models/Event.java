@@ -43,8 +43,10 @@ public class Event {
 	private String event_name;
 	@NotNull
 	@Column(name = "event_start", nullable = false)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime event_start;
-	@Column(name = "event_end", nullable = true)	
+	@Column(name = "event_end", nullable = true)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime event_end;
 	@Column(name = "description", nullable = true)
 	private String description;
