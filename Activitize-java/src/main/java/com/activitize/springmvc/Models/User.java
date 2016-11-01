@@ -34,7 +34,7 @@ import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 @Table(name="users")
 public class User {
  	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull	
 	private int user_id;
  	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

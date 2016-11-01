@@ -28,7 +28,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="comments")
 public class Comment {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
 	@Column(name = "comment_id", nullable = false)
 	private int comment_id;

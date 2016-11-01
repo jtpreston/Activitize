@@ -30,7 +30,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="events")
 public class Event {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
 	private int event_id;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")

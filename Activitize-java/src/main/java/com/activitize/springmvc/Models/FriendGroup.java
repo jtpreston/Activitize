@@ -24,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="friend_groups")
 public class FriendGroup {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
 	@Column(name = "friend_groups_id", nullable = false)
 	private int friend_groups_id;
