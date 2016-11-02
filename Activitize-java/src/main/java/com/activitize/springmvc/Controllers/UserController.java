@@ -21,12 +21,17 @@ import com.activitize.springmvc.Models.JsonResponse;
 import com.activitize.springmvc.Models.User;
 import com.activitize.springmvc.Services.UserService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
     
 	@Autowired
     UserService service;
+	
+	private static final Logger logger = LogManager.getLogger(UserController.class);
 	
 	@RequestMapping(value = "/verifyUser", 
 			method = RequestMethod.POST,
@@ -42,6 +47,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse createUser(@RequestBody User user) {
+		logger.info(user);
 		service.createUser(user);
 		return new JsonResponse("OK","");
 	}
