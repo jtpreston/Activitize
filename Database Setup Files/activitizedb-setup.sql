@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `activitizedb`.`users` (
   `nickname` VARCHAR(255) NULL,
   `age` DATE NOT NULL,
   `email` VARCHAR(255) NOT NULL,
-  `phone_number` INT NULL,
+  `phone_number` VARCHAR(20) NULL,
   `path_to_profile_picture` VARCHAR(255) NULL,
   `number_of_friends` INT NOT NULL DEFAULT 0,
   `using_facebook` TINYINT(1) NOT NULL,

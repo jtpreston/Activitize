@@ -78,7 +78,7 @@ public class User {
 	@Column(name = "email", nullable = false)
 	private String email;
 	@Column(name = "phone_number", nullable = true)
-	private int phone_number;
+	private String phone_number;
 	@Size(max=256)
 	@Column(name = "path_to_profile_picture", nullable = true)
 	private String path_to_profile_picture;
@@ -95,7 +95,7 @@ public class User {
 	}
 	
 	public User(int user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
-			String email, int phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
+			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
 			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups) {
 		this.user_id = user_id;
 		this.username = username;	
@@ -202,11 +202,11 @@ public class User {
 		this.email = email;
 	}
 	
-	public int getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phone_number;
 	}
 	
-	public void setPhoneNumber(int phone_number) {
+	public void setPhoneNumber(String phone_number) {
 		this.phone_number = phone_number;
 	}
 	
@@ -234,11 +234,11 @@ public class User {
 		this.using_facebook = usingFacebook;
 	}
 	
-	public long getFacebookId() {
+	public long getFacebookUserId() {
 		return facebook_user_id;
 	}
 	
-	public void setFacebookId(long facebook) {
+	public void setFacebookUserId(long facebook) {
 		this.facebook_user_id = facebook;
 	}
 	
