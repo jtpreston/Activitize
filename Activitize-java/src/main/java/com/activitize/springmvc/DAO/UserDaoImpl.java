@@ -17,11 +17,23 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	}
 	
 	public User findByEmail(String email) {
-		return null;	
+		boolean exists = (Long) getSession().createQuery("select count(*) from users where email = :email").setParameter("email", email).uniqueResult() > 0;
+		if (exists) {
+			return new User();
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public User findByUsername(String username) {
-		return null;
+		boolean exists = (Long) getSession().createQuery("select count(*) from users where username = :username").setParameter("username", username).uniqueResult() > 0;
+		if (exists) {
+			return new User();
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public User verifyUser(User user) {

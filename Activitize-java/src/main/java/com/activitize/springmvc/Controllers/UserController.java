@@ -47,6 +47,12 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse createUser(@RequestBody User user) {
+		if (service.isUserEmailUnique(user.getEmail()) == false) {
+			return new JsonResponse("FAILED","Email is already taken");
+		}
+		if (service.isUsernameUnique(user.getUsername()) == false) {
+			return new JsonResponse("FAILED","Username is already taken");
+		}
 		service.createUser(user);
 		return new JsonResponse("OK","");
 	}
