@@ -47,7 +47,6 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse createUser(@RequestBody User user) {
-		logger.info(user);
 		service.createUser(user);
 		return new JsonResponse("OK","");
 	}
