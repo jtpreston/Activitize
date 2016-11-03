@@ -36,7 +36,7 @@ export class Login extends React.Component{
 
   login() {
     var view = this;
-    LoginManager.logInWithReadPermissions(['public_profile']).then(
+    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends']).then(
       function(result) {
         if (result.isCancelled) {
           Alert.alert('Login was cancelled');
@@ -102,27 +102,6 @@ export class Login extends React.Component{
             </View>
         </View>
     );
-  }
-
-  getResponse() {
-    return fetch('https://activitize.net/activitize/user/verifyUser', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'username',
-        password: 'password',
-      })
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-        return responseJson;
-      })
-    .catch((error) => {
-        console.error(error);
-      });
   }
 
   gotoNext() {
