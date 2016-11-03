@@ -50,7 +50,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	}
 	
 	public void deleteUser(User user) {
-		
+		delete(user);
 	}
 	
 	public void editUser(User user) {
