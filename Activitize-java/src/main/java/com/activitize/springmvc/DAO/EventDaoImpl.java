@@ -22,7 +22,7 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 	}
 	
 	public void createEvent(Event event) {	
-		
+		persist(event);
 	}
 	
 	public void deleteEvent(Event event) {	

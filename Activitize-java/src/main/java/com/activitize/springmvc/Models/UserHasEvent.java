@@ -37,8 +37,8 @@ public class UserHasEvent {
 		
 	}
 	
-	public UserHasEvent(boolean favorite, boolean admin, boolean going) {
-		
+	public UserHasEvent(UserHasEventId id, boolean favorite, boolean admin, boolean going) {
+		this.id = id;
 		this.favorite = favorite;
 		this.admin = admin;
 		this.going = going;

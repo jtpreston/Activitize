@@ -26,6 +26,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="events")
 public class Event {
@@ -44,9 +46,11 @@ public class Event {
 	@NotNull
 	@Column(name = "event_start", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private DateTime event_start;
 	@Column(name = "event_end", nullable = true)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private DateTime event_end;
 	@Column(name = "description", nullable = true)
 	private String description;
