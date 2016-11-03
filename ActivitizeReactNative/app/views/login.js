@@ -36,7 +36,7 @@ export class Login extends React.Component{
 
   login() {
     var view = this;
-    LoginManager.logInWithReadPermissions(['public_profile']).then(
+    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends']).then(
       function(result) {
         if (result.isCancelled) {
           Alert.alert('Login was cancelled');
@@ -105,10 +105,34 @@ export class Login extends React.Component{
   }
 
   gotoNext() {
-    this.props.navigator.push({
-      id: 'EventFeed',
-      name: 'Events',
-    });
+
+    let navigator = this.props.navigator;
+
+    return fetch('https://activitize.net/activitize/user/verifyUser', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: 'username',
+        password: 'password',
+      })
+    })
+    .then(function(response) {
+      if (response.ok) {
+        Alert.alert("response received");
+        navigator.push({
+          id: 'EventFeed',
+          name: 'Events',
+        });
+      } else {
+        Alert.alert("response not received");
+      }
+    })
+    .catch((error) => {
+        console.error(error);
+      });
   }
 
   signUp() {

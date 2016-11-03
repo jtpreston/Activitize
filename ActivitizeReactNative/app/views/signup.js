@@ -29,13 +29,14 @@ export class SignUp extends React.Component{
     this.state = {
       username: '',
       password: '',
-      verifyPassword: ''
+      verifyPassword: '',
+      fbAccessToken: ''
     };
   }
 
   login() {
     var view = this;
-    LoginManager.logInWithReadPermissions(['public_profile']).then(
+    LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends']).then(
       function(result) {
         if (result.isCancelled) {
           Alert.alert('Login was cancelled');
