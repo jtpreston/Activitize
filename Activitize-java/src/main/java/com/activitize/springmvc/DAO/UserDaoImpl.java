@@ -17,7 +17,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	}
 	
 	public User findByEmail(String email) {
-		boolean exists = (Long) getSession().createQuery("select count(*) from users where email = :email").setParameter("email", email).uniqueResult() > 0;
+		boolean exists = (Long) getSession().createQuery("select count(*) from User where email = :email").setParameter("email", email).uniqueResult() > 0;
 		if (exists) {
 			return new User();
 		}
@@ -27,7 +27,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	}
 	
 	public User findByUsername(String username) {
-		boolean exists = (Long) getSession().createQuery("select count(*) from users where username = :username").setParameter("username", username).uniqueResult() > 0;
+		boolean exists = (Long) getSession().createQuery("select count(*) from User where username = :username").setParameter("username", username).uniqueResult() > 0;
 		if (exists) {
 			return new User();
 		}

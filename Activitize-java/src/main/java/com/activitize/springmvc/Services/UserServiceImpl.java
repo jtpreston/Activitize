@@ -51,12 +51,22 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean isUserEmailUnique(String email) {
 		User user = findByEmail(email);
-		return ( user == null || user != null);
+		if (user == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public boolean isUsernameUnique(String username) {
 		User user = findByUsername(username);
-		return ( user == null || user != null);
+		if (user == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 }
