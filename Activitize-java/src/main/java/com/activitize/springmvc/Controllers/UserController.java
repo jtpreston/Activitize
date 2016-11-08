@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
 public class UserController {
     
 	@Autowired
-    UserService service;
+    UserService userService;
 	
 	@Autowired
     UserProfileService userProfileService;
@@ -56,7 +56,7 @@ public class UserController {
 	@ResponseBody
 	public JsonResponse verifyUser(@RequestBody User user) {
 		if (isCurrentAuthenticationAnonymous()) {
-			service.verifyUser(user);
+			userService.verifyUser(user);
 			return new JsonResponse("OK","");
 		}
 		else {
@@ -69,13 +69,13 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse createUser(@RequestBody User user) {
-		if (service.isUserEmailUnique(user.getEmail()) == false) {
+		if (userService.isUserEmailUnique(user.getEmail()) == false) {
 			return new JsonResponse("FAILED","Email is already taken");
 		}
-		if (service.isUsernameUnique(user.getUsername()) == false) {
+		if (userService.isUsernameUnique(user.getUsername()) == false) {
 			return new JsonResponse("FAILED","Username is already taken");
 		}
-		service.createUser(user);
+		userService.createUser(user);
 		return new JsonResponse("OK","");
 	}
 	
@@ -84,7 +84,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse deleteUser(@RequestBody User user) {
-		service.deleteUser(user);
+		userService.deleteUser(user);
 		return new JsonResponse("OK","");
 	}
 	
@@ -93,7 +93,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse editUser(@RequestBody User user) {
-		service.editUser(user);
+		userService.editUser(user);
 		return new JsonResponse("OK","");
 	}
 	
