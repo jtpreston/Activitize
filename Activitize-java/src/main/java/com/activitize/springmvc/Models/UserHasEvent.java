@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -20,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="users_has_events")
-public class UserHasEvent {
+public class UserHasEvent implements Serializable {
 	@EmbeddedId
 	UserHasEventId id;
 	@NotNull

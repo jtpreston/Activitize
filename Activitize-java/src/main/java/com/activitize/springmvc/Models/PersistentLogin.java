@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,8 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="PERSISTENT_LOGINS")
-public class PersistentLogin {
+@Table(name="persistent_logins")
+public class PersistentLogin implements Serializable {
 
 	@Id
 	private String series;

@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -22,15 +23,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="friend_groups")
-public class FriendGroup {
+public class FriendGroup implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
 	@Column(name = "friend_groups_id", nullable = false)
-	private int friend_groups_id;
+	private Integer friend_groups_id;
 	@NotNull
 	@Column(name = "users_user_id", nullable = false)
-	private int users_user_id;
+	private Integer users_user_id;
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "group_name", nullable = false)
@@ -50,7 +51,7 @@ public class FriendGroup {
 		
 	}
 	
-	public FriendGroup(int friend_groups_id, int users_user_id, String group_name, int group_size, String group_owner, User user) {
+	public FriendGroup(Integer friend_groups_id, Integer users_user_id, String group_name, int group_size, String group_owner, User user) {
 		this.friend_groups_id = friend_groups_id;
 		this.users_user_id = users_user_id;
 		this.group_name = group_name;
@@ -59,19 +60,19 @@ public class FriendGroup {
 		this.user = user;
 	}
 	
-	public int getFriendGroupsId() {
+	public Integer getFriendGroupsId() {
 		return friend_groups_id;
 	}
 	
-	public void setFriendGroupsId(int friendgroup) {
+	public void setFriendGroupsId(Integer friendgroup) {
 		this.friend_groups_id = friendgroup;
 	}
 	
-	public int getUsersUserId() {	
+	public Integer getUsersUserId() {	
 		return users_user_id;
 	}
 	
-	public void setUsersUserId(int usersid) {
+	public void setUsersUserId(Integer usersid) {
 		this.users_user_id = usersid;
 	}
 	
@@ -106,5 +107,36 @@ public class FriendGroup {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((friend_groups_id == null) ? 0 : friend_groups_id.hashCode());
+        result = prime * result + ((users_user_id == null) ? 0 : users_user_id.hashCode());
+        return result;
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof FriendGroup))
+            return false;
+        FriendGroup other = (FriendGroup) obj;
+        if (friend_groups_id == null) {
+            if (other.friend_groups_id != null)
+                return false;
+        } else if (!friend_groups_id.equals(other.friend_groups_id))
+            return false;
+        if (users_user_id == null) {
+            if (other.users_user_id != null)
+                return false;
+        } else if (!users_user_id.equals(other.users_user_id))
+            return false;
+        return true;
+    }
 	
 }

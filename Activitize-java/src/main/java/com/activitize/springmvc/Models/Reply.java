@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -22,18 +23,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="replies_to_comments")
-public class Reply {
+public class Reply implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
 	@Column(name = "replies_to_comments_id", nullable = false)
-	private int replies_to_comments_id;
+	private Integer replies_to_comments_id;
 	@NotNull
 	@Column(name = "comments_comment_id", nullable = false)
-	private int comments_comment_id;
+	private Integer comments_comment_id;
 	@NotNull
 	@Column(name = "comments_events_event_id", nullable = false)
-	private int comments_events_event_id;
+	private Integer comments_events_event_id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "comment_id", nullable = false)
 	private Comment comment;
@@ -42,34 +43,34 @@ public class Reply {
 		
 	}
 	
-	public Reply(int replies_to_comments_id, int comments_comment_id, int comments_events_event_id, Comment comment) {
+	public Reply(Integer replies_to_comments_id, Integer comments_comment_id, Integer comments_events_event_id, Comment comment) {
 		this.replies_to_comments_id = replies_to_comments_id;
 		this.comments_comment_id = comments_comment_id;
 		this.comments_events_event_id = comments_events_event_id;
 		this.comment = comment;
 	}
 	
-	private int getRepliesToCommentsId() {
+	private Integer getRepliesToCommentsId() {
 		return replies_to_comments_id;
 	}
 	
-	private void setRepliesToCommentsId(int reply) {
+	private void setRepliesToCommentsId(Integer reply) {
 		this.replies_to_comments_id = reply;
 	}
 	
-	public int getCommentsCommentId() {
+	public Integer getCommentsCommentId() {
 		return comments_comment_id;
 	}
 	
-	public void setCommentsCommentId(int comment) {
+	public void setCommentsCommentId(Integer comment) {
 		this.comments_comment_id = comment;
 	}
 	
-	public int getCommentsEventsEventId() {
+	public Integer getCommentsEventsEventId() {
 		return comments_events_event_id;
 	}
 	
-	public void setCommentsEventsEventId(int comments_events) {
+	public void setCommentsEventsEventId(Integer comments_events) {
 		this.comments_events_event_id = comments_events;
 	}
 	
@@ -80,5 +81,36 @@ public class Reply {
 	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((replies_to_comments_id == null) ? 0 : replies_to_comments_id.hashCode());
+        result = prime * result + ((comments_comment_id == null) ? 0 : comments_comment_id.hashCode());
+        return result;
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Reply))
+            return false;
+        Reply other = (Reply) obj;
+        if (replies_to_comments_id == null) {
+            if (other.replies_to_comments_id != null)
+                return false;
+        } else if (!replies_to_comments_id.equals(other.replies_to_comments_id))
+            return false;
+        if (comments_comment_id == null) {
+            if (other.comments_comment_id != null)
+                return false;
+        } else if (!comments_comment_id.equals(other.comments_comment_id))
+            return false;
+        return true;
+    }
 	
 }

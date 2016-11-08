@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,11 +31,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="events")
-public class Event {
+public class Event implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
-	private int event_id;
+	private Integer event_id;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
  	private Set<User> users = new HashSet<User>(0);
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
@@ -62,7 +63,7 @@ public class Event {
 	@Column(name = "priv", nullable = false)
 	private boolean priv;
 	@NotNull
-	@Column(name = "name_of_comments", nullable = false)
+	@Column(name = "number_of_comments", nullable = false)
 	private int number_of_comments = 0;
 	@Size(max = 256)
 	@Column(name = "path_to_event_picture", nullable = true)
@@ -77,17 +78,17 @@ public class Event {
 	@Column(name = "subevent", nullable = false)
 	private boolean subevent;
 	@Column(name = "subevent_parent_id", nullable = true)
-	private int subevent_parent_id;
+	private Integer subevent_parent_id;
 	@Column(name = "friend_group_id", nullable = true)
-	private int friend_group_id;
+	private Integer friend_group_id;
 	
 	public Event() {
 		
 	}
 	
-	public Event(int event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
+	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
-			int subevent_parent_id, int friend_group_id, Set<Comment> comments) {
+			Integer subevent_parent_id, Integer friend_group_id, Set<Comment> comments) {
 		this.event_id = event_id;
 		this.event_name = event_name;
 		this.event_start = event_start;
@@ -104,11 +105,11 @@ public class Event {
 		this.comments = comments;
 	}
 			
-	public int getEventId() {
+	public Integer getEventId() {
 		return event_id;
 	}
 	
-	public void setEventId(int id) {
+	public void setEventId(Integer id) {
 		this.event_id = id;
 	}
 	
@@ -216,20 +217,51 @@ public class Event {
 		this.subevent = sub;
 	}
 	
-	public int getSubeventParentId() {
+	public Integer getSubeventParentId() {
 		return subevent_parent_id;
 	}
 	
-	public void setSubeventParentId(int subevent_id) {
+	public void setSubeventParentId(Integer subevent_id) {
 		this.subevent_parent_id = subevent_id;
 	}
 	
-	public int getFriendGroupId() {
+	public Integer getFriendGroupId() {
 		return friend_group_id;
 	}
 	
-	public void setFriendGroupId(int group) {
+	public void setFriendGroupId(Integer group) {
 		this.friend_group_id = group;
 	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((event_id == null) ? 0 : event_id.hashCode());
+        result = prime * result + ((event_name == null) ? 0 : event_name.hashCode());
+        return result;
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Event))
+            return false;
+        Event other = (Event) obj;
+        if (event_id == null) {
+            if (other.event_id != null)
+                return false;
+        } else if (!event_id.equals(other.event_id))
+            return false;
+        if (event_name == null) {
+            if (other.event_name != null)
+                return false;
+        } else if (!event_name.equals(other.event_name))
+            return false;
+        return true;
+    }
 	
 }	

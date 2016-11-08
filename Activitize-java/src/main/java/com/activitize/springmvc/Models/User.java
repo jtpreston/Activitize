@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,11 +33,11 @@ import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User implements Serializable {
  	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull	
-	private int user_id;
+	private Integer user_id;
  	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_has_events", joinColumns = {
 			@JoinColumn(name = "users_user_id", nullable = false, updatable = false) },
@@ -91,8 +92,8 @@ public class User {
 	private long facebook_user_id;
 	@NotEmpty
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "APP_USER_USER_PROFILE", 
-             joinColumns = { @JoinColumn(name = "USER_ID") }, 
+    @JoinTable(name = "users_user_profile", 
+             joinColumns = { @JoinColumn(name = "USERS_USER_ID") }, 
              inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 	
@@ -100,7 +101,7 @@ public class User {
 		
 	}
 	
-	public User(int user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
+	public User(Integer user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
 			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups, Set<UserProfile> userProfiles) {
 		this.user_id = user_id;
@@ -121,9 +122,12 @@ public class User {
 		this.userProfiles = userProfiles;
 	}
 	
-	public int getId() {
+	public Integer getUserId() {
 		return user_id;
 	}
+	public void setUserId(Integer user_id) {
+        this.user_id = user_id;
+    }
 	
 	public Set<Event> getEvents() {
 		return events;
@@ -147,10 +151,6 @@ public class User {
 
 	public void setFriendGroups(Set<FriendGroup> friendGroups) {
 		this.friendGroups = friendGroups;
-	}
-	
-	public void setId(int user_id) {
-		this.user_id = user_id;
 	}
 	
 	public String getUsername() {
@@ -255,6 +255,44 @@ public class User {
  
     public void setUserProfiles(Set<UserProfile> userProfiles) {
         this.userProfiles = userProfiles;
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        return result;
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof User))
+            return false;
+        User other = (User) obj;
+        if (user_id == null) {
+            if (other.user_id != null)
+                return false;
+        } else if (!user_id.equals(other.user_id))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", nickname="
+                + nickname + ", age" + age + ", phone_number" + phone_number 
+                + ", email=" + email + ", number_of_friends" + number_of_friends + ", using_facebook" + using_facebook + "]";
     }
 	
 }

@@ -1,5 +1,6 @@
 package com.activitize.springmvc.Models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,12 +27,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="comments")
-public class Comment {
+public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@NotNull
 	@Column(name = "comment_id", nullable = false)
-	private int comment_id;
+	private Integer comment_id;
 	@NotNull
 	@Column(name = "comment", nullable = false)
 	private String comment;
@@ -45,7 +46,7 @@ public class Comment {
 	private String username;
 	@NotNull
 	@Column(name = "events_event_id", nullable = false)
-	private int events_event_id;
+	private Integer events_event_id;
 	@NotNull
 	@Column(name = "number_of_replies", nullable = false)
 	private int number_of_replies = 0;
@@ -57,7 +58,7 @@ public class Comment {
 	private int nah = 0;
 	@NotNull
 	@Column(name = "replies_to_comments_id", nullable = true)
-	private int replies_to_comments_id;
+	private Integer replies_to_comments_id;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
@@ -70,8 +71,8 @@ public class Comment {
 		
 	}
 	
-	public Comment(int comment_id, String comment, DateTime timestamp, String username, int events_event_id, 
-		int number_of_replies, int yeah, int nah, int replies_to_comments_id, Event event, Set<Reaction> reactions, Set<Reply> repliesToComments) {
+	public Comment(Integer comment_id, String comment, DateTime timestamp, String username, Integer events_event_id, 
+		int number_of_replies, int yeah, int nah, Integer replies_to_comments_id, Event event, Set<Reaction> reactions, Set<Reply> repliesToComments) {
 		this.comment_id = comment_id;
 		this.comment = comment;
 		this.timestamp = timestamp;
@@ -86,11 +87,11 @@ public class Comment {
 		this.repliesToComments = repliesToComments;
 	}
 	
-	public int getCommentId() {
+	public Integer getCommentId() {
 		return comment_id;
 	}
 	
-	public void setCommentId(int com) {	
+	public void setCommentId(Integer com) {	
 		this.comment_id = com;
 	}
 	
@@ -118,11 +119,11 @@ public class Comment {
 		this.username = username;
 	}
 	
-	public int getEventsEventId() {
+	public Integer getEventsEventId() {
 		return events_event_id;
 	}
 	
-	public void setEventEventId(int event) {
+	public void setEventEventId(Integer event) {
 		this.events_event_id = event;
 	}
 	
@@ -150,11 +151,11 @@ public class Comment {
 		this.nah = nah;
 	}
 	
-	public int getRepliesToCommentsId() {
+	public Integer getRepliesToCommentsId() {
 		return replies_to_comments_id;
 	}
 	
-	public void setRepliesToCommentsId(int replies_to_comments_id) {	
+	public void setRepliesToCommentsId(Integer replies_to_comments_id) {	
 		this.replies_to_comments_id = replies_to_comments_id;
 	}
 	
@@ -181,5 +182,36 @@ public class Comment {
 	public void setReplies(Set<Reply> repliesToComments) {
 		this.repliesToComments = repliesToComments;
 	}
+	
+	@Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((comment_id == null) ? 0 : comment_id.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
+ 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof Comment))
+            return false;
+        Comment other = (Comment) obj;
+        if (comment_id == null) {
+            if (other.comment_id != null)
+                return false;
+        } else if (!comment_id.equals(other.comment_id))
+            return false;
+        if (username == null) {
+            if (other.username != null)
+                return false;
+        } else if (!username.equals(other.username))
+            return false;
+        return true;
+    }
 	
 }
