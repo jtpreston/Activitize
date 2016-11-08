@@ -89,12 +89,6 @@ public class User {
 	private boolean using_facebook;
 	@Column(name = "facebook_user_id", nullable = true)
 	private long facebook_user_id;
-	@NotEmpty
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "APP_USER_USER_PROFILE", 
-             joinColumns = { @JoinColumn(name = "USER_ID") }, 
-             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 	
 	public User() {
 		
@@ -102,7 +96,7 @@ public class User {
 	
 	public User(int user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
-			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups, Set<UserProfile> userProfiles) {
+			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups) {
 		this.user_id = user_id;
 		this.username = username;	
 		this.password = password;
@@ -118,7 +112,6 @@ public class User {
 		this.facebook_user_id = facebook_user_id;
 		this.friends = friends;
 		this.friendGroups = friendGroups;
-		this.userProfiles = userProfiles;
 	}
 	
 	public int getId() {
@@ -248,13 +241,5 @@ public class User {
 	public void setFacebookUserId(long facebook) {
 		this.facebook_user_id = facebook;
 	}
-	
-	public Set<UserProfile> getUserProfiles() {
-        return userProfiles;
-    }
- 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
-        this.userProfiles = userProfiles;
-    }
 	
 }
