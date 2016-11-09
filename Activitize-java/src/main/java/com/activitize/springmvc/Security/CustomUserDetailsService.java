@@ -17,7 +17,7 @@ import com.activitize.springmvc.Models.UserProfile;
 import com.activitize.springmvc.Services.UserService;
 
 @Service("customUserDetailsService")
-public class CustomUserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserService userService;

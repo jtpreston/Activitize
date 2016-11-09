@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.activitize.springmvc.Models.UserProfile;
 
 @Repository("userProfileDao")
-public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>implements UserProfileDao{
+public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>implements UserProfileDao {
  
     public UserProfile findById(int id) {
         return getByKey(id);
