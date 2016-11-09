@@ -8,8 +8,8 @@ public interface UserProfileDao {
 
 	List<UserProfile> findAll();
     
-    UserProfile findByType(String type);
+	UserProfile findByType(String type);
      
-    UserProfile findById(int id);
+	UserProfile findById(int id);
 	
 }

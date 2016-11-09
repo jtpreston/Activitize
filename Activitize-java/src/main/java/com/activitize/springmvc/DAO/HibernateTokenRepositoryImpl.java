@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.activitize.springmvc.DAO.AbstractDao;
 import com.activitize.springmvc.Models.PersistentLogin;
 
+@Repository("tokenRepositoryDao")
+@Transactional
 public class HibernateTokenRepositoryImpl extends AbstractDao<String, PersistentLogin> implements PersistentTokenRepository {
 
 	@Override

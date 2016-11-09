@@ -16,6 +16,7 @@ import com.activitize.springmvc.Models.User;
 import com.activitize.springmvc.Models.UserProfile;
 import com.activitize.springmvc.Services.UserService;
 
+@Service("customUserDetailsService")
 public class CustomUserDetailsService {
 
 	@Autowired

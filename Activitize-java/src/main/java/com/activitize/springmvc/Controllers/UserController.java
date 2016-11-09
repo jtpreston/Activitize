@@ -50,7 +50,7 @@ public class UserController {
 	
 	private static final Logger logger = LogManager.getLogger(UserController.class);
 	
-	@RequestMapping(value = "/verifyUser", 
+	/*@RequestMapping(value = "/verifyUser", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
@@ -62,7 +62,7 @@ public class UserController {
 		else {
 			return new JsonResponse("ERROR","User already logged in!");
 		}
-	}
+	}*/
 	
 	@RequestMapping(value = "/createUser", 
 			method = RequestMethod.POST,
