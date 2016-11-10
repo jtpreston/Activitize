@@ -38,7 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/").permitAll();
 		http.authorizeRequests().antMatchers("/user/createUser").permitAll();
-		http.authorizeRequests().antMatchers("/user/verifyUser").permitAll();
 		http.authorizeRequests().antMatchers("/user/deleteUser")
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
         .antMatchers("/user/editUser")
@@ -57,8 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
         .antMatchers("/userhasevent/**")
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .and().formLogin().loginPage("/user/verifyUser")
-        .loginProcessingUrl("/user/verifyUser").usernameParameter("email").passwordParameter("password").and()
+        .and().formLogin().loginPage("/login")
+        .loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password").and()
         .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
         .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
 	}
