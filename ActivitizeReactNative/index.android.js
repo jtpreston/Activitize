@@ -23,6 +23,7 @@ import { SignUp } from './app/views/signup'
 import { EditProfile } from './app/views/EditProfile'
 import { EventView } from './app/views/EventView'
 import { EditEventView } from './app/views/EditEventView'
+import { SignUpSecond } from './app/views/SignUpSecond'
 
 class ActivitizeReactNative extends React.Component {
   render() {
@@ -86,6 +87,12 @@ class ActivitizeReactNative extends React.Component {
     if (routeId === 'EditEvent') {
       return (
         <EditEventView 
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'SignUp2') {
+      return (
+        <SignUpSecond 
           navigator={navigator} />
       );
     }
