@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.csrf.CsrfFilter;
@@ -28,6 +29,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	PersistentTokenRepository tokenRepository;
+	
+	@Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+ 
+    @Autowired
+    private MySavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler;
 	
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,12 +63,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
         .antMatchers("/userhasevent/**")
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .and().formLogin().loginPage("/login")
+        .and().formLogin().successHandler(authenticationSuccessHandler)
+        .failureHandler(new SimpleUrlAuthenticationFailureHandler()).loginPage("/login")
         .loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password").and()
         .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-        .tokenValiditySeconds(86400).and().csrf().ignoringAntMatchers("/", "/user/createUser").and().exceptionHandling();
+        .tokenValiditySeconds(86400).and().csrf().ignoringAntMatchers("/", "/user/createUser").and().exceptionHandling()
+        .authenticationEntryPoint(restAuthenticationEntryPoint);
 		http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
 	}
+	
+	@Bean
+    public MySavedRequestAwareAuthenticationSuccessHandler mySuccessHandler(){
+        return new MySavedRequestAwareAuthenticationSuccessHandler();
+    }
+    @Bean
+    public SimpleUrlAuthenticationFailureHandler myFailureHandler(){
+        return new SimpleUrlAuthenticationFailureHandler();
+    }
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
