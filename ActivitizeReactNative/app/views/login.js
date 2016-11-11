@@ -146,6 +146,12 @@ export class Login extends React.Component{
       name: 'SignUp',
     });
   }
+  /*feedback() {
+     this.props.navigator.push({
+       id: 'feedback',
+       name: 'feedback',
+     });	
+  }*/
 }
 
 var NavigationBarRouteMapper = {
