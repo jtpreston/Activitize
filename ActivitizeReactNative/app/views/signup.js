@@ -51,6 +51,27 @@ export class SignUp extends React.Component{
     });
   }
 
+  isValidUsername(string) {
+    var re = new RegExp("[A-Za-z0-9]{6,}");
+    return re.test(string);
+  }
+
+  isValidPassword(string) {
+    var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]){8,}");
+    var hasAllValidChars = allCharsTest.test(string);
+    var specialCharsTest = new RegExp("[!@#$?]");
+    var hasSpecialChar = specialCharsTest.test(string);
+    var uppercaseTest = new RegExp("[A-Z]");
+    var hasUppercase = uppercaseTest.test(string);
+    var numericTest = new RegExp("[0-9]");
+    var hasNumeric = numericTest.test(string);
+    return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric;
+  }
+
+  isPasswordMatch(str1, str2) {
+    return str1 == str2;
+  }
+
   render() {
     return (
       <Navigator
@@ -111,10 +132,23 @@ export class SignUp extends React.Component{
     );
   }
   gotoNext() {
-    this.props.navigator.push({
-      id: 'EventFeed',
-      name: 'Events',
-    });
+    if (!this.isValidUsername(this.state.username)) {
+      Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
+    } 
+    else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
+      Alert.alert("Passwords do not match.")
+    }
+    else if (!this.isValidPassword(this.state.password)) {
+      Alert.alert("Invalid password: password must be at least 8 characters, with" +
+                  "at least one uppercase letter, at least one number, and at least one" +
+                  "of !, @, #, $, or ?")
+    }
+    else {
+      this.props.navigator.push({
+        id: 'EventFeed',
+        name: 'Events',
+      });
+    }
   }
 
   signIn() {
