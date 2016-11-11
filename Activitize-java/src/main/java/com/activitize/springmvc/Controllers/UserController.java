@@ -64,6 +64,15 @@ public class UserController {
 		}
 	}*/
 	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage() {
+        if (isCurrentAuthenticationAnonymous()) {
+            return "login";
+        } else {
+            return "redirect:/list";  
+        }
+    }
+	
 	@RequestMapping(value = "/createUser", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})

@@ -1,6 +1,8 @@
 package com.activitize.springmvc.DAO;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.activitize.springmvc.Models.User;
+import com.activitize.springmvc.Models.UserProfile;
 
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
@@ -35,7 +38,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("username", username));
         User user = (User)crit.uniqueResult();
-        if(user != null){
+        if (user != null) {
             Hibernate.initialize(user.getUserProfiles());
         }
         return user;
@@ -51,6 +54,12 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	}
 	
 	public void createUser(User user) {
+		UserProfile userProfile = new UserProfile();
+        userProfile.setType("USER");
+        userProfile.setId(1);
+        Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+        userProfiles.add(userProfile);
+        user.setUserProfiles(userProfiles);
 		persist(user);
 	}
 	

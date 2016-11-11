@@ -28,7 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	PersistentTokenRepository tokenRepository;
 	
-	 @Autowired
+	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		 auth.userDetailsService(userDetailsService);
 	     auth.authenticationProvider(authenticationProvider());
@@ -36,9 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").permitAll();
-		http.authorizeRequests().antMatchers("/user/createUser").permitAll();
-		http.authorizeRequests().antMatchers("/user/deleteUser")
+		http.authorizeRequests().antMatchers("/", "/user/createUser").permitAll()
+		.antMatchers("/user/deleteUser")
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
         .antMatchers("/user/editUser")
         .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
@@ -59,7 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and().formLogin().loginPage("/login")
         .loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password").and()
         .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-        .tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+        .tokenValiditySeconds(86400).and().csrf().ignoringAntMatchers("/", "/user/createUser").and().exceptionHandling();
 	}
 	
 	@Bean

@@ -35,8 +35,7 @@ import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 @Table(name="users")
 public class User implements Serializable {
  	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private Integer user_id;
  	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_has_events", joinColumns = {
@@ -262,7 +261,7 @@ public class User implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
  
@@ -280,10 +279,10 @@ public class User implements Serializable {
                 return false;
         } else if (!user_id.equals(other.user_id))
             return false;
-        if (email == null) {
-            if (other.email != null)
+        if (username == null) {
+            if (other.username != null)
                 return false;
-        } else if (!email.equals(other.email))
+        } else if (!username.equals(other.username))
             return false;
         return true;
     }
@@ -291,8 +290,8 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", nickname="
-                + nickname + ", age" + age + ", phone_number" + phone_number 
-                + ", email=" + email + ", number_of_friends" + number_of_friends + ", using_facebook" + using_facebook + "]";
+                + nickname + ", age=" + age + ", phone_number=" + phone_number 
+                + ", email=" + email + ", number_of_friends=" + number_of_friends + ", using_facebook=" + using_facebook + "]";
     }
 	
 }
