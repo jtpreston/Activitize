@@ -16,6 +16,9 @@ import {
   ScrollView
 } from 'react-native';
 
+import { ScrollableEventView } from './ScrollableEventView'
+import { EventView } from './EventView'
+
 export class EventFeed extends React.Component{
   constructor(props) {
     super(props);
@@ -34,13 +37,29 @@ export class EventFeed extends React.Component{
   }
   renderScene(route, navigator) {
     return (
-      <ScrollView>
-          <Text style={styles.display}>Sorry! You have no events to show.
-          You should start receiving invitations soon, but if you just can't
-          wait to begin, try creating a new event.
-          </Text>
+      <ScrollView style={{marginTop: 55, marginBottom: 15}}>
+          <ScrollableEventView eventId='1' name='A really cool event' date='Nov 19, 2016' time='5:00 p.m.' 
+              onPress={() => this.viewEvent('1', 'A really cool event', 'Nov 19, 2016', '5:00 p.m.')}/>   
+          <ScrollableEventView eventId='2' name='Another cool event' date='Dec 5, 2016' time='7:32 p.m.' 
+              onPress={() => this.viewEvent('2', 'Another cool event', 'Dec 5, 2016', '7:32 p.m.')}/>   
+          <ScrollableEventView eventId='3' name='A not so cool event' date='Jan 20, 2017' time='9:00 a.m.' 
+              onPress={() => this.viewEvent('3', 'A not so cool event', 'Jan 20, 2017', '9:00 a.m.')}/>   
+      
       </ScrollView>
     );
+  }
+
+  viewEvent(eventId, eventName, date, time) {
+    this.props.navigator.setState({
+      e_id: eventId,
+      e_name: eventName,
+      e_date: date,
+      e_time: time
+    });
+    this.props.navigator.push({
+      id: 'EventView',
+      name: 'EventView'
+    });
   }
 }
 

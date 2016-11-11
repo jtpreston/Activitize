@@ -108,31 +108,36 @@ export class Login extends React.Component{
 
     let navigator = this.props.navigator;
 
-    return fetch('https://activitize.net/activitize/user/verifyUser', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'username',
-        password: 'password',
-      })
-    })
-    .then(function(response) {
-      if (response.ok) {
-        Alert.alert("response received");
-        navigator.push({
-          id: 'EventFeed',
-          name: 'Events',
-        });
-      } else {
-        Alert.alert("response not received");
-      }
-    })
-    .catch((error) => {
-        console.error(error);
-      });
+    // fetch('https://activitize.net/activitize/user/verifyUser', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     username: 'username',
+    //     password: 'password',
+    //   })
+    // })
+    // .then(function(response) {
+    //   if (response.ok) {
+    //     Alert.alert("response received");
+    //     navigator.push({
+    //       id: 'EventFeed',
+    //       name: 'Events',
+    //     });
+    //   } else {
+    //     Alert.alert("response not received");
+    //   }
+    // })
+    // .catch((error) => {
+    //     console.error(error);
+    //   });
+
+    this.props.navigator.push({
+      id: 'EventFeed',
+      name: 'Events'
+    });
   }
 
   signUp() {
