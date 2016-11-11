@@ -21,6 +21,8 @@ import { NewEvent } from './app/views/newevent'
 import { SettingsPage } from './app/views/settingspage'
 import { SignUp } from './app/views/signup'
 import { EditProfile } from './app/views/EditProfile'
+import { EventView } from './app/views/EventView'
+import { EditEventView } from './app/views/EditEventView'
 
 class ActivitizeReactNative extends React.Component {
   render() {
@@ -38,6 +40,7 @@ class ActivitizeReactNative extends React.Component {
   }
   renderScene(route, navigator) {
     var routeId = route.id;
+
     if (routeId === 'Login') {
       return (
         <Login
@@ -71,6 +74,18 @@ class ActivitizeReactNative extends React.Component {
     if (routeId === 'EditProfile') {
       return (
         <EditProfile
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'EventView') {
+      return (
+        <EventView 
+          navigator={navigator} />
+      );
+    }
+    if (routeId === 'EditEvent') {
+      return (
+        <EditEventView 
           navigator={navigator} />
       );
     }
