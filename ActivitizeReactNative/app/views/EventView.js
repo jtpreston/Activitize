@@ -80,6 +80,20 @@ var NavigationBarRouteMapper = {
       </TouchableOpacity>
     );
   },
+  /*Button(route, navigator, index, navState) {
+    <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+      onPress={() => {
+	navigator.setState({navigator.parentNavigator.push({
+	  id: 'favorite',
+	  name: 'favorite',
+	});
+      }}
+      <Text style={{color: 'white', margin: 10,}}>
+          Favorite
+      </Text>
+    </TouchableOpacity>
+   );
+  },*/
   Title(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
