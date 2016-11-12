@@ -64,7 +64,6 @@ export class SignUpSecond extends React.Component{
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput
-                        secureTextEntry={true}
                         style={[styles.input, styles.whiteFont]}
                         placeholder="Last Name"
                         placeholderTextColor="#FFF"
@@ -74,7 +73,6 @@ export class SignUpSecond extends React.Component{
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput
-                        secureTextEntry={true}
                         style={[styles.input, styles.whiteFont]}
                         placeholder="Date of Birth"
                         placeholderTextColor="#FFF"
@@ -84,7 +82,6 @@ export class SignUpSecond extends React.Component{
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput
-                        secureTextEntry={true}
                         style={[styles.input, styles.whiteFont]}
                         placeholder="Phone Number (Optional)"
                         placeholderTextColor="#FFF"
@@ -112,10 +109,11 @@ export class SignUpSecond extends React.Component{
           password: this.props.navigator.state.password,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
+          age: this.state.dob,
           email: this.state.email,
           phoneNumber: this.state.phone,
           numberOfFriends: '0',
-          usingFacebook: '0'
+          usingFacebook: 'false'
         };
       } else {
         params = {
@@ -123,9 +121,10 @@ export class SignUpSecond extends React.Component{
           password: this.props.navigator.state.password,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
+          age: this.state.dob,
           email: this.state.email,
           numberOfFriends: '0',
-          usingFacebook: '0'
+          usingFacebook: 'false'
         };
       }
     // fetch('https://activitize.net/activitize/user/createUser', {
@@ -137,28 +136,27 @@ export class SignUpSecond extends React.Component{
     //   body: JSON.stringify(params)
     // })
     // .then(function(response) {
-    //   if (response.status === "OK") {
-    //     Alert.alert("response received");
-    //     navigator.push({
-    //       id: 'EventFeed',
-    //       name: 'Events',
-    //     });
-    //   } else {
-    //     Alert.alert("response not received");
-    //   }
+    //   var obj = JSON.parse(response.json());
+    //   Alert.alert(obj.status.toString());
+    //   // return response.json().then(function(json) {
+    //   // if (json.status.parse() === "OK") {
+    //   //   Alert.alert("Create user success");
+    //   //   navigator.push({
+    //   //     id: 'EventFeed',
+    //   //     name: 'Events',
+    //   //   });
+    //   // } else {
+    //   //   Alert.alert(json.errorMessage.toString());
+    //   // }
+    //   // });
     // })
     // .catch((error) => {
     //     console.error(error);
     //   });
-    //   this.props.navigator.push({
-    //     id: 'EventFeed',
-    //     name: 'Events',
-    //   });
-
-    this.props.navigator.push({
+      this.props.navigator.push({
         id: 'EventFeed',
         name: 'Events',
-    });
+      });
   }
 
   back() {
