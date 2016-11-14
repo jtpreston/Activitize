@@ -54,4 +54,5 @@ public class UserHasEventController {
 		service.editEvent(userHasEvent);
 		return new JsonResponse("OK","");
 	}
+	
 }

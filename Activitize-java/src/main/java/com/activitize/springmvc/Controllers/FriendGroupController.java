@@ -54,4 +54,5 @@ public class FriendGroupController {
 		service.modifyFriendGroup(friendGroup);
 		return new JsonResponse("OK","");
 	}
+	
 }

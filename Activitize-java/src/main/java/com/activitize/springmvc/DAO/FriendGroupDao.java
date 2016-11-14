@@ -20,4 +20,5 @@ public interface FriendGroupDao {
 	void deleteFriendGroup(FriendGroup friendGroup);
 		
 	void modifyFriendGroup(FriendGroup friendGroup);
+	
 }
