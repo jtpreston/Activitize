@@ -45,5 +45,4 @@ public class FriendController {
 		service.deleteFriend(friend);
 		return new JsonResponse("OK","");
 	}
-	
 }

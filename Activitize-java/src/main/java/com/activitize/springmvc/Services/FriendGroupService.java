@@ -20,5 +20,4 @@ public interface FriendGroupService {
 	void deleteFriendGroup(FriendGroup friendGroup);
 		
 	void modifyFriendGroup(FriendGroup friends);
-	
 }

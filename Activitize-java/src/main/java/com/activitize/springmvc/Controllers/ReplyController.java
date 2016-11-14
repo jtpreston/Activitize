@@ -54,5 +54,4 @@ public class ReplyController {
 		service.editReply(reply);
 		return new JsonResponse("OK","");
 	}
-	
 }

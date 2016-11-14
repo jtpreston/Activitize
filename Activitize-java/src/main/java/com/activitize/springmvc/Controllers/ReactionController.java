@@ -45,5 +45,4 @@ public class ReactionController {
 		service.deleteReaction(reaction);
 		return new JsonResponse("OK","");
 	}
-	
 }
