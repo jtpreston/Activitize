@@ -93,6 +93,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse deleteUser(@RequestBody User user) {
+		user.setUsername(getPrincipal());
 		userService.deleteUser(user);
 		return new JsonResponse("OK","");
 	}
@@ -102,6 +103,7 @@ public class UserController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse editUser(@RequestBody User user) {
+		user.setUsername(getPrincipal());
 		userService.editUser(user);
 		return new JsonResponse("OK","");
 	}
