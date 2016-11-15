@@ -2,20 +2,20 @@ package com.activitize.springmvc.Models;
 
 public class JsonResponse {
 
-	private String status = "";
+	private String responseStatus = "";
 	private String errorMessage = "";
 
-	public JsonResponse(String status, String errorMessage) {
-		this.status = status;
+	public JsonResponse(String responseStatus, String errorMessage) {
+		this.responseStatus = responseStatus;
 		this.errorMessage = errorMessage;
 	}
 	
-	public String getStatus() {
-		return status;
+	public String getResponseStatus() {
+		return responseStatus;
 	}
 	
-	public void setStatus(String status) {
-		this.status = status;
+	public void setResponseStatus(String responseStatus) {
+		this.responseStatus = responseStatus;
 	}
 	
 	public String getErrorMessage() {
