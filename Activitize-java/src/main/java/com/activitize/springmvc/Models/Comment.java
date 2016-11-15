@@ -30,7 +30,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Comment implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "comment_id", nullable = false)
 	private Integer comment_id;
 	@NotNull

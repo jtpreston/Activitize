@@ -26,7 +26,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class FriendGroup implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "friend_groups_id", nullable = false)
 	private Integer friend_groups_id;
 	@NotNull
