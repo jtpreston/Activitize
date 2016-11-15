@@ -14,8 +14,13 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   DatePickerAndroid,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TimePickerAndroid
 } from 'react-native';
+
+function getFormattedTime(hour, minute) {
+  return (hour > 12 ? (hour - 12) : hour ) + ':' + (minute < 10 ? '0' + minute : minute) + (hour > 12 ? ' p.m.' : ' a.m.');
+}
 
 export class NewEvent extends React.Component{
   constructor(props) {
@@ -23,9 +28,9 @@ export class NewEvent extends React.Component{
     this.state = {
       eventName: '',
       date: '',
-      time: '',
+      time: 'Time',
       invite: '',
-      dateText: '',
+      dateText: 'Date',
     };
   }
   render() {
@@ -51,22 +56,21 @@ export class NewEvent extends React.Component{
                         value={this.state.eventName}
                     />
                 </View>
-                <View style={styles.inputContainer}>
-                  <TextInput
-                        style={[styles.input]}
-                        placeholder="Date"
-                        onChangeText={(date) => this.setState({date})}
-                        value={this.state.date}
-                    />
-                </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={[styles.input]}
-                        placeholder="Time"
-                        onChangeText={(time) => this.setState({time})}
-                        value={this.state.time}
-                    />
-                </View>
+                  <TouchableWithoutFeedback
+                    onPress={this.showPicker.bind(this, {date: new Date(2016, 5, 5)})}>
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.date}>{this.state.dateText}</Text>
+                    </View>
+                    </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={this.showTimePicker.bind(this, {
+              hour: 12,
+              minute: 0,
+            })}>
+            <View style={styles.inputContainer}>
+                    <Text style={styles.date}>{this.state.time}</Text>
+                    </View>
+          </TouchableWithoutFeedback>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={[styles.input]}
@@ -79,7 +83,7 @@ export class NewEvent extends React.Component{
         </View>
     );
   }
-  showPicker = async () => {
+  showPicker = async (options) => {
     try {
       const {action, year, month, day} = await DatePickerAndroid.open(options);
       if (action === DatePickerAndroid.dismissedAction) {
@@ -87,17 +91,26 @@ export class NewEvent extends React.Component{
       } else {
         this.setState({date: new Date(year, month, day)});
         //newState[stateKey + 'Text'] = date.toLocaleDateString();
+        var dateString = (month + 1) + "/" + day + "/" + year;
+        this.setState({dateText: dateString});
       }
     } catch ({code, message}) {
       console.warn('Error ', message);
     }
   };
-  submit() {
-    this.props.navigator.push({
-      id: 'EventFeed',
-      name: 'Events',
-    });
-  }
+
+  showTimePicker = async (options) => {
+    try {
+      const {action, minute, hour} = await TimePickerAndroid.open(options);
+      if (action === TimePickerAndroid.timeSetAction) {
+        this.setState({time: getFormattedTime(hour, minute)});
+      } else if (action === TimePickerAndroid.dismissedAction) {
+        //newState[stateKey + 'Text'] = 'dismissed';
+      }
+    } catch ({code, message}) {
+      console.warn(`Error in example: `, message);
+    }
+  };
 }
 
 var NavigationBarRouteMapper = {
@@ -115,10 +128,7 @@ var NavigationBarRouteMapper = {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
           onPress={() => {
-            navigator.parentNavigator.push({
-            id: 'EventFeed',
-            name: 'Events',
-            });
+            navigator.parentNavigator.pop();
           }}>
         <Text style={{color: 'white', margin: 10,}}>
           Done
@@ -195,6 +205,16 @@ var styles = StyleSheet.create({
         right: 0,
         height: 40,
         fontSize: 12
+    },
+    date: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        height: 40,
+        fontSize: 12,
+        marginRight: 50,
+        color: '#808080'
     },
     forgotContainer: {
       alignItems: 'flex-end',

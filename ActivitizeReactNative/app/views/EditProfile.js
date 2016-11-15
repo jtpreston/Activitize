@@ -55,10 +55,7 @@ var NavigationBarRouteMapper = {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
           onPress={() => {
-            navigator.parentNavigator.push({
-            id: 'SettingsPage',
-            name: 'SettingsPage',
-            });
+            navigator.parentNavigator.pop();
           }}>
         <Text style={{color: 'white', margin: 10,}}>
           Submit

@@ -26,7 +26,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Reaction implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "reactions_id", nullable = false)
 	private Integer reactions_id;
 	@NotNull

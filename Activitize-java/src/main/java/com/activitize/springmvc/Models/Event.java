@@ -34,7 +34,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Event implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	private Integer event_id;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
  	private Set<User> users = new HashSet<User>(0);

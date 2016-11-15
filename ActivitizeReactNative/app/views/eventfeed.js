@@ -38,12 +38,12 @@ export class EventFeed extends React.Component{
   renderScene(route, navigator) {
     return (
       <ScrollView style={{marginTop: 55, marginBottom: 15}}>
-          <ScrollableEventView eventId='1' name='A really cool event' date='Nov 19, 2016' time='5:00 p.m.' 
-              onPress={() => this.viewEvent('1', 'A really cool event', 'Nov 19, 2016', '5:00 p.m.')}/>   
-          <ScrollableEventView eventId='2' name='Another cool event' date='Dec 5, 2016' time='7:32 p.m.' 
-              onPress={() => this.viewEvent('2', 'Another cool event', 'Dec 5, 2016', '7:32 p.m.')}/>   
-          <ScrollableEventView eventId='3' name='A not so cool event' date='Jan 20, 2017' time='9:00 a.m.' 
-              onPress={() => this.viewEvent('3', 'A not so cool event', 'Jan 20, 2017', '9:00 a.m.')}/>   
+          <ScrollableEventView eventId='1' name='A really cool event' date='11/19/2016' time='5:00 p.m.' 
+              onPress={() => this.viewEvent('1', 'A really cool event', '11/19/2016', '5:00 p.m.')}/>   
+          <ScrollableEventView eventId='2' name='Another cool event' date='12/5/2016' time='7:32 p.m.' 
+              onPress={() => this.viewEvent('2', 'Another cool event', '12/5/2016', '7:32 p.m.')}/>   
+          <ScrollableEventView eventId='3' name='A not so cool event' date='1/20/2017' time='9:00 a.m.' 
+              onPress={() => this.viewEvent('3', 'A not so cool event', '1/20/2017', '9:00 a.m.')}/>   
       
       </ScrollView>
     );

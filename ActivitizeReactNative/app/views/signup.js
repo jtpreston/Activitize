@@ -43,7 +43,7 @@ export class SignUp extends React.Component{
       } else {
           Alert.alert('Login was successful with permissions: '
         + result.grantedPermissions.toString());
-          view.gotoNext();
+          view.fbSignup();
       }
     },
     function(error) {
@@ -118,7 +118,7 @@ export class SignUp extends React.Component{
                 </View>
             </View>
               <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
-                <Text style={styles.whiteFont}>Sign up</Text>
+                <Text style={styles.whiteFont}>Next</Text>
               </TouchableHighlight>
               <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
                 <Text style={styles.whiteFont}>Sign up with Facebook</Text>
@@ -144,11 +144,22 @@ export class SignUp extends React.Component{
                   "of !, @, #, $, or ?")
     }
     else {
+      this.props.navigator.setState({
+        username: this.state.username,
+        password: this.state.password
+      });
       this.props.navigator.push({
+        id: 'SignUp2',
+        name: 'SignUpSecond',
+      });
+    }
+  }
+
+  fbSignup() {
+    this.props.navigator.push({
         id: 'EventFeed',
         name: 'Events',
       });
-    }
   }
 
   signIn() {

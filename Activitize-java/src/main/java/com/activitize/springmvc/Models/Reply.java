@@ -26,7 +26,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Reply implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	@Column(name = "replies_to_comments_id", nullable = false)
 	private Integer replies_to_comments_id;
 	@NotNull

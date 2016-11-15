@@ -64,276 +64,276 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	}
 	
 	public void deleteUser(User user) {
-		Query q = getSession().createQuery("delete User where email = :email");
-		q.setParameter("email", user.getEmail());
+		Query q = getSession().createQuery("delete User where username = :username");
+		q.setParameter("username", user.getUsername());
 		q.executeUpdate();
 	}
 	
 	public void editUser(User user) {
 		//All valid fields are being updated
 		if (user.getFirstName() != null && user.getLastName() != null && user.getNickname() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except first name are being updated
 		else if (user.getLastName() != null && user.getNickname() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name are being updated
 		else if (user.getFirstName() != null && user.getNickname() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except nickname are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except age are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null && user.getNickname() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except phone number are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null && user.getNickname() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname, age = :age where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except first name and last name are being updated
 		else if (user.getNickname() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set nickname = :nickname, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set nickname = :nickname, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except first name and nickname are being updated
 		else if (user.getLastName() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except first name and age are being updated
 		else if (user.getLastName() != null && user.getNickname() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname, phone_number = :phone_number where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except first name and phone number are being updated
 		else if (user.getLastName() != null && user.getNickname() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname, age = :age where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name and nickname are being updated
 		else if (user.getFirstName() != null && user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name and age are being updated
 		else if (user.getFirstName() != null && user.getNickname() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name and phone number are being updated
 		else if (user.getFirstName() != null && user.getNickname() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname, age = :age where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except nickname and phone number are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, age = :age where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except nickname and age are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();		
 		}
 		//All valid fields except age and phone number are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null && user.getNickname() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name, nickname = :nickname where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except nickname, age, and phone number are being updated
 		else if (user.getFirstName() != null && user.getLastName() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, last_name = :last_name where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("last_name", user.getLastName());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name, age, and phone number are being updated
 		else if (user.getFirstName() != null && user.getNickname() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, nickname = :nickname where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("nickname", user.getNickname());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name, nickname, and phone number are being updated
 		else if (user.getFirstName() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, age = :age where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All valid fields except last name, nickname, and age are being updated
 		else if (user.getFirstName() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name, phone_number = :phone_number where username = :username");
 			q.setParameter("first_name", user.getFirstName());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();		
 		}
 		//All valid fields except first name, age, and phone number are being updated
 		else if (user.getLastName() != null && user.getNickname() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, nickname = :nickname where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("nickname", user.getNickname());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();		
 		}
 		//All valid fields except first name, nickname, and phone number are being updated
 		else if (user.getLastName() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, age = :age where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();				
 		}
 		//All valid fields except first name, nickname, and age are being updated
 		else if (user.getLastName() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name, phone_number = :phone_number where username = :username");
 			q.setParameter("last_name", user.getLastName());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();				
 		}
 		//All valid fields except first name, last name, and phone number are being updated
 		else if (user.getNickname() != null && user.getAge() != null) {
-			Query q = getSession().createQuery("update User set ickname = :nickname, age = :age where email = :email");
+			Query q = getSession().createQuery("update User set ickname = :nickname, age = :age where username = :username");
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();						
 		}
 		//All valid fields except first name, last name, and age are being updated
 		else if (user.getNickname() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set nickname = :nickname, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set nickname = :nickname, phone_number = :phone_number where username = :username");
 			q.setParameter("nickname", user.getNickname());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();								
 		}
 		//All valid fields except first name, last name, and nickname are being updated
 		else if (user.getAge() != null && user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set age = :age, phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set age = :age, phone_number = :phone_number where username = :username");
 			q.setParameter("age", user.getAge());
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();										
 		}
 		//Only updating first name
 		else if (user.getFirstName() != null) {
-			Query q = getSession().createQuery("update User set first_name = :first_name where email = :email");
+			Query q = getSession().createQuery("update User set first_name = :first_name where username = :username");
 			q.setParameter("first_name", user.getFirstName());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//Only updating last name
 		else if (user.getLastName() != null) {
-			Query q = getSession().createQuery("update User set last_name = :last_name where email = :email");
+			Query q = getSession().createQuery("update User set last_name = :last_name where username = :username");
 			q.setParameter("last_name", user.getLastName());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();		
 		}
 		//Only updating nickname
 		else if (user.getNickname() != null) {
-			Query q = getSession().createQuery("update User set nickname = :nickname where email = :email");
+			Query q = getSession().createQuery("update User set nickname = :nickname where username = :username");
 			q.setParameter("nickname", user.getNickname());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();	
 		}
 		//Only updating age
 		else if (user.getAge() != null) {
-			Query q = getSession().createQuery("update User set age = :age where email = :email");
+			Query q = getSession().createQuery("update User set age = :age where username = :username");
 			q.setParameter("age", user.getAge());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//Only updating phone number
 		else if (user.getPhoneNumber() != null) {
-			Query q = getSession().createQuery("update User set phone_number = :phone_number where email = :email");
+			Query q = getSession().createQuery("update User set phone_number = :phone_number where username = :username");
 			q.setParameter("phone_number", user.getPhoneNumber());
-			q.setParameter("email", user.getEmail());
+			q.setParameter("username", user.getUsername());
 			q.executeUpdate();
 		}
 		//All fields were null
