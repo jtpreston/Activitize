@@ -89,12 +89,13 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/deleteUser", 
-			method = RequestMethod.POST,
-			headers = {"Content-type=application/json"})
+			method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse deleteUser(@RequestBody User user) {
+	public JsonResponse deleteUser(HttpServletRequest request, HttpServletResponse response) {
+		User user = new User();
 		user.setUsername(getPrincipal());
 		userService.deleteUser(user);
+		logoutPage(request, response);
 		return new JsonResponse("OK","");
 	}
 	
