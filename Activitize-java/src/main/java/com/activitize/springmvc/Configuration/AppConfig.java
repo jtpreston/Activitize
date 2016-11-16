@@ -23,31 +23,32 @@ import com.activitize.springmvc.Converter.RoleToUserProfileConverter;
 public class AppConfig extends WebMvcConfigurerAdapter {
 	
 	@Autowired
-    RoleToUserProfileConverter roleToUserProfileConverter;
+	RoleToUserProfileConverter roleToUserProfileConverter;
 	
 	@Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        registry.viewResolver(viewResolver);
-    }
-	
+	public void configureViewResolvers(ViewResolverRegistry registry) {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		registry.viewResolver(viewResolver);
+	}
+
 	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("/static/");
-    }
-	
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+	}
+
 	@Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(roleToUserProfileConverter);
-    }
+	public void addFormatters(FormatterRegistry registry) {
+		registry.addConverter(roleToUserProfileConverter);
+	}
      
-//    @Bean
-//    public MessageSource messageSource() {
-//        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-//        messageSource.setBasename("messages");
-//        return messageSource;
-//    }
+	/*@Bean
+	public MessageSource messageSource() {
+		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+		messageSource.setBasename("messages");
+		return messageSource;
+	}*/
+	
 }
