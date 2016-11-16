@@ -26,61 +26,61 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Qualifier("customUserDetailsService")
 	UserDetailsService userDetailsService;
-	
+
 	@Autowired
 	PersistentTokenRepository tokenRepository;
-	
+
 	@Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
- 
-    @Autowired
-    private MySavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler;
-	
+	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+	@Autowired
+	private MySavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler;
+
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-		 auth.userDetailsService(userDetailsService);
-	     auth.authenticationProvider(authenticationProvider());
+		auth.userDetailsService(userDetailsService);
+		auth.authenticationProvider(authenticationProvider());
 	}
-	 
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/", "/user/createUser").permitAll()
 		.antMatchers("/user/deleteUser")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/user/editUser")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/comment/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/events/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/friend/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/friendgroup/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/reaction/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/reply/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .antMatchers("/userhasevent/**")
-        .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
-        .and().formLogin().successHandler(authenticationSuccessHandler)
-        .failureHandler(new SimpleUrlAuthenticationFailureHandler()).loginPage("/login")
-        .loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password").and()
-        .rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-        .tokenValiditySeconds(86400).and().csrf().ignoringAntMatchers("/", "/user/createUser").and().exceptionHandling()
-        .authenticationEntryPoint(restAuthenticationEntryPoint);
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/user/editUser")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/comment/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/events/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/friend/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/friendgroup/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/reaction/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/reply/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/userhasevent/**")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.and().formLogin().successHandler(authenticationSuccessHandler)
+		.failureHandler(new SimpleUrlAuthenticationFailureHandler()).loginPage("/login")
+		.loginProcessingUrl("/login").usernameParameter("username").passwordParameter("password").and()
+		.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
+		.tokenValiditySeconds(86400).and().csrf().ignoringAntMatchers("/", "/user/createUser").and().exceptionHandling()
+		.authenticationEntryPoint(restAuthenticationEntryPoint);
 		http.addFilterAfter(new CsrfTokenResponseHeaderBindingFilter(), CsrfFilter.class);
 	}
-	
+
 	@Bean
-    public MySavedRequestAwareAuthenticationSuccessHandler mySuccessHandler(){
-        return new MySavedRequestAwareAuthenticationSuccessHandler();
-    }
-    @Bean
-    public SimpleUrlAuthenticationFailureHandler myFailureHandler(){
-        return new SimpleUrlAuthenticationFailureHandler();
-    }
-	
+	public MySavedRequestAwareAuthenticationSuccessHandler mySuccessHandler(){
+		return new MySavedRequestAwareAuthenticationSuccessHandler();
+	}
+	@Bean
+	public SimpleUrlAuthenticationFailureHandler myFailureHandler(){
+		return new SimpleUrlAuthenticationFailureHandler();
+	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
