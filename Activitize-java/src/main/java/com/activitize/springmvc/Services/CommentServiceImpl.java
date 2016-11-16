@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
 		return dao.findById(id);
 	}
 
-	public Comment findByUserAndEvent(User user, Event event) {		// TODO Auto-generated method stub
+	public Comment findByUserAndEvent(User user, Event event) {
 		return dao.findByUserAndEvent(user, event);
 	}
 
