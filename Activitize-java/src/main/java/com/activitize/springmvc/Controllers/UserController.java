@@ -124,29 +124,29 @@ public class UserController {
 	@ResponseBody
 	public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {    
-        	persistentTokenBasedRememberMeServices.logout(request, response, auth);
-            SecurityContextHolder.getContext().setAuthentication(null);
-        }
-        return new JsonResponse("OK", "");
+		if (auth != null) {    
+			persistentTokenBasedRememberMeServices.logout(request, response, auth);
+			SecurityContextHolder.getContext().setAuthentication(null);
+		}
+		return new JsonResponse("OK", "");
 	}
 	
 	private String getPrincipal(){
 		String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
- 
-        if (principal instanceof UserDetails) {
-        	userName = ((UserDetails)principal).getUsername();
-        } 
-        else {
-        	userName = principal.toString();
-        }
-        return userName;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			userName = ((UserDetails)principal).getUsername();
+		} 
+		else {
+			userName = principal.toString();
+		}
+		return userName;
 	}
 	
 	private boolean isCurrentAuthenticationAnonymous() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authenticationTrustResolver.isAnonymous(authentication);
+		return authenticationTrustResolver.isAnonymous(authentication);
 	}
 	
 }
