@@ -16,7 +16,7 @@ import com.activitize.springmvc.Models.UserHasEvent;
 public class UserHasEventServiceImpl implements UserHasEventService {
 
 	@Autowired
-    private UserHasEventDao dao;
+	private UserHasEventDao dao;
 
 	public UserHasEvent findById(int id) {
 		return dao.findById(id);

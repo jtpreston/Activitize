@@ -15,24 +15,24 @@ import com.activitize.springmvc.Models.Reply;
 public class ReplyServiceImpl implements ReplyService {
 
 	@Autowired
-    private ReplyDao dao;
+	private ReplyDao dao;
 
 	public Reply findById(int id) {
 		return dao.findById(id);
 	}
-	
+
 	public List<Reply> findAllRepliesByCommendID(int id) {
 		return dao.findAllRepliesByCommendID(id);
 	}
-	
+
 	public void createReply(Reply reply) {
 		dao.createReply(reply);
 	}
-	
+
 	public void deleteReply(Reply reply) {
 		dao.deleteReply(reply);
 	}
-	
+
 	public void editReply(Reply reply) {
 		dao.editReply(reply);
 	}

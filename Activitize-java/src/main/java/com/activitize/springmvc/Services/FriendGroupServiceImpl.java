@@ -16,7 +16,7 @@ import com.activitize.springmvc.Models.User;
 public class FriendGroupServiceImpl implements FriendGroupService {
 
 	@Autowired
-    private FriendGroupDao dao;
+	private FriendGroupDao dao;
 
 	public FriendGroup findFriendGroupById(int id) {
 		return dao.findFriendGroupById(id);

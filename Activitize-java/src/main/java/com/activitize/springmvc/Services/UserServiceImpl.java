@@ -15,45 +15,45 @@ import com.activitize.springmvc.Models.User;
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
-    private UserDao dao;
-	
+	private UserDao dao;
+
 	@Autowired
-    private PasswordEncoder passwordEncoder;
-	
+	private PasswordEncoder passwordEncoder;
+
 	public User findById(int id) {
 		return dao.findById(id);
 	}
-	
+
 	public User findByEmail(String email) {
 		return dao.findByEmail(email);	
 	}
-	
+
 	public User findByUsername(String username) {
 		return dao.findByUsername(username);
 	}
-	
+
 	public User verifyUser(User user) {
 		return dao.verifyUser(user);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
 		return dao.findAllUsers();
 	}
-	
+
 	public void createUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		dao.createUser(user);
 	}
-	
+
 	public void deleteUser(User user) {
 		dao.deleteUser(user);
 	}
-	
+
 	public void editUser(User user) {
 		dao.editUser(user);
 	}
-	
+
 	public boolean isUserEmailUnique(String email) {
 		User user = findByEmail(email);
 		if (user == null) {
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
-	
+
 	public boolean isUsernameUnique(String username) {
 		User user = findByUsername(username);
 		if (user == null) {

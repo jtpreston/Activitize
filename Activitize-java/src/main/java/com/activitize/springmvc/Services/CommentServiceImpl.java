@@ -17,28 +17,28 @@ import com.activitize.springmvc.Models.User;
 public class CommentServiceImpl implements CommentService {
     
 	@Autowired
-    private CommentDao dao;
+	private CommentDao dao;
 
 	public Comment findById(int id) {
 		return dao.findById(id);
 	}
-	
+
 	public Comment findByUserAndEvent(User user, Event event) {		// TODO Auto-generated method stub
 		return dao.findByUserAndEvent(user, event);
 	}
-	
+
 	public List<Comment> findAllCommentsForEvent(Event event) {
 		return dao.findAllCommentsForEvent(event);
 	}
-	
+
 	public void createComment(Comment comment) {
 		dao.createComment(comment);
 	}
-	
+
 	public void deleteComment(Comment comment) {
 		dao.deleteComment(comment);		
 	}
-	
+
 	public void editComment(Comment comment) {
 		dao.editComment(comment);
 	}

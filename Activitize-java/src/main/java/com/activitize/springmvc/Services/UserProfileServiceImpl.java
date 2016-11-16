@@ -14,18 +14,18 @@ import com.activitize.springmvc.Models.UserProfile;
 public class UserProfileServiceImpl implements UserProfileService {
 
 	@Autowired
-    UserProfileDao dao;
-     
-    public UserProfile findById(int id) {
-        return dao.findById(id);
-    }
- 
-    public UserProfile findByType(String type){
-        return dao.findByType(type);
-    }
- 
-    public List<UserProfile> findAll() {
-        return dao.findAll();
-    }
+	UserProfileDao dao;
+
+	public UserProfile findById(int id) {
+		return dao.findById(id);
+	}
+
+	public UserProfile findByType(String type){
+		return dao.findByType(type);
+	}
+
+	public List<UserProfile> findAll() {
+		return dao.findAll();
+	}
 	
 }

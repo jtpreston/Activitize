@@ -16,7 +16,7 @@ import com.activitize.springmvc.Models.User;
 public class FriendServiceImpl implements FriendService {
 
 	@Autowired
-    private FriendDao dao;
+	private FriendDao dao;
 
 	public Friend findFriendById(int id) {
 		return dao.findFriendById(id);

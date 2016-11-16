@@ -15,7 +15,7 @@ import com.activitize.springmvc.Models.Reaction;
 public class ReactionServiceImpl implements ReactionService {
 
 	@Autowired
-    private ReactionDao dao;
+	private ReactionDao dao;
 
 	public Reaction findById(int id) {
 		return dao.findById(id);

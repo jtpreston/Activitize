@@ -15,7 +15,7 @@ import com.activitize.springmvc.Models.Event;
 public class EventServiceImpl implements EventService {
 
 	@Autowired
-    private EventDao dao;
+	private EventDao dao;
 
 	public Event findById(int id) {
 		return dao.findById(id);
@@ -24,15 +24,15 @@ public class EventServiceImpl implements EventService {
 	public List<Event> findAllEvents() {
 		return dao.findAllEvents();
 	}
-	
+
 	public void createEvent(Event event) {
 		dao.createEvent(event);
 	}
-	
+
 	public void deleteEvent(Event event) {
 		dao.deleteEvent(event);
 	}
-	
+
 	public void editEvent(Event event) {
 		dao.editEvent(event);
 	}
