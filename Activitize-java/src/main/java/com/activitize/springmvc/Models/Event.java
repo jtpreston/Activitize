@@ -32,52 +32,68 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name="events")
 public class Event implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer event_id;
+	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
 	private Set<User> users = new HashSet<User>(0);
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private Set<Comment> comments = new HashSet<Comment>(0);
+	
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "event_name", nullable = false)
 	private String event_name;
+	
 	@NotNull
 	@Column(name = "event_start", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private DateTime event_start;
+	
 	@Column(name = "event_end", nullable = true)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private DateTime event_end;
+	
 	@Column(name = "description", nullable = true)
 	private String description;
+	
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "location", nullable = false)
 	private String location;
+	
 	@NotNull
 	@Column(name = "priv", nullable = false)
 	private boolean priv;
+	
 	@NotNull
 	@Column(name = "number_of_comments", nullable = false)
 	private int number_of_comments = 0;
+	
 	@Size(max = 256)
 	@Column(name = "path_to_event_picture", nullable = true)
 	private String path_to_event_picture;
+	
 	@NotNull
 	@Column(name = "number_going", nullable = false)
 	private int number_going = 1;
+	
 	@NotNull
 	@Column(name = "number_not_going", nullable = false)
 	private int number_not_going = 0;
+	
 	@NotNull
 	@Column(name = "subevent", nullable = false)
 	private boolean subevent;
+	
 	@Column(name = "subevent_parent_id", nullable = true)
 	private Integer subevent_parent_id;
+	
 	@Column(name = "friend_group_id", nullable = true)
 	private Integer friend_group_id;
 
@@ -86,8 +102,8 @@ public class Event implements Serializable {
 	}
 
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
-			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
-			Integer subevent_parent_id, Integer friend_group_id, Set<Comment> comments) {
+			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, int number_not_going, boolean subevent, 
+			Integer subevent_parent_id, Integer friend_group_id, Set<Comment> comments, Set<User> users) {
 		this.event_id = event_id;
 		this.event_name = event_name;
 		this.event_start = event_start;
@@ -98,33 +114,35 @@ public class Event implements Serializable {
 		this.number_of_comments = number_of_comments;
 		this.path_to_event_picture = path_to_event_picture;
 		this.number_going = number_going;
+		this.number_not_going = number_not_going;
 		this.subevent = subevent;
 		this.subevent_parent_id = subevent_parent_id;
 		this.friend_group_id = friend_group_id;
 		this.comments = comments;
+		this.users = users;
 	}
 
 	public Integer getEventId() {
 		return event_id;
 	}
 
-	public void setEventId(Integer id) {
-		this.event_id = id;
+	public void setEventId(Integer event_id) {
+		this.event_id = event_id;
 	}
 
 	public Set<Comment> getComments() {
-		return this.comments;
+		return comments;
 	}
 
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
 
-	public Set<User> getCategories() {
-		return this.users;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setCategories(Set<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 
@@ -132,24 +150,24 @@ public class Event implements Serializable {
 		return event_name;
 	}
 
-	public void setEventName(String event) {
-		this.event_name = event;
+	public void setEventName(String event_name) {
+		this.event_name = event_name;
 	}
 
 	public DateTime getEventStart() {
 		return event_start;
 	}
 
-	public void setEventStart(DateTime start) {
-		this.event_start = start;
+	public void setEventStart(DateTime event_start) {
+		this.event_start = event_start;
 	}
 
 	public DateTime getEventEnd() {
 		return event_end;
 	}
 
-	public void setEventEnd(DateTime end) {
-		this.event_end = end;
+	public void setEventEnd(DateTime event_end) {
+		this.event_end = event_end;
 	}
 
 	public String getDescription() {
@@ -164,15 +182,15 @@ public class Event implements Serializable {
 		return location;
 	}
 
-	public void setLocation(String loc) {
-		this.location = loc;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public boolean getPrivate() {
+	public boolean getPriv() {
 		return priv;
 	}
 
-	public void setPrivate(boolean priv) {
+	public void setPriv(boolean priv) {
 		this.priv = priv;
 	}
 
@@ -180,56 +198,56 @@ public class Event implements Serializable {
 		return number_of_comments;
 	}
 
-	public void setNumberOfComments(int numCom) {
-		this.number_of_comments = numCom;
+	public void setNumberOfComments(int number_of_comments) {
+		this.number_of_comments = number_of_comments;
 	}
 
 	public String getPathToEventPicture() {
 		return path_to_event_picture;
 	}
 
-	public void setPathToEventPicture(String path) {
-		this.path_to_event_picture = path;
+	public void setPathToEventPicture(String path_to_event_picture) {
+		this.path_to_event_picture = path_to_event_picture;
 	}
 
 	public int getNumberGoing() {
 		return number_going;
 	}
 
-	public void setNumberGoing(int num) {
-		this.number_going = num;
+	public void setNumberGoing(int number_going) {
+		this.number_going = number_going;
 	}
 
 	public int getNumberNotGoing() {
 		return number_not_going;
 	}
 
-	public void setNumberNotGoing(int num) {
-		this.number_not_going = num;
+	public void setNumberNotGoing(int number_not_going) {
+		this.number_not_going = number_not_going;
 	}
 
 	public boolean getSubevent() {
 		return subevent;
 	}
 
-	public void setSubevent(boolean sub) {
-		this.subevent = sub;
+	public void setSubevent(boolean subevent) {
+		this.subevent = subevent;
 	}
 
 	public Integer getSubeventParentId() {
 		return subevent_parent_id;
 	}
 
-	public void setSubeventParentId(Integer subevent_id) {
-		this.subevent_parent_id = subevent_id;
+	public void setSubeventParentId(Integer subevent_parent_id) {
+		this.subevent_parent_id = subevent_parent_id;
 	}
 
 	public Integer getFriendGroupId() {
 		return friend_group_id;
 	}
 
-	public void setFriendGroupId(Integer group) {
-		this.friend_group_id = group;
+	public void setFriendGroupId(Integer friend_group_id) {
+		this.friend_group_id = friend_group_id;
 	}
 
 	@Override

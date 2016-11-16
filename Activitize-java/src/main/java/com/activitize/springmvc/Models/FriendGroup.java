@@ -24,24 +24,29 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friend_groups")
 public class FriendGroup implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "friend_groups_id", nullable = false)
 	private Integer friend_groups_id;
+	
 	@NotNull
 	@Column(name = "users_user_id", nullable = false)
 	private Integer users_user_id;
+	
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "group_name", nullable = false)
 	private String group_name;
+	
 	@NotNull
 	@Column(name = "group_size", nullable = false)
 	private int group_size = 1;
+	
 	@NotNull	
 	@Size(max = 256)
 	@Column(name = "group_owner", nullable = false)
 	private String group_owner;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -63,40 +68,40 @@ public class FriendGroup implements Serializable {
 		return friend_groups_id;
 	}
 
-	public void setFriendGroupsId(Integer friendgroup) {
-		this.friend_groups_id = friendgroup;
+	public void setFriendGroupsId(Integer friend_groups_id) {
+		this.friend_groups_id = friend_groups_id;
 	}
 
 	public Integer getUsersUserId() {	
 		return users_user_id;
 	}
 
-	public void setUsersUserId(Integer usersid) {
-		this.users_user_id = usersid;
+	public void setUsersUserId(Integer users_user_id) {
+		this.users_user_id = users_user_id;
 	}
 
 	public String getGroupName() {
 		return group_name;
 	}
 
-	public void setGroupName(String groupName) {
-		this.group_name = groupName;
+	public void setGroupName(String group_name) {
+		this.group_name = group_name;
 	}
 
 	public int getGroupSize() {
 		return group_size;
 	}
 
-	public void setGroupSize(int size) {
-		this.group_size = size;
+	public void setGroupSize(int group_size) {
+		this.group_size = group_size;
 	}
 
 	public String getGroupOwner() {
 		return group_owner;
 	}
 
-	public void setGroupOwner(String groupOwner) {
-		this.group_owner = groupOwner;
+	public void setGroupOwner(String group_owner) {
+		this.group_owner = group_owner;
 	}
 
 	public User getUser() {

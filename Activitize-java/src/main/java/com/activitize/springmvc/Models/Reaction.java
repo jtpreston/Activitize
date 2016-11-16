@@ -24,23 +24,28 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="reactions")
 public class Reaction implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "reactions_id", nullable = false)
 	private Integer reactions_id;
+	
 	@NotNull
 	@Column(name = "comments_comment_id", nullable = false)
 	private Integer comments_comment_id;
+	
 	@NotNull
 	@Column(name = "comments_events_event_id", nullable = false)
 	private Integer comments_events_event_id;
+	
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "username", nullable = false)
 	private String username;
+	
 	@NotNull
 	@Column(name = "yeah", nullable = false)
 	private boolean yeah;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "comment_id", nullable = false)
 	private Comment comment;
@@ -62,32 +67,32 @@ public class Reaction implements Serializable {
 		return reactions_id;
 	}
 
-	public void setReactionsId(Integer reactions) {
-		this.reactions_id = reactions;
+	public void setReactionsId(Integer reactions_id) {
+		this.reactions_id = reactions_id;
 	}
 
 	public Integer getCommentsCommentId() {
 		return comments_comment_id;
 	}
 
-	public void setCommentsCommentId(Integer comment) {
-		this.comments_comment_id = comment;
+	public void setCommentsCommentId(Integer comments_comment_id) {
+		this.comments_comment_id = comments_comment_id;
 	}
 
 	public Integer getCommentsEventsEventId() {
 		return comments_events_event_id;
 	}
 
-	public void setCommentsEventsEventId(Integer event) {
-		this.comments_events_event_id = event;
+	public void setCommentsEventsEventId(Integer comments_events_event_id) {
+		this.comments_events_event_id = comments_events_event_id;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String user) {
-		this.username = user;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public boolean getYeah() {

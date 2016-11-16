@@ -28,41 +28,52 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="comments")
 public class Comment implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "comment_id", nullable = false)
 	private Integer comment_id;
+	
 	@NotNull
 	@Column(name = "comment", nullable = false)
 	private String comment;
+	
 	@NotNull
 	@Column(name = "timestamp", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	private DateTime timestamp;
+	
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "username", nullable = false)
 	private String username;
+	
 	@NotNull
 	@Column(name = "events_event_id", nullable = false)
 	private Integer events_event_id;
+	
 	@NotNull
 	@Column(name = "number_of_replies", nullable = false)
 	private int number_of_replies = 0;
+	
 	@NotNull
 	@Column(name = "yeah", nullable = false)
 	private int yeah = 0;
+	
 	@NotNull
 	@Column(name = "nah", nullable = false)
 	private int nah = 0;
+	
 	@NotNull
 	@Column(name = "replies_to_comments_id", nullable = true)
 	private Integer replies_to_comments_id;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
 	private Set<Reaction> reactions = new HashSet<Reaction>(0);
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
 	private Set<Reply> repliesToComments = new HashSet<Reply>(0);
 
@@ -90,8 +101,8 @@ public class Comment implements Serializable {
 		return comment_id;
 	}
 
-	public void setCommentId(Integer com) {	
-		this.comment_id = com;
+	public void setCommentId(Integer comment_id) {	
+		this.comment_id = comment_id;
 	}
 
 	public String getComment() {
@@ -106,8 +117,8 @@ public class Comment implements Serializable {
 		return timestamp;
 	}
 
-	public void setTimestamp(DateTime time) {
-		this.timestamp = time;
+	public void setTimestamp(DateTime timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public String getUsername() {
@@ -122,16 +133,16 @@ public class Comment implements Serializable {
 		return events_event_id;
 	}
 
-	public void setEventEventId(Integer event) {
-		this.events_event_id = event;
+	public void setEventEventId(Integer events_event_id) {
+		this.events_event_id = events_event_id;
 	}
 
 	public int getNumberOfReplies() {
 		return number_of_replies;
 	}
 
-	public void setNumberOfReplies(int replies) {
-		this.number_of_replies = replies;
+	public void setNumberOfReplies(int number_of_replies) {
+		this.number_of_replies = number_of_replies;
 	}
 
 	public int getYeah() {

@@ -34,61 +34,78 @@ import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 @Entity
 @Table(name="users")
 public class User implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private Integer user_id;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_has_events", joinColumns = {
 			@JoinColumn(name = "users_user_id", nullable = false, updatable = false) },
 	inverseJoinColumns = { @JoinColumn(name = "events_event_id",
 	nullable = false, updatable = false) })
 	private Set<Event> events = new HashSet<Event>(0);
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Friend> friends = new HashSet<Friend>(0);
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
+	
 	@NotNull
 	@Size(max=256)   
 	@Column(name = "username", nullable = false)
 	private String username;
+	
 	@NotNull
 	@Size(max=256)
 	@Column(name = "password", nullable = false)
 	private String password;
+	
 	@NotNull
 	@Size(max=256)
 	@Column(name = "first_name", nullable = false)
 	private String first_name;
+	
 	@NotNull
 	@Size(max=256)
 	@Column(name = "last_name", nullable = false)
 	private String last_name;
+	
 	@NotNull
 	@Size(max=256)
 	@Column(name = "nickname", nullable = false)
 	private String nickname;
+	
 	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "age", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate age;
+	
 	@NotNull
 	@Size(max=256)
 	@Column(name = "email", nullable = false)
 	private String email;
+	
 	@Column(name = "phone_number", nullable = true)
 	private String phone_number;
+	
 	@Size(max=256)
 	@Column(name = "path_to_profile_picture", nullable = true)
 	private String path_to_profile_picture;
+	
 	@NotNull
 	@Column(name = "number_of_friends", nullable = false)
 	private int number_of_friends = 0;
+	
 	@NotNull
 	private boolean using_facebook;
+	
 	@Column(name = "facebook_user_id", nullable = true)
 	private long facebook_user_id;
+	
 	@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "users_user_profile", 
@@ -102,7 +119,7 @@ public class User implements Serializable {
 
 	public User(Integer user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
-			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups, Set<UserProfile> userProfiles) {
+			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups, Set<UserProfile> userProfiles, Set<Event> events) {
 		this.user_id = user_id;
 		this.username = username;	
 		this.password = password;
@@ -119,6 +136,7 @@ public class User implements Serializable {
 		this.friends = friends;
 		this.friendGroups = friendGroups;
 		this.userProfiles = userProfiles;
+		this.events = events;
 	}
 
 	public Integer getUserId() {
@@ -220,8 +238,8 @@ public class User implements Serializable {
 		return path_to_profile_picture;
 	}
 
-	public void setPathToProfilePicture(String path) {
-		this.path_to_profile_picture = path;
+	public void setPathToProfilePicture(String path_to_profile_picture) {
+		this.path_to_profile_picture = path_to_profile_picture;
 	}
 
 	public int getNumberOfFriends() {
@@ -236,16 +254,16 @@ public class User implements Serializable {
 		return using_facebook;
 	}
 
-	public void setUsingFacebook(boolean usingFacebook) {
-		this.using_facebook = usingFacebook;
+	public void setUsingFacebook(boolean using_facebook) {
+		this.using_facebook = using_facebook;
 	}
 
 	public long getFacebookUserId() {
 		return facebook_user_id;
 	}
 
-	public void setFacebookUserId(long facebook) {
-		this.facebook_user_id = facebook;
+	public void setFacebookUserId(long facebook_user_id) {
+		this.facebook_user_id = facebook_user_id;
 	}
 
 	public Set<UserProfile> getUserProfiles() {

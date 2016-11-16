@@ -24,18 +24,22 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friends")
 public class Friend implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "friends_id", nullable = false)
 	private Integer friends_id;
+	
 	@NotNull
 	@Column(name = "users_user_id", nullable = false)
 	private Integer users_user_id;
+	
 	@NotNull
 	@Column(name = "other_user_id", nullable = false)
 	private Integer other_user_id;
+	
 	@NotNull
 	private boolean status;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -56,16 +60,16 @@ public class Friend implements Serializable {
 		return friends_id;
 	}
 
-	public void setFriendsId(Integer friendId) {
-		this.friends_id = friendId;
+	public void setFriendsId(Integer friends_id) {
+		this.friends_id = friends_id;
 	}
 
 	public Integer getUsersUserId() {
 		return users_user_id;
 	}
 
-	public void setUsersUserId(Integer userId) {
-		this.users_user_id = userId;
+	public void setUsersUserId(Integer users_user_id) {
+		this.users_user_id = users_user_id;
 	}
 
 	public Integer getOtherUserId() {

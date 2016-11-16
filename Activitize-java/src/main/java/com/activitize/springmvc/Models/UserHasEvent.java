@@ -22,14 +22,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="users_has_events")
 public class UserHasEvent implements Serializable {
+	
 	@EmbeddedId
 	UserHasEventId id;
+	
 	@NotNull
 	@Column(name = "favorite", nullable = false)
 	private boolean favorite;
+	
 	@NotNull
 	@Column(name = "admin", nullable = false)
 	private boolean admin;
+	
 	@NotNull
 	@Column(name = "going", nullable = false)
 	private boolean going;

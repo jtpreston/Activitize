@@ -9,9 +9,11 @@ import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class UserHasEventId implements Serializable {
+	
 	@NotNull
 	@Column(name = "users_user_id", nullable = false)
 	private Integer users_user_id;
+	
 	@NotNull
 	@Column(name = "events_event_id", nullable = false)
 	private Integer events_event_id;

@@ -24,16 +24,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="replies_to_comments")
 public class Reply implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "replies_to_comments_id", nullable = false)
 	private Integer replies_to_comments_id;
+	
 	@NotNull
 	@Column(name = "comments_comment_id", nullable = false)
 	private Integer comments_comment_id;
+	
 	@NotNull
 	@Column(name = "comments_events_event_id", nullable = false)
 	private Integer comments_events_event_id;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "comment_id", nullable = false)
 	private Comment comment;
@@ -53,24 +56,24 @@ public class Reply implements Serializable {
 		return replies_to_comments_id;
 	}
 
-	private void setRepliesToCommentsId(Integer reply) {
-		this.replies_to_comments_id = reply;
+	private void setRepliesToCommentsId(Integer replies_to_comments_id) {
+		this.replies_to_comments_id = replies_to_comments_id;
 	}
 
 	public Integer getCommentsCommentId() {
 		return comments_comment_id;
 	}
 
-	public void setCommentsCommentId(Integer comment) {
-		this.comments_comment_id = comment;
+	public void setCommentsCommentId(Integer comments_comment_id) {
+		this.comments_comment_id = comments_comment_id;
 	}
 
 	public Integer getCommentsEventsEventId() {
 		return comments_events_event_id;
 	}
 
-	public void setCommentsEventsEventId(Integer comments_events) {
-		this.comments_events_event_id = comments_events;
+	public void setCommentsEventsEventId(Integer comments_events_event_id) {
+		this.comments_events_event_id = comments_events_event_id;
 	}
 
 	public Comment getComment() {
