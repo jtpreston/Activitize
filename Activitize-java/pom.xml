@@ -194,7 +194,7 @@
 				<version>2.2</version>
 				<configuration>
 					<ignorePackaging>true</ignorePackaging>
-					<url>https://activitize.net/</url>
+					<url>https://activitize.net/manager/text</url>
 					<server>TomcatServer</server>
 					<update>true</update>
 					<path>/activitize</path>
