@@ -26,7 +26,7 @@ import com.activitize.springmvc.Services.EventService;
 public class EventController {
 	
 	@Autowired
-    EventService service;
+	EventService service;
 	
 	@RequestMapping(value = "/createEvent", 
 			method = RequestMethod.POST,

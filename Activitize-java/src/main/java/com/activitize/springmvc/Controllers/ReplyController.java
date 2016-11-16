@@ -26,7 +26,7 @@ import com.activitize.springmvc.Services.ReplyService;
 public class ReplyController {
 	
 	@Autowired
-    ReplyService service;
+	ReplyService service;
 
 	@RequestMapping(value = "/createReply", 
 			method = RequestMethod.POST,

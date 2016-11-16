@@ -26,7 +26,7 @@ import com.activitize.springmvc.Services.ReactionService;
 public class ReactionController {
 	
 	@Autowired
-    ReactionService service;
+	ReactionService service;
 
 	@RequestMapping(value = "/createReaction", 
 			method = RequestMethod.POST,

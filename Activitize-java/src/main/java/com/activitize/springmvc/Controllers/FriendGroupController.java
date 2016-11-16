@@ -26,7 +26,7 @@ import com.activitize.springmvc.Services.FriendGroupService;
 public class FriendGroupController {
 	
 	@Autowired
-    FriendGroupService service;
+	FriendGroupService service;
 
 	@RequestMapping(value = "/addFriendGroup", 
 			method = RequestMethod.POST,

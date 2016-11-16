@@ -26,7 +26,7 @@ import com.activitize.springmvc.Services.CommentService;
 public class CommentController {
 	
 	@Autowired
-    CommentService service;
+	CommentService service;
 	
 	@RequestMapping(value = "/createComment", 
 			method = RequestMethod.POST,

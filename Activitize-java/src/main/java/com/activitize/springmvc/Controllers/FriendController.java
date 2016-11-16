@@ -26,7 +26,7 @@ import com.activitize.springmvc.Services.FriendService;
 public class FriendController {
 	
 	@Autowired
-    FriendService service;
+	FriendService service;
 	
 	@RequestMapping(value = "/addFriend", 
 			method = RequestMethod.POST,
