@@ -16,21 +16,21 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 	public Event findById(int id) {
 		return getByKey(id);
 	}
-	
+
 	public List<Event> findAllEvents() {	
 		return null;
 	}
-	
+
 	public void createEvent(Event event) {	
 		persist(event);
 	}
-	
+
 	public void deleteEvent(Event event) {	
-		
+
 	}
-	
+
 	public void editEvent(Event event) {	
-		
+
 	}
 
 }

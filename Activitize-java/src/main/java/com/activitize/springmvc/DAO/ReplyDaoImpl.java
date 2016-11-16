@@ -16,21 +16,21 @@ public class ReplyDaoImpl extends AbstractDao<Integer, Reply> implements ReplyDa
 	public Reply findById(int id) {
 		return getByKey(id);
 	}
-	
+
 	public List<Reply> findAllRepliesByCommendID(int id) {	
 		return null;
 	}
-	
+
 	public void createReply(Reply reply) {	
-		
+
 	}
-	
+
 	public void deleteReply(Reply reply) {	
-		
+
 	}
-	
+
 	public void editReply(Reply reply) {	
-		
+
 	}
 
 }

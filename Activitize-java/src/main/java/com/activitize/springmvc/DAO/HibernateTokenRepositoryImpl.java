@@ -39,23 +39,23 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 			return null;
 		}
 	}
-	
+
 	@Override
-    public void removeUserTokens(String username) {
-        Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("username", username));
-        PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
-        if (persistentLogin != null) {
-            delete(persistentLogin);
-        }
-    }
-	
+	public void removeUserTokens(String username) {
+		Criteria crit = createEntityCriteria();
+		crit.add(Restrictions.eq("username", username));
+		PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
+		if (persistentLogin != null) {
+			delete(persistentLogin);
+		}
+	}
+
 	@Override
-    public void updateToken(String seriesId, String tokenValue, Date lastUsed) {
-        PersistentLogin persistentLogin = getByKey(seriesId);
-        persistentLogin.setToken(tokenValue);
-        persistentLogin.setLast_used(lastUsed);
-        update(persistentLogin);
-    }
+	public void updateToken(String seriesId, String tokenValue, Date lastUsed) {
+		PersistentLogin persistentLogin = getByKey(seriesId);
+		persistentLogin.setToken(tokenValue);
+		persistentLogin.setLast_used(lastUsed);
+		update(persistentLogin);
+	}
 
 }

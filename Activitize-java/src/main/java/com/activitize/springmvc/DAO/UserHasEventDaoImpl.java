@@ -30,15 +30,15 @@ public class UserHasEventDaoImpl extends AbstractDao<Integer, UserHasEvent> impl
 	}
 
 	public void createEvent(UserHasEvent userHasEvent) {
-				
+
 	}
 
 	public void deleteEvent(UserHasEvent userHasEvent) {
-				
+
 	}
 
 	public void editEvent(UserHasEvent userHasEvent) {
-		
+
 	}
 
 }

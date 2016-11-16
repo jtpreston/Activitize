@@ -19,11 +19,11 @@ import com.activitize.springmvc.Models.UserProfile;
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	
 	private static final Logger logger = LogManager.getLogger(UserDaoImpl.class); 
-	
+
 	public User findById(int id) {
 		return getByKey(id);
 	}
-	
+
 	public User findByEmail(String email) {
 		boolean exists = (Long) getSession().createQuery("select count(*) from User where email = :email").setParameter("email", email).uniqueResult() > 0;
 		if (exists) {
@@ -33,47 +33,47 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 			return null;
 		}
 	}
-	
+
 	public User findByUsername(String username) {
 		Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("username", username));
-        User user = (User)crit.uniqueResult();
-        if (user != null) {
-            Hibernate.initialize(user.getUserProfiles());
-        }
-        return user;
+		crit.add(Restrictions.eq("username", username));
+		User user = (User)crit.uniqueResult();
+		if (user != null) {
+			Hibernate.initialize(user.getUserProfiles());
+		}
+		return user;
 	}
-	
+
 	public User verifyUser(User user) {
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
 		return null;
 	}
-	
+
 	public void createUser(User user) {
 		UserProfile userProfile = new UserProfile();
-        userProfile.setType("USER");
-        userProfile.setId(1);
-        Set<UserProfile> userProfiles = new HashSet<UserProfile>();
-        userProfiles.add(userProfile);
-        user.setUserProfiles(userProfiles);
+		userProfile.setType("USER");
+		userProfile.setId(1);
+		Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+		userProfiles.add(userProfile);
+		user.setUserProfiles(userProfiles);
 		persist(user);
 	}
-	
+
 	public void deleteUser(User user) {
 		Criteria crit = createEntityCriteria();
-        crit.add(Restrictions.eq("username", user.getUsername()));
-        User userTemp = (User)crit.uniqueResult();
-        Query query = getSession().createSQLQuery("delete from users_user_profile where users_user_id=:id").setParameter("id", userTemp.getUserId());
-        query.executeUpdate();
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		Query query = getSession().createSQLQuery("delete from users_user_profile where users_user_id=:id").setParameter("id", userTemp.getUserId());
+		query.executeUpdate();
 		Query q = getSession().createQuery("delete User where username = :username");
 		q.setParameter("username", user.getUsername());
 		q.executeUpdate();
 	}
-	
+
 	public void editUser(User user) {
 		//All valid fields are being updated
 		if (user.getFirstName() != null && user.getLastName() != null && user.getNickname() != null && user.getAge() != null && user.getPhoneNumber() != null) {
@@ -345,7 +345,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		else {
 			logger.error("Invalid request! Nothing was received to update!");
 		}
-		
+
 	}
 
 }

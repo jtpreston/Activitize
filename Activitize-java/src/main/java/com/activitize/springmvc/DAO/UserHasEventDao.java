@@ -8,17 +8,17 @@ import com.activitize.springmvc.Models.UserHasEvent;
 public interface UserHasEventDao {
 
 	UserHasEvent findById(int id);
-	
+
 	List<UserHasEvent> findAllEventsByUser(User user);
-	
+
 	List<UserHasEvent> findAllAdminEventsByUser(User user);
-	
+
 	List<UserHasEvent> findAllGoingEventsByUser(User user);
-	
+
 	void createEvent(UserHasEvent userHasEvent);
-	
+
 	void deleteEvent(UserHasEvent userHasEvent);
-	
+
 	void editEvent(UserHasEvent userHasEvent);
 	
 }

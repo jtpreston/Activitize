@@ -21,11 +21,11 @@ public class ReactionDaoImpl extends AbstractDao<Integer, Reaction> implements R
 	}
 
 	public void createReaction(Reaction reaction) {		
-		
+
 	}
 
 	public void deleteReaction(Reaction reaction) {
-		
+
 	}
 
 }

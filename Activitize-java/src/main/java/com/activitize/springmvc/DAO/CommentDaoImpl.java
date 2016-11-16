@@ -17,25 +17,25 @@ public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements Com
 	public Comment findById(int id) {
 		return getByKey(id);
 	}
-	
+
 	public Comment findByUserAndEvent(User user, Event event) {
 		return null;
 	}
-				
+
 	public List<Comment> findAllCommentsForEvent(Event event) {
 		return null;
 	}
-	
+
 	public void createComment(Comment comment) {
-		
+
 	}
-	
+
 	public void deleteComment(Comment comment) {
-		
+
 	}
-	
+
 	public void editComment(Comment comment) {
-		
+
 	}
 	
 }

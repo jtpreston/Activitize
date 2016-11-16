@@ -9,15 +9,15 @@ import com.activitize.springmvc.Models.User;
 public interface CommentDao {
 
 	Comment findById(int id);
-	
+
 	Comment findByUserAndEvent(User user, Event event);
-				
+
 	List<Comment> findAllCommentsForEvent(Event event);
-	
+
 	void createComment(Comment comment);
-	
+
 	void deleteComment(Comment comment);
-	
+
 	void editComment(Comment comment);
 	
 }

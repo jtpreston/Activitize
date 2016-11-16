@@ -30,11 +30,11 @@ public class FriendDaoImpl extends AbstractDao<Integer, Friend> implements Frien
 	}
 
 	public void addFriend(Friend friend) {
-			
+
 	}
 
 	public void deleteFriend(Friend friend) {
-		
+
 	}
 
 }

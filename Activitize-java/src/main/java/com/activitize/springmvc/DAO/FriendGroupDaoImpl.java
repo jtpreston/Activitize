@@ -16,7 +16,7 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 	public FriendGroup findFriendGroupById(int id) {
 		return getByKey(id);
 	}
-	
+
 	public List<FriendGroup> findFriendGroupsbyUserID(int id) {
 		return null;
 	}
@@ -30,15 +30,15 @@ public class FriendGroupDaoImpl extends AbstractDao<Integer, FriendGroup> implem
 	}
 
 	public void addFriendGroup(FriendGroup friendGroup) {	
-		
+
 	}
 
 	public void deleteFriendGroup(FriendGroup friendGroup) {
-			
+
 	}
 
 	public void modifyFriendGroup(FriendGroup friendGroup) {
-		
+
 	}
 
 }
