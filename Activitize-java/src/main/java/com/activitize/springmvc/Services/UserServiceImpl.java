@@ -32,10 +32,6 @@ public class UserServiceImpl implements UserService {
 		return dao.findByUsername(username);
 	}
 
-	public User verifyUser(User user) {
-		return dao.verifyUser(user);
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
 		return dao.findAllUsers();

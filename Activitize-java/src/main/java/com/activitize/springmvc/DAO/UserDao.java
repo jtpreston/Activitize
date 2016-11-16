@@ -12,8 +12,6 @@ public interface UserDao {
 
 	User findByUsername(String username);
 
-	User verifyUser(User user);
-
 	List<User> findAllUsers();
 
 	void createUser(User user);

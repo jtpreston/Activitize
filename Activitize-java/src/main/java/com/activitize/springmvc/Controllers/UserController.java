@@ -50,20 +50,6 @@ public class UserController {
 	
 	private static final Logger logger = LogManager.getLogger(UserController.class);
 	
-	/*@RequestMapping(value = "/verifyUser", 
-			method = RequestMethod.POST,
-			headers = {"Content-type=application/json"})
-	@ResponseBody
-	public JsonResponse verifyUser(@RequestBody User user) {
-		if (isCurrentAuthenticationAnonymous()) {
-			userService.verifyUser(user);
-			return new JsonResponse("OK","");
-		}
-		else {
-			return new JsonResponse("ERROR","User already logged in!");
-		}
-	}*/
-	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage() {
 		if (isCurrentAuthenticationAnonymous()) {

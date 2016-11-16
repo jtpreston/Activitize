@@ -44,10 +44,6 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		return user;
 	}
 
-	public User verifyUser(User user) {
-		return null;
-	}
-
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
 		return null;
