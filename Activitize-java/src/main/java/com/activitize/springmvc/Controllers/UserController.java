@@ -37,16 +37,16 @@ import org.apache.logging.log4j.Logger;
 public class UserController {
     
 	@Autowired
-    UserService userService;
+	UserService userService;
 	
 	@Autowired
-    UserProfileService userProfileService;
+	UserProfileService userProfileService;
 	
 	@Autowired
-    PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
+	PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
      
-    @Autowired
-    AuthenticationTrustResolver authenticationTrustResolver;
+	@Autowired
+	AuthenticationTrustResolver authenticationTrustResolver;
 	
 	private static final Logger logger = LogManager.getLogger(UserController.class);
 	
@@ -65,13 +65,13 @@ public class UserController {
 	}*/
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage() {
-        if (isCurrentAuthenticationAnonymous()) {
-            return "login";
-        } else {
-            return "redirect:/list";  
-        }
-    }
+	public String loginPage() {
+		if (isCurrentAuthenticationAnonymous()) {
+			return "login";
+		} else {
+			return "redirect:/list";  
+		}
+	}
 	
 	@RequestMapping(value = "/createUser", 
 			method = RequestMethod.POST,
@@ -110,42 +110,42 @@ public class UserController {
 	}
 	
 	@ModelAttribute("roles")
-    public List<UserProfile> initializeProfiles() {
-        return userProfileService.findAll();
-    }
+	public List<UserProfile> initializeProfiles() {
+		return userProfileService.findAll();
+	}
 	
 	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
 	@ResponseBody
-    public JsonResponse accessDeniedPage() {
+	public JsonResponse accessDeniedPage() {
 		return new JsonResponse("Access Denied!","Improper credentials were provided");
-    }
+	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	@ResponseBody
-    public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {    
-            persistentTokenBasedRememberMeServices.logout(request, response, auth);
+        	persistentTokenBasedRememberMeServices.logout(request, response, auth);
             SecurityContextHolder.getContext().setAuthentication(null);
         }
         return new JsonResponse("OK", "");
-    }
+	}
 	
 	private String getPrincipal(){
-        String userName = null;
+		String userName = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
  
         if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
+        	userName = ((UserDetails)principal).getUsername();
         } 
         else {
-            userName = principal.toString();
+        	userName = principal.toString();
         }
         return userName;
-    }
+	}
 	
 	private boolean isCurrentAuthenticationAnonymous() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authenticationTrustResolver.isAnonymous(authentication);
 	}
 	
