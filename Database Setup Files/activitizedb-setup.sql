@@ -53,8 +53,25 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`events` (
   `number_going` INT NOT NULL DEFAULT 1,
   `number_not_going` INT NOT NULL DEFAULT 0,
   `subevent` TINYINT(1) NOT NULL,
-  `subevent_parent_id` BIGINT NULL,
   PRIMARY KEY (`event_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `activitizedbtest`.`subevents`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `activitizedbtest`.`subevents` (
+  `subevents_id` BIGINT NOT NULL AUTO_INCREMENT,
+  `events_event_id` BIGINT NOT NULL,
+  `subevents_event_id` BIGINT NOT NULL,
+  PRIMARY KEY (`subevents_id`),
+  CONSTRAINT `fk_subevents_events1`
+    FOREIGN KEY (`events_event_id`)
+    REFERENCES `activitizedbtest`.`events` (`event_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE utf8mb4_unicode_ci;
@@ -173,14 +190,32 @@ COLLATE utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friend_groups` (
   `friend_groups_id` BIGINT NOT NULL AUTO_INCREMENT,
-  `users_user_id` BIGINT NOT NULL,
   `group_name` VARCHAR(255) NOT NULL,
   `group_size` INT NOT NULL DEFAULT 1,
   `group_owner` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`friend_groups_id`),
-  CONSTRAINT `fk_friend_groups_users1`
+  PRIMARY KEY (`friend_groups_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `activitizedbtest`.`users_has_friend_groups`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_has_friend_groups` (
+  `users_user_id` BIGINT NOT NULL,
+  `friend_groups_friend_group_id` BIGINT NOT NULL,
+  PRIMARY KEY (`users_user_id`, `friend_groups_friend_group_id`),
+  INDEX `fk_users_has_friend_groups_friend_groups1_idx` (`friend_groups_friend_group_id` ASC),
+  INDEX `fk_users_has_friend_groups_users_idx` (`users_user_id` ASC),
+  CONSTRAINT `fk_users_has_friend_groups_users`
     FOREIGN KEY (`users_user_id`)
     REFERENCES `activitizedbtest`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_friend_groups_friend_groups1`
+    FOREIGN KEY (`friend_groups_friend_group_id`)
+    REFERENCES `activitizedbtest`.`friend_groups` (`friend_groups_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
