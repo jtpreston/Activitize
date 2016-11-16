@@ -33,46 +33,46 @@ public class UserHasEvent implements Serializable {
 	@NotNull
 	@Column(name = "going", nullable = false)
 	private boolean going;
-	
+
 	public UserHasEvent() {
-		
+
 	}
-	
+
 	public UserHasEvent(UserHasEventId id, boolean favorite, boolean admin, boolean going) {
 		this.id = id;
 		this.favorite = favorite;
 		this.admin = admin;
 		this.going = going;
 	}
-	
+
 	public UserHasEventId getId() {
 		return id;
 	}
-	
+
 	public void setId(UserHasEventId id) {
 		this.id = id;
 	}
-	
+
 	public boolean getFavorite() {
 		return favorite;
 	}
-	
+
 	public void setFavorite(boolean favorite) {
 		this.favorite = favorite;
 	}
-	
+
 	public boolean getAdmin() {
 		return admin;
 	}
-	
+
 	public void setAdmin(boolean admin) {	
 		this.admin = admin;
 	}
-	
+
 	public boolean getGoing() {
 		return going;
 	}
-	
+
 	public void setGoing(boolean going) {
 		this.going = going;
 	}

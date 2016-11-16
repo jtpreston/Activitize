@@ -36,7 +36,7 @@ public class Event implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer event_id;
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
- 	private Set<User> users = new HashSet<User>(0);
+	private Set<User> users = new HashSet<User>(0);
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private Set<Comment> comments = new HashSet<Comment>(0);
 	@NotNull
@@ -80,11 +80,11 @@ public class Event implements Serializable {
 	private Integer subevent_parent_id;
 	@Column(name = "friend_group_id", nullable = true)
 	private Integer friend_group_id;
-	
+
 	public Event() {
-		
+
 	}
-	
+
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, boolean subevent, 
 			Integer subevent_parent_id, Integer friend_group_id, Set<Comment> comments) {
@@ -103,15 +103,15 @@ public class Event implements Serializable {
 		this.friend_group_id = friend_group_id;
 		this.comments = comments;
 	}
-			
+
 	public Integer getEventId() {
 		return event_id;
 	}
-	
+
 	public void setEventId(Integer id) {
 		this.event_id = id;
 	}
-	
+
 	public Set<Comment> getComments() {
 		return this.comments;
 	}
@@ -119,7 +119,7 @@ public class Event implements Serializable {
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
-	
+
 	public Set<User> getCategories() {
 		return this.users;
 	}
@@ -127,140 +127,140 @@ public class Event implements Serializable {
 	public void setCategories(Set<User> users) {
 		this.users = users;
 	}
-	
+
 	public String getEventName() {
 		return event_name;
 	}
-	
+
 	public void setEventName(String event) {
 		this.event_name = event;
 	}
-	
+
 	public DateTime getEventStart() {
 		return event_start;
 	}
-	
+
 	public void setEventStart(DateTime start) {
 		this.event_start = start;
 	}
-	
+
 	public DateTime getEventEnd() {
 		return event_end;
 	}
-	
+
 	public void setEventEnd(DateTime end) {
 		this.event_end = end;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public String getLocation() {
 		return location;
 	}
-	
+
 	public void setLocation(String loc) {
 		this.location = loc;
 	}
-	
+
 	public boolean getPrivate() {
 		return priv;
 	}
-	
+
 	public void setPrivate(boolean priv) {
 		this.priv = priv;
 	}
-	
+
 	public int getNumberOfComments() {
 		return number_of_comments;
 	}
-	
+
 	public void setNumberOfComments(int numCom) {
 		this.number_of_comments = numCom;
 	}
-	
+
 	public String getPathToEventPicture() {
 		return path_to_event_picture;
 	}
-	
+
 	public void setPathToEventPicture(String path) {
 		this.path_to_event_picture = path;
 	}
-	
+
 	public int getNumberGoing() {
 		return number_going;
 	}
-	
+
 	public void setNumberGoing(int num) {
 		this.number_going = num;
 	}
-	
+
 	public int getNumberNotGoing() {
 		return number_not_going;
 	}
-	
+
 	public void setNumberNotGoing(int num) {
 		this.number_not_going = num;
 	}
-	
+
 	public boolean getSubevent() {
 		return subevent;
 	}
-	
+
 	public void setSubevent(boolean sub) {
 		this.subevent = sub;
 	}
-	
+
 	public Integer getSubeventParentId() {
 		return subevent_parent_id;
 	}
-	
+
 	public void setSubeventParentId(Integer subevent_id) {
 		this.subevent_parent_id = subevent_id;
 	}
-	
+
 	public Integer getFriendGroupId() {
 		return friend_group_id;
 	}
-	
+
 	public void setFriendGroupId(Integer group) {
 		this.friend_group_id = group;
 	}
-	
+
 	@Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((event_id == null) ? 0 : event_id.hashCode());
-        result = prime * result + ((event_name == null) ? 0 : event_name.hashCode());
-        return result;
-    }
- 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof Event))
-            return false;
-        Event other = (Event) obj;
-        if (event_id == null) {
-            if (other.event_id != null)
-                return false;
-        } else if (!event_id.equals(other.event_id))
-            return false;
-        if (event_name == null) {
-            if (other.event_name != null)
-                return false;
-        } else if (!event_name.equals(other.event_name))
-            return false;
-        return true;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((event_id == null) ? 0 : event_id.hashCode());
+		result = prime * result + ((event_name == null) ? 0 : event_name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof Event))
+			return false;
+		Event other = (Event) obj;
+		if (event_id == null) {
+			if (other.event_id != null)
+				return false;
+		} else if (!event_id.equals(other.event_id))
+			return false;
+		if (event_name == null) {
+			if (other.event_name != null)
+				return false;
+		} else if (!event_name.equals(other.event_name))
+			return false;
+		return true;
+	}
 	
 }	

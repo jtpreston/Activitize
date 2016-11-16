@@ -34,19 +34,19 @@ import com.fasterxml.jackson.datatype.joda.deser.LocalDateDeserializer;
 @Entity
 @Table(name="users")
 public class User implements Serializable {
- 	@Id
+	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private Integer user_id;
- 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_has_events", joinColumns = {
 			@JoinColumn(name = "users_user_id", nullable = false, updatable = false) },
-			inverseJoinColumns = { @JoinColumn(name = "events_event_id",
-					nullable = false, updatable = false) })
- 	private Set<Event> events = new HashSet<Event>(0);
- 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
- 	private Set<Friend> friends = new HashSet<Friend>(0);
- 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
- 	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
+	inverseJoinColumns = { @JoinColumn(name = "events_event_id",
+	nullable = false, updatable = false) })
+	private Set<Event> events = new HashSet<Event>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Friend> friends = new HashSet<Friend>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
 	@NotNull
 	@Size(max=256)   
 	@Column(name = "username", nullable = false)
@@ -90,16 +90,16 @@ public class User implements Serializable {
 	@Column(name = "facebook_user_id", nullable = true)
 	private long facebook_user_id;
 	@NotEmpty
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_user_profile", 
-             joinColumns = { @JoinColumn(name = "USERS_USER_ID") }, 
-             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
-	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "users_user_profile", 
+	joinColumns = { @JoinColumn(name = "USERS_USER_ID") }, 
+	inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
+	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+
 	public User() {
-		
+
 	}
-	
+
 	public User(Integer user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
 			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups, Set<UserProfile> userProfiles) {
@@ -120,14 +120,14 @@ public class User implements Serializable {
 		this.friendGroups = friendGroups;
 		this.userProfiles = userProfiles;
 	}
-	
+
 	public Integer getUserId() {
 		return user_id;
 	}
 	public void setUserId(Integer user_id) {
-        this.user_id = user_id;
-    }
-	
+		this.user_id = user_id;
+	}
+
 	public Set<Event> getEvents() {
 		return events;
 	}
@@ -135,7 +135,7 @@ public class User implements Serializable {
 	public void setEvents(Set<Event> events) {
 		this.events = events;
 	}
-	
+
 	public Set<Friend> getFriends() {
 		return friends;
 	}
@@ -143,7 +143,7 @@ public class User implements Serializable {
 	public void setFriends(Set<Friend> friends) {
 		this.friends = friends;
 	}
-	
+
 	public Set<FriendGroup> getFriendGroups() {
 		return friendGroups;
 	}
@@ -151,147 +151,147 @@ public class User implements Serializable {
 	public void setFriendGroups(Set<FriendGroup> friendGroups) {
 		this.friendGroups = friendGroups;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public String getFirstName() {
 		return first_name;
 	}
-	
+
 	public void setFirstName(String first_name) {
 		this.first_name = first_name;
 	}
-	
+
 	public String getLastName() {
 		return last_name;
 	}
-	
+
 	public void setLastName(String last_name) {
 		this.last_name = last_name;
 	}
-	
+
 	public String getNickname() {
 		return nickname;
 	}
-	
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	
+
 	public LocalDate getAge() {
 		return age;
 	}
-	
+
 	public void setAge(LocalDate age) {
 		this.age = age;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getPhoneNumber() {
 		return phone_number;
 	}
-	
+
 	public void setPhoneNumber(String phone_number) {
 		this.phone_number = phone_number;
 	}
-	
+
 	public String getPathToProfilePicture() {
 		return path_to_profile_picture;
 	}
-	
+
 	public void setPathToProfilePicture(String path) {
 		this.path_to_profile_picture = path;
 	}
-	
+
 	public int getNumberOfFriends() {
 		return number_of_friends;
 	}
-	
+
 	public void setNumberOfFriends(int number_of_friends) {
 		this.number_of_friends = number_of_friends;
 	}
-	
+
 	public boolean getUsingFacebook() {
 		return using_facebook;
 	}
-	
+
 	public void setUsingFacebook(boolean usingFacebook) {
 		this.using_facebook = usingFacebook;
 	}
-	
+
 	public long getFacebookUserId() {
 		return facebook_user_id;
 	}
-	
+
 	public void setFacebookUserId(long facebook) {
 		this.facebook_user_id = facebook;
 	}
-	
-	public Set<UserProfile> getUserProfiles() {
-        return userProfiles;
-    }
- 
-    public void setUserProfiles(Set<UserProfile> userProfiles) {
-        this.userProfiles = userProfiles;
-    }
-    
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-        return result;
-    }
- 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof User))
-            return false;
-        User other = (User) obj;
-        if (user_id == null) {
-            if (other.user_id != null)
-                return false;
-        } else if (!user_id.equals(other.user_id))
-            return false;
-        if (username == null) {
-            if (other.username != null)
-                return false;
-        } else if (!username.equals(other.username))
-            return false;
-        return true;
-    }
 
-    @Override
-    public String toString() {
-        return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", nickname="
-                + nickname + ", age=" + age + ", phone_number=" + phone_number 
-                + ", email=" + email + ", number_of_friends=" + number_of_friends + ", using_facebook=" + using_facebook + "]";
-    }
+	public Set<UserProfile> getUserProfiles() {
+		return userProfiles;
+	}
+
+	public void setUserProfiles(Set<UserProfile> userProfiles) {
+		this.userProfiles = userProfiles;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((user_id == null) ? 0 : user_id.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof User))
+			return false;
+		User other = (User) obj;
+		if (user_id == null) {
+			if (other.user_id != null)
+				return false;
+		} else if (!user_id.equals(other.user_id))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", nickname="
+				+ nickname + ", age=" + age + ", phone_number=" + phone_number 
+				+ ", email=" + email + ", number_of_friends=" + number_of_friends + ", using_facebook=" + using_facebook + "]";
+	}
 	
 }

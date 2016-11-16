@@ -9,19 +9,19 @@ public class JsonResponse {
 		this.responseStatus = responseStatus;
 		this.errorMessage = errorMessage;
 	}
-	
+
 	public String getResponseStatus() {
 		return responseStatus;
 	}
-	
+
 	public void setResponseStatus(String responseStatus) {
 		this.responseStatus = responseStatus;
 	}
-	
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-	
+
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}

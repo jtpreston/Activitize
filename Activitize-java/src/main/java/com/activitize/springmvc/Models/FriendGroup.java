@@ -45,11 +45,11 @@ public class FriendGroup implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-	
+
 	public FriendGroup() {
-		
+
 	}
-	
+
 	public FriendGroup(Integer friend_groups_id, Integer users_user_id, String group_name, int group_size, String group_owner, User user) {
 		this.friend_groups_id = friend_groups_id;
 		this.users_user_id = users_user_id;
@@ -58,84 +58,84 @@ public class FriendGroup implements Serializable {
 		this.group_owner = group_owner;
 		this.user = user;
 	}
-	
+
 	public Integer getFriendGroupsId() {
 		return friend_groups_id;
 	}
-	
+
 	public void setFriendGroupsId(Integer friendgroup) {
 		this.friend_groups_id = friendgroup;
 	}
-	
+
 	public Integer getUsersUserId() {	
 		return users_user_id;
 	}
-	
+
 	public void setUsersUserId(Integer usersid) {
 		this.users_user_id = usersid;
 	}
-	
+
 	public String getGroupName() {
 		return group_name;
 	}
-	
+
 	public void setGroupName(String groupName) {
 		this.group_name = groupName;
 	}
-	
+
 	public int getGroupSize() {
 		return group_size;
 	}
-	
+
 	public void setGroupSize(int size) {
 		this.group_size = size;
 	}
-	
+
 	public String getGroupOwner() {
 		return group_owner;
 	}
-	
+
 	public void setGroupOwner(String groupOwner) {
 		this.group_owner = groupOwner;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	@Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((friend_groups_id == null) ? 0 : friend_groups_id.hashCode());
-        result = prime * result + ((users_user_id == null) ? 0 : users_user_id.hashCode());
-        return result;
-    }
- 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof FriendGroup))
-            return false;
-        FriendGroup other = (FriendGroup) obj;
-        if (friend_groups_id == null) {
-            if (other.friend_groups_id != null)
-                return false;
-        } else if (!friend_groups_id.equals(other.friend_groups_id))
-            return false;
-        if (users_user_id == null) {
-            if (other.users_user_id != null)
-                return false;
-        } else if (!users_user_id.equals(other.users_user_id))
-            return false;
-        return true;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((friend_groups_id == null) ? 0 : friend_groups_id.hashCode());
+		result = prime * result + ((users_user_id == null) ? 0 : users_user_id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof FriendGroup))
+			return false;
+		FriendGroup other = (FriendGroup) obj;
+		if (friend_groups_id == null) {
+			if (other.friend_groups_id != null)
+				return false;
+		} else if (!friend_groups_id.equals(other.friend_groups_id))
+			return false;
+		if (users_user_id == null) {
+			if (other.users_user_id != null)
+				return false;
+		} else if (!users_user_id.equals(other.users_user_id))
+			return false;
+		return true;
+	}
 	
 }
