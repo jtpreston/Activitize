@@ -20,7 +20,7 @@ import javax.persistence.CascadeType;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
- 
+
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
@@ -32,68 +32,68 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name="events")
 public class Event implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer event_id;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
 	private Set<User> users = new HashSet<User>(0);
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private Set<Comment> comments = new HashSet<Comment>(0);
-	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+	private Set<Subevent> subevents = new HashSet<Subevent>(0);
+
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "event_name", nullable = false)
 	private String event_name;
-	
+
 	@NotNull
 	@Column(name = "event_start", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private DateTime event_start;
-	
+
 	@Column(name = "event_end", nullable = true)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private DateTime event_end;
-	
+
 	@Column(name = "description", nullable = true)
 	private String description;
-	
+
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "location", nullable = false)
 	private String location;
-	
+
 	@NotNull
 	@Column(name = "priv", nullable = false)
 	private boolean priv;
-	
+
 	@NotNull
 	@Column(name = "number_of_comments", nullable = false)
 	private int number_of_comments = 0;
-	
+
 	@Size(max = 256)
 	@Column(name = "path_to_event_picture", nullable = true)
 	private String path_to_event_picture;
-	
+
 	@NotNull
 	@Column(name = "number_going", nullable = false)
 	private int number_going = 1;
-	
+
 	@NotNull
 	@Column(name = "number_not_going", nullable = false)
 	private int number_not_going = 0;
-	
+
 	@NotNull
 	@Column(name = "subevent", nullable = false)
 	private boolean subevent;
-	
-	@Column(name = "subevent_parent_id", nullable = true)
-	private Integer subevent_parent_id;
-	
+
 	@Column(name = "friend_group_id", nullable = true)
 	private Integer friend_group_id;
 
@@ -103,7 +103,7 @@ public class Event implements Serializable {
 
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, int number_not_going, boolean subevent, 
-			Integer subevent_parent_id, Integer friend_group_id, Set<Comment> comments, Set<User> users) {
+			Integer friend_group_id, Set<Comment> comments, Set<User> users, Set<Subevent> subevents) {
 		this.event_id = event_id;
 		this.event_name = event_name;
 		this.event_start = event_start;
@@ -116,10 +116,10 @@ public class Event implements Serializable {
 		this.number_going = number_going;
 		this.number_not_going = number_not_going;
 		this.subevent = subevent;
-		this.subevent_parent_id = subevent_parent_id;
 		this.friend_group_id = friend_group_id;
 		this.comments = comments;
 		this.users = users;
+		this.subevents = subevents;
 	}
 
 	public Integer getEventId() {
@@ -144,6 +144,14 @@ public class Event implements Serializable {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public Set<Subevent> getSubevents() {
+		return subevents;
+	}
+
+	public void setSubevents(Set<Subevent> subevents) {
+		this.subevents = subevents;
 	}
 
 	public String getEventName() {
@@ -234,14 +242,6 @@ public class Event implements Serializable {
 		this.subevent = subevent;
 	}
 
-	public Integer getSubeventParentId() {
-		return subevent_parent_id;
-	}
-
-	public void setSubeventParentId(Integer subevent_parent_id) {
-		this.subevent_parent_id = subevent_parent_id;
-	}
-
 	public Integer getFriendGroupId() {
 		return friend_group_id;
 	}
@@ -280,5 +280,5 @@ public class Event implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }	

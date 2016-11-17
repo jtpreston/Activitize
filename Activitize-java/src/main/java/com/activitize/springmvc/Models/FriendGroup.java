@@ -2,6 +2,8 @@ package com.activitize.springmvc.Models;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -30,10 +33,6 @@ public class FriendGroup implements Serializable {
 	private Integer friend_groups_id;
 	
 	@NotNull
-	@Column(name = "users_user_id", nullable = false)
-	private Integer users_user_id;
-	
-	@NotNull
 	@Size(max = 256)
 	@Column(name = "group_name", nullable = false)
 	private String group_name;
@@ -47,21 +46,19 @@ public class FriendGroup implements Serializable {
 	@Column(name = "group_owner", nullable = false)
 	private String group_owner;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "friendGroups")
+	private Set<User> users = new HashSet<User>(0);
 
 	public FriendGroup() {
 
 	}
 
-	public FriendGroup(Integer friend_groups_id, Integer users_user_id, String group_name, int group_size, String group_owner, User user) {
+	public FriendGroup(Integer friend_groups_id, String group_name, int group_size, String group_owner, Set<User> users) {
 		this.friend_groups_id = friend_groups_id;
-		this.users_user_id = users_user_id;
 		this.group_name = group_name;
 		this.group_size = group_size;
 		this.group_owner = group_owner;
-		this.user = user;
+		this.users = users;
 	}
 
 	public Integer getFriendGroupsId() {
@@ -70,14 +67,6 @@ public class FriendGroup implements Serializable {
 
 	public void setFriendGroupsId(Integer friend_groups_id) {
 		this.friend_groups_id = friend_groups_id;
-	}
-
-	public Integer getUsersUserId() {	
-		return users_user_id;
-	}
-
-	public void setUsersUserId(Integer users_user_id) {
-		this.users_user_id = users_user_id;
 	}
 
 	public String getGroupName() {
@@ -104,12 +93,12 @@ public class FriendGroup implements Serializable {
 		this.group_owner = group_owner;
 	}
 
-	public User getUser() {
-		return user;
+	public Set<User> getUsers() {
+		return users;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@Override
@@ -117,7 +106,7 @@ public class FriendGroup implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((friend_groups_id == null) ? 0 : friend_groups_id.hashCode());
-		result = prime * result + ((users_user_id == null) ? 0 : users_user_id.hashCode());
+		result = prime * result + ((group_name == null) ? 0 : group_name.hashCode());
 		return result;
 	}
 
@@ -135,10 +124,10 @@ public class FriendGroup implements Serializable {
 				return false;
 		} else if (!friend_groups_id.equals(other.friend_groups_id))
 			return false;
-		if (users_user_id == null) {
-			if (other.users_user_id != null)
+		if (group_name == null) {
+			if (other.group_name != null)
 				return false;
-		} else if (!users_user_id.equals(other.users_user_id))
+		} else if (!group_name.equals(other.group_name))
 			return false;
 		return true;
 	}

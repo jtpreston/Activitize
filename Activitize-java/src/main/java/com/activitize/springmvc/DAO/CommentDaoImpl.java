@@ -37,5 +37,5 @@ public class CommentDaoImpl extends AbstractDao<Integer, Comment> implements Com
 	public void editComment(Comment comment) {
 
 	}
-	
+
 }

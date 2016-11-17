@@ -46,11 +46,15 @@ public class User implements Serializable {
 	nullable = false, updatable = false) })
 	private Set<Event> events = new HashSet<Event>(0);
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Friend> friends = new HashSet<Friend>(0);
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_has_friend_groups", joinColumns = {
+			@JoinColumn(name = "users_user_id", nullable = false, updatable = false) },
+	inverseJoinColumns = { @JoinColumn(name = "friend_groups_friend_group_id",
+	nullable = false, updatable = false) })
+	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<FriendGroup> friendGroups = new HashSet<FriendGroup>(0);
+	private Set<Friend> friends = new HashSet<Friend>(0);
 	
 	@NotNull
 	@Size(max=256)   
@@ -119,7 +123,7 @@ public class User implements Serializable {
 
 	public User(Integer user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
-			long facebook_user_id, Set<Friend> friends, Set<FriendGroup> friendGroups, Set<UserProfile> userProfiles, Set<Event> events) {
+			long facebook_user_id, Set<Friend> friends, Set<UserProfile> userProfiles, Set<Event> events, Set<FriendGroup> friendGroups) {
 		this.user_id = user_id;
 		this.username = username;	
 		this.password = password;
@@ -134,9 +138,9 @@ public class User implements Serializable {
 		this.using_facebook = using_facebook;
 		this.facebook_user_id = facebook_user_id;
 		this.friends = friends;
-		this.friendGroups = friendGroups;
 		this.userProfiles = userProfiles;
 		this.events = events;
+		this.friendGroups = friendGroups;
 	}
 
 	public Integer getUserId() {
@@ -160,14 +164,6 @@ public class User implements Serializable {
 
 	public void setFriends(Set<Friend> friends) {
 		this.friends = friends;
-	}
-
-	public Set<FriendGroup> getFriendGroups() {
-		return friendGroups;
-	}
-
-	public void setFriendGroups(Set<FriendGroup> friendGroups) {
-		this.friendGroups = friendGroups;
 	}
 
 	public String getUsername() {
@@ -272,6 +268,14 @@ public class User implements Serializable {
 
 	public void setUserProfiles(Set<UserProfile> userProfiles) {
 		this.userProfiles = userProfiles;
+	}
+	
+	public Set<FriendGroup> getFriendGroups() {
+		return friendGroups;
+	}
+
+	public void setFriendGroups(Set<FriendGroup> friendGroups) {
+		this.friendGroups = friendGroups;
 	}
 
 	@Override
