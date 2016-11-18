@@ -30,7 +30,8 @@ export class SignUp extends React.Component{
       username: '',
       password: '',
       verifyPassword: '',
-      fbAccessToken: ''
+      fbAccessToken: '',
+      email: ''
     };
   }
 
@@ -52,12 +53,12 @@ export class SignUp extends React.Component{
   }
 
   isValidUsername(string) {
-    var re = new RegExp("[A-Za-z0-9]{6,}");
+    var re = new RegExp("[A-Za-z0-9\u00C0-\u1FFF\u2C00-\uD7FF\w]{6,}");
     return re.test(string);
   }
 
   isValidPassword(string) {
-    var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]){8,}");
+    var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]|[\u00C0-\u1FFF\u2C00-\uD7FF\w]){8,}");
     var hasAllValidChars = allCharsTest.test(string);
     var specialCharsTest = new RegExp("[!@#$?]");
     var hasSpecialChar = specialCharsTest.test(string);
@@ -65,7 +66,9 @@ export class SignUp extends React.Component{
     var hasUppercase = uppercaseTest.test(string);
     var numericTest = new RegExp("[0-9]");
     var hasNumeric = numericTest.test(string);
-    return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric;
+    var lowercaseTest = new RegExp("[a-z]");
+    var hasLowercase = lowercaseTest.test(string);
+    return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric && hasLowercase;
   }
 
   isPasswordMatch(str1, str2) {
@@ -84,7 +87,7 @@ export class SignUp extends React.Component{
         <View style={styles.container}>
         <Image style={styles.bg} source={background} />
             <View style={styles.header}>
-                <Image style={styles.mark} source={require('../../img/logo2.png')} />
+                <Image style={styles.mark} source={require('../../img/logo2.png')} resizeMode='contain' />
             </View>
             <View style={styles.inputs}>
                 <View style={styles.inputContainer}>
@@ -94,6 +97,15 @@ export class SignUp extends React.Component{
                         placeholderTextColor="#FFF"
                         onChangeText={(username) => this.setState({username})}
                         value={this.state.username}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.input, styles.whiteFont]}
+                        placeholder="Email"
+                        placeholderTextColor="#FFF"
+                        onChangeText={(email) => this.setState({email})}
+                        value={this.state.email}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -132,27 +144,28 @@ export class SignUp extends React.Component{
     );
   }
   gotoNext() {
-    if (!this.isValidUsername(this.state.username)) {
-      Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
-    } 
-    else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
-      Alert.alert("Passwords do not match.")
-    }
-    else if (!this.isValidPassword(this.state.password)) {
-      Alert.alert("Invalid password: password must be at least 8 characters, with" +
-                  "at least one uppercase letter, at least one number, and at least one" +
-                  "of !, @, #, $, or ?")
-    }
-    else {
+    // if (!this.isValidUsername(this.state.username)) {
+    //   Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
+    // } 
+    // else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
+    //   Alert.alert("Passwords do not match.")
+    // }
+    // else if (!this.isValidPassword(this.state.password)) {
+    //   Alert.alert("Invalid password: password must be at least 8 characters, with" +
+    //               "at least one uppercase letter, at least one number, and at least one" +
+    //               "of !, @, #, $, or ?")
+    // }
+    // else {
       this.props.navigator.setState({
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
+        email: this.state.email
       });
       this.props.navigator.push({
         id: 'SignUp2',
         name: 'SignUpSecond',
       });
-    }
+    //}
   }
 
   fbSignup() {
@@ -219,8 +232,9 @@ var styles = StyleSheet.create({
       flex: .15
     },
     inputs: {
-        marginBottom: 10,
-        flex: .25
+        marginBottom: 100,
+        flex: .25,
+        justifyContent: 'space-between',
     },
     inputPassword: {
         marginLeft: 15,

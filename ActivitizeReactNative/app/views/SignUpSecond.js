@@ -24,9 +24,9 @@ export class SignUpSecond extends React.Component{
     this.state = {
       firstName: '',
       lastName: '',
+      nickname: '',
       dob: '',
-      phone: '',
-      eamil: ''
+      phone: ''
     };
   }
 
@@ -47,19 +47,19 @@ export class SignUpSecond extends React.Component{
                 <View style={styles.inputContainer}>
                     <TextInput 
                         style={[styles.input, styles.whiteFont]}
-                        placeholder="Email Address"
+                        placeholder="First Name"
                         placeholderTextColor="#FFF"
-                        onChangeText={(email) => this.setState({email})}
-                        value={this.state.email}
+                        onChangeText={(firstName) => this.setState({firstName})}
+                        value={this.state.firstName}
                     />
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput 
                         style={[styles.input, styles.whiteFont]}
-                        placeholder="First Name"
+                        placeholder="Nickname"
                         placeholderTextColor="#FFF"
-                        onChangeText={(firstName) => this.setState({firstName})}
-                        value={this.state.firstName}
+                        onChangeText={(nickname) => this.setState({nickname})}
+                        value={this.state.nickname}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -102,61 +102,50 @@ export class SignUpSecond extends React.Component{
   gotoNext() {
       let navigator = this.props.navigator;
 
-      var params;
-      if (this.state.phone) {
-        params = {
+      var params = {
           username: this.props.navigator.state.username,
           password: this.props.navigator.state.password,
+          nickname: this.state.nickname,
           firstName: this.state.firstName,
           lastName: this.state.lastName,
           age: this.state.dob,
-          email: this.state.email,
+          email: this.props.navigator.state.email,
           phoneNumber: this.state.phone,
           numberOfFriends: '0',
           usingFacebook: 'false'
         };
+      console.log("json: " + JSON.stringify(params));
+    fetch('https://activitize.net/activitize/user/createUser', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(json) {
+      console.log("response: " + json.responseStatus);
+      console.log("error: " + json.errorMessage);
+      if (json.responseStatus === 'OK') {
+        Alert.alert("Create user success");
+        navigator.push({
+          id: 'EventFeed',
+          name: 'Events',
+        });
       } else {
-        params = {
-          username: this.props.navigator.state.username,
-          password: this.props.navigator.state.password,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          age: this.state.dob,
-          email: this.state.email,
-          numberOfFriends: '0',
-          usingFacebook: 'false'
-        };
+        Alert.alert(json.errorMessage);
       }
-    // fetch('https://activitize.net/activitize/user/createUser', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(params)
-    // })
-    // .then(function(response) {
-    //   var obj = JSON.parse(response.json());
-    //   Alert.alert(obj.status.toString());
-    //   // return response.json().then(function(json) {
-    //   // if (json.status.parse() === "OK") {
-    //   //   Alert.alert("Create user success");
-    //   //   navigator.push({
-    //   //     id: 'EventFeed',
-    //   //     name: 'Events',
-    //   //   });
-    //   // } else {
-    //   //   Alert.alert(json.errorMessage.toString());
-    //   // }
-    //   // });
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    //   });
-      this.props.navigator.push({
-        id: 'EventFeed',
-        name: 'Events',
+    })
+    .catch((error) => {
+        console.error(error);
       });
+      // this.props.navigator.push({
+      //   id: 'EventFeed',
+      //   name: 'Events',
+      // });
   }
 
   back() {
@@ -210,8 +199,9 @@ var styles = StyleSheet.create({
       flex: .15
     },
     inputs: {
-        marginBottom: 10,
-        flex: .25
+        marginBottom: 100,
+        flex: .25,
+        justifyContent: 'space-between',
     },
     inputPassword: {
         marginLeft: 15,
