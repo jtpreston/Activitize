@@ -144,18 +144,18 @@ export class SignUp extends React.Component{
     );
   }
   gotoNext() {
-    // if (!this.isValidUsername(this.state.username)) {
-    //   Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
-    // } 
-    // else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
-    //   Alert.alert("Passwords do not match.")
-    // }
-    // else if (!this.isValidPassword(this.state.password)) {
-    //   Alert.alert("Invalid password: password must be at least 8 characters, with" +
-    //               "at least one uppercase letter, at least one number, and at least one" +
-    //               "of !, @, #, $, or ?")
-    // }
-    // else {
+    if (!this.isValidUsername(this.state.username)) {
+      Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
+    } 
+    else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
+      Alert.alert("Passwords do not match.")
+    }
+    else if (!this.isValidPassword(this.state.password)) {
+      Alert.alert("Invalid password: password must be at least 8 characters, with" +
+                  "at least one uppercase letter, at least one number, and at least one" +
+                  "of !, @, #, $, or ?")
+    }
+    else {
       this.props.navigator.setState({
         username: this.state.username,
         password: this.state.password,
@@ -165,7 +165,7 @@ export class SignUp extends React.Component{
         id: 'SignUp2',
         name: 'SignUpSecond',
       });
-    //}
+    }
   }
 
   fbSignup() {
