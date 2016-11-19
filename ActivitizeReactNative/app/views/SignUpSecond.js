@@ -13,7 +13,9 @@ import {
   TouchableHighlight,
   Navigator,
   TouchableOpacity,
-  Alert
+  Alert,
+  DatePickerAndroid,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 var background = require('../../img/login.jpeg');
@@ -26,7 +28,8 @@ export class SignUpSecond extends React.Component{
       lastName: '',
       nickname: '',
       dob: '',
-      phone: ''
+      phone: '',
+      dateText: 'Birthday'
     };
   }
 
@@ -71,15 +74,12 @@ export class SignUpSecond extends React.Component{
                         value={this.state.lastName}
                     />
                 </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={[styles.input, styles.whiteFont]}
-                        placeholder="Date of Birth"
-                        placeholderTextColor="#FFF"
-                        onChangeText={(dob) => this.setState({dob})}
-                        value={this.state.dob}
-                    />
-                </View>
+                <TouchableWithoutFeedback
+                    onPress={this.showPicker.bind(this, {date: new Date(1990, 0, 1)})}>
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.date}>{this.state.dateText}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={[styles.input, styles.whiteFont]}
@@ -99,8 +99,41 @@ export class SignUpSecond extends React.Component{
         </View>
     );
   }
+
+  showPicker = async (options) => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action === DatePickerAndroid.dismissedAction) {
+      } else {
+        var dateString = (month + 1) + "/" + day + "/" + year;
+        var dbDate = day + "/" + (month + 1) + "/" + year
+        this.setState({dateText: dateString});
+        this.setState({dob: dbDate});
+        console.log("Birthday: " + this.state.dob)
+      }
+    } catch ({code, message}) {
+      console.warn('Error ', message);
+    }
+  };
   gotoNext() {
       let navigator = this.props.navigator;
+
+      if (!this.state.firstName.trim()) {
+        Alert.alert("First name is a required field.")
+        return;
+      }
+      else if (!this.state.lastName.trim()) {
+        Alert.alert("Last name is a required field.")
+        return;
+      }
+      else if (!this.state.nickname.trim()) {
+        Alert.alert("Nickname is a required field.")
+        return;
+      }
+      else if (!this.state.dob.trim()) {
+        Alert.alert("Birthday is a required field.")
+        return;
+      }
 
       var params = {
           username: this.props.navigator.state.username,
@@ -241,5 +274,15 @@ var styles = StyleSheet.create({
         backgroundColor: '#808080',
         padding: 20,
         alignItems: 'center'
+    },
+    date: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        height: 40,
+        fontSize: 12,
+        marginRight: 50,
+        color: '#FFF'
     }
 });

@@ -57,7 +57,7 @@ export class NewEvent extends React.Component{
                     />
                 </View>
                   <TouchableWithoutFeedback
-                    onPress={this.showPicker.bind(this, {date: new Date(2016, 5, 5)})}>
+                    onPress={this.showPicker.bind(this, {date: new Date()})}>
                     <View style={styles.inputContainer}>
                     <Text style={styles.date}>{this.state.dateText}</Text>
                     </View>

@@ -23,6 +23,34 @@ const {
 
 var background = require('../../img/login.jpeg');
 
+function isValidUsername(string) {
+  var re = new RegExp("[A-Za-z0-9\u00C0-\u1FFF\u2C00-\uD7FF\w]{6,}");
+  return re.test(string);
+}
+
+function isValidPassword(string) {
+  var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]|[\u00C0-\u1FFF\u2C00-\uD7FF\w]){8,}");
+  var hasAllValidChars = allCharsTest.test(string);
+  var specialCharsTest = new RegExp("[!@#$?]");
+  var hasSpecialChar = specialCharsTest.test(string);
+  var uppercaseTest = new RegExp("[A-Z]");
+  var hasUppercase = uppercaseTest.test(string);
+  var numericTest = new RegExp("[0-9]");
+  var hasNumeric = numericTest.test(string);
+  var lowercaseTest = new RegExp("[a-z]");
+  var hasLowercase = lowercaseTest.test(string);
+  return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric && hasLowercase;
+}
+
+function isPasswordMatch(str1, str2) {
+  return str1 == str2;
+}
+
+function isValidEmail(string) {
+  var emailTest = new RegExp("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}");
+  return emailTest.test(string);
+}
+
 export class SignUp extends React.Component{
   constructor(props) {
     super(props);
@@ -50,29 +78,6 @@ export class SignUp extends React.Component{
     function(error) {
       Alert.alert('Login failed with error: ' + error);
     });
-  }
-
-  isValidUsername(string) {
-    var re = new RegExp("[A-Za-z0-9\u00C0-\u1FFF\u2C00-\uD7FF\w]{6,}");
-    return re.test(string);
-  }
-
-  isValidPassword(string) {
-    var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]|[\u00C0-\u1FFF\u2C00-\uD7FF\w]){8,}");
-    var hasAllValidChars = allCharsTest.test(string);
-    var specialCharsTest = new RegExp("[!@#$?]");
-    var hasSpecialChar = specialCharsTest.test(string);
-    var uppercaseTest = new RegExp("[A-Z]");
-    var hasUppercase = uppercaseTest.test(string);
-    var numericTest = new RegExp("[0-9]");
-    var hasNumeric = numericTest.test(string);
-    var lowercaseTest = new RegExp("[a-z]");
-    var hasLowercase = lowercaseTest.test(string);
-    return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric && hasLowercase;
-  }
-
-  isPasswordMatch(str1, str2) {
-    return str1 == str2;
   }
 
   render() {
@@ -144,16 +149,18 @@ export class SignUp extends React.Component{
     );
   }
   gotoNext() {
-    if (!this.isValidUsername(this.state.username)) {
+    if (!isValidUsername(this.state.username)) {
       Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
     } 
-    else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
+    else if (!isPasswordMatch(this.state.password, this.state.verifyPassword)) {
       Alert.alert("Passwords do not match.")
     }
-    else if (!this.isValidPassword(this.state.password)) {
+    else if (!isValidPassword(this.state.password)) {
       Alert.alert("Invalid password: password must be at least 8 characters, with" +
                   "at least one uppercase letter, at least one number, and at least one" +
                   "of !, @, #, $, or ?")
+    } else if (!isValidEmail(this.state.email)) {
+      Alert.alert("Invalid email address.")
     }
     else {
       this.props.navigator.setState({
