@@ -21,7 +21,7 @@ const {
   LoginManager,
 } = FBSDK;
 
-var background = require('../../img/login.jpeg');
+var background = require('../../img/login5-1.jpg');
 
 function isValidUsername(string) {
   var re = new RegExp("[A-Za-z0-9\u00C0-\u1FFF\u2C00-\uD7FF\w]{6,}");
@@ -55,11 +55,11 @@ export class SignUp extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
-      verifyPassword: '',
+      username: 'vshurm',
+      password: 'P@ssw0rd',
+      verifyPassword: 'P@ssw0rd',
       fbAccessToken: '',
-      email: ''
+      email: 'vlshurman@gmail.com'
     };
   }
 
@@ -134,10 +134,10 @@ export class SignUp extends React.Component{
                     />
                 </View>
             </View>
-              <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
+              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Next</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
+              <TouchableHighlight style={styles.facebook} underlayColor='#840032' onPress={this.login.bind(this)}>
                 <Text style={styles.whiteFont}>Sign up with Facebook</Text>
               </TouchableHighlight>
               <View style={styles.signup}>
@@ -229,7 +229,7 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#547980',
+        backgroundColor: '#E07E06',
         padding: 20,
         alignItems: 'center'
     },

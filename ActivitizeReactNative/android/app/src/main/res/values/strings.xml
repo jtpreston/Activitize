@@ -1,4 +1,5 @@
 <resources>
+
     <string name="facebook_app_id">185969161846456</string>
     <string name="app_name">ActivitizeReactNative</string>
 </resources>

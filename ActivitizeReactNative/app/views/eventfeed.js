@@ -30,7 +30,7 @@ export class EventFeed extends React.Component{
           renderScene={this.renderScene.bind(this)}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#547980'}}
+            <Navigator.NavigationBar style={{backgroundColor: '#E07E06'}}
                 routeMapper={NavigationBarRouteMapper} />
           } />
     );
