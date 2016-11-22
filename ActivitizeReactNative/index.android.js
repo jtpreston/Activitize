@@ -4,6 +4,18 @@
  * @flow
  */
 
+/**
+ * Our colors: https://coolors.co/2b4162-840032-e07e06-1a1423-99ddc8
+ * 2B4162 -- blue
+ * 840032 -- burgundy
+ * E07E06 -- orange
+ * 1A1423 -- dark blue
+ * 99DDC8 -- robin egg blue
+ * other:
+ * FFF -- white
+ * 696969 -- dark grey
+ */
+
 import React, { Component } from 'react';
 import {
   AppRegistry,

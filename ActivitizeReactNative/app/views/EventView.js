@@ -29,7 +29,7 @@ export class EventView extends React.Component{
           renderScene={this.renderScene.bind(this)}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#547980'}}
+            <Navigator.NavigationBar style={{backgroundColor: '#E07E06'}}
                 routeMapper={NavigationBarRouteMapper} />
           } />
     );
@@ -113,16 +113,16 @@ var styles = StyleSheet.create({
       width: windowSize.width
     },
     title: {
-      color: '#808080',
+      color: '#1A1423',
       fontSize: 30
     },
     date: {
-      color: '#808080',
+      color: '#1A1423',
       fontSize: 20,
       marginTop: 10
     },
     time: {
-      color: '#808080',
+      color: '#1A1423',
       fontSize: 16,
       marginTop: 10 
     }

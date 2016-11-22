@@ -18,7 +18,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-var background = require('../../img/login.jpeg');
+var background = require('../../img/login5-1.jpg');
 
 export class SignUpSecond extends React.Component{
   constructor(props) {
@@ -43,6 +43,7 @@ export class SignUpSecond extends React.Component{
   renderScene(route, navigator) {
     return (
         <View style={styles.container}>
+          <Image style={styles.bg} source={background} />
             <View style={styles.header}>
                 <Image style={styles.mark} source={require('../../img/logo2.png')} />
             </View>
@@ -90,10 +91,10 @@ export class SignUpSecond extends React.Component{
                     />
                 </View>
             </View>
-              <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
+              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Sign up</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.back} underlayColor='#BFE9DB' onPress={this.back.bind(this)}>
+              <TouchableHighlight style={styles.back} underlayColor='#840032' onPress={this.back.bind(this)}>
                 <Text style={styles.whiteFont}>Go back</Text>
               </TouchableHighlight>
         </View>
@@ -208,7 +209,14 @@ var styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
-      backgroundColor: '#03414D'
+      backgroundColor: 'transparent'
+    },
+    bg: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: windowSize.width,
+        height: windowSize.height
     },
     header: {
         justifyContent: 'center',
@@ -221,7 +229,7 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#547980',
+        backgroundColor: '#E07E06',
         padding: 20,
         alignItems: 'center',
         marginTop: 40
@@ -271,7 +279,7 @@ var styles = StyleSheet.create({
       color: '#FFF'
     },
     back: {
-        backgroundColor: '#808080',
+        backgroundColor: '#2B4162',
         padding: 20,
         alignItems: 'center'
     },

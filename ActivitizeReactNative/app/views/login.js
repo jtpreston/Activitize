@@ -22,7 +22,7 @@ const {
   LoginManager,
 } = FBSDK;
 
-var background = require('../../img/login.jpeg');
+var background = require('../../img/login5-1.jpg');
 
 export class Login extends React.Component{
   constructor(props) {
@@ -30,7 +30,8 @@ export class Login extends React.Component{
     this.state = {
       username: '',
       password: '',
-      result: '...'    
+      result: '...',
+      xcsrf: ''  
     };
   }
 
@@ -89,10 +90,10 @@ export class Login extends React.Component{
                     <Text style={styles.greyFont}>Forgot Password</Text>
                 </View>
             </View>
-              <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
+              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Sign in</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
+              <TouchableHighlight style={styles.facebook} underlayColor='#840032' onPress={this.login.bind(this)}>
                 <Text style={styles.whiteFont}>Sign in with Facebook</Text>
               </TouchableHighlight>
             <View style={styles.signup}>
@@ -107,37 +108,115 @@ export class Login extends React.Component{
   gotoNext() {
 
     let navigator = this.props.navigator;
-
-    // fetch('https://activitize.net/activitize/user/verifyUser', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     username: 'username',
-    //     password: 'password',
-    //   })
-    // })
-    // .then(function(response) {
-    //   if (response.ok) {
-    //     Alert.alert("response received");
-    //     navigator.push({
-    //       id: 'EventFeed',
-    //       name: 'Events',
-    //     });
-    //   } else {
-    //     Alert.alert("response not received");
-    //   }
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    //   });
-
+    //var tokenResult = this.loginGet(); 
+    // tokenResult.then(function(val) {
+    //   navigator.setState({xcsrf: val});
+    // });
+    // console.log("xcsrf: " + this.props.navigator.state.xcsrf)
+    // var params = {
+    //   username: this.state.username,
+    //   password: this.state.password,
+    //   'remember-me': 'on'
+    // };
+    // //var loginResult = this.login(params, xcsrf);
     this.props.navigator.push({
       id: 'EventFeed',
       name: 'Events'
     });
+  }
+
+  loginGet() {
+    var token = '';
+    var currentState = this.state;
+    return fetch('https://activitize.net/activitize/login', {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
+    .then(function(response) {
+      console.log("response.status: " + response.status)
+      console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
+
+      var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+        var params = {
+        username: currentState.username,
+        password: currentState.password,
+        'remember-me': 'on'
+      }
+
+      var headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': xcsrfToken
+      };
+
+      console.log("params: " + JSON.stringify(params))
+      console.log("token: " + xcsrfToken)
+
+      fetch('https://activitize.net/activitize/login', {
+        method: 'POST',
+        credential: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': xcsrfToken
+        },
+        body: JSON.stringify(params)
+      })
+      .then(function(response) {
+        console.log("status: " + response.status)
+        return response.text();
+      })
+      .then(function(text) {
+        console.log("text: " + text);
+        this.props.navigator.push({
+          id: 'EventFeed',
+          name: 'Events'
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    })
+    .catch((error) => {
+        console.error(error);
+      });
+
+    return token;
+  }
+
+  loginAPI(xscrfToken) {
+    var params = {
+      username: this.state.username,
+      password: this.state.password,
+      'remember-me': 'on'
+    }
+    console.log("params: " + JSON.stringify(params))
+    console.log("token: " + xscrfToken)
+    fetch('https://activitize.net/activitize/login', {
+      method: 'POST',
+      credential: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': xscrfToken
+      },
+      body: JSON.stringify(params)
+    })
+    .then(function(response) {
+      console.log("status: " + response.status)
+      return response.json();
+    })
+    .then(function(json) {
+      console.log("response: " + json.responseStatus);
+      console.log("error: " + json.errorMessage);
+      this.props.navigator.push({
+        id: 'EventFeed',
+        name: 'Events'
+      });
+    })
+    .catch((error) => {
+        console.error(error);
+      });
   }
 
   signUp() {
@@ -196,7 +275,7 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#547980',
+        backgroundColor: '#E07E06',
         padding: 20,
         alignItems: 'center'
     },

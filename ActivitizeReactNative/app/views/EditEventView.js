@@ -65,7 +65,7 @@ export class EditEventView extends React.Component{
           renderScene={this.renderScene.bind(this)}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#547980'}}
+            <Navigator.NavigationBar style={{backgroundColor: '#E07E06'}}
                 routeMapper={NavigationBarRouteMapper} />
           } />
     );
@@ -234,7 +234,8 @@ var styles = StyleSheet.create({
         top: 12,
         right: 0,
         height: 40,
-        fontSize: 20
+        fontSize: 20,
+        color: '#1A1423'
     },
     forgotContainer: {
       alignItems: 'flex-end',

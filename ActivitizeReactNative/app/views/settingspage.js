@@ -26,7 +26,7 @@ export class SettingsPage extends React.Component{
           renderScene={this.renderScene.bind(this)}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#547980'}}
+            <Navigator.NavigationBar style={{backgroundColor: '#E07E06'}}
                 routeMapper={NavigationBarRouteMapper} />
           } />
     );
@@ -131,11 +131,11 @@ var styles = StyleSheet.create({
         flexDirection: 'row'
     },
     name: {
-      color: '#547980', 
+      color: '#1A1423', 
       fontSize: 24
     },
     button: {
-        backgroundColor: '#547980',
+        backgroundColor: '#2B4162',
         padding: 10,
         marginLeft: 10,
         marginRight: 10,
