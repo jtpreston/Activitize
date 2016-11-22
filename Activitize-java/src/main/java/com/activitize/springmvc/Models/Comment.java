@@ -18,62 +18,65 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
- 
+
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name="comments")
 public class Comment implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer comment_id;
-	
+
 	@NotNull
 	@Column(name = "comment", nullable = false)
 	private String comment;
-	
+
 	@NotNull
 	@Column(name = "timestamp", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	private DateTime timestamp;
-	
+
 	@NotNull
 	@Size(max = 256)
 	@Column(name = "username", nullable = false)
 	private String username;
-	
+
 	@NotNull
 	@Column(name = "events_event_id", nullable = false)
 	private Integer events_event_id;
-	
+
 	@NotNull
 	@Column(name = "number_of_replies", nullable = false)
 	private int number_of_replies = 0;
-	
+
 	@NotNull
 	@Column(name = "yeah", nullable = false)
 	private int yeah = 0;
-	
+
 	@NotNull
 	@Column(name = "nah", nullable = false)
 	private int nah = 0;
-	
+
 	@NotNull
 	@Column(name = "replies_to_comments_id", nullable = true)
 	private Integer replies_to_comments_id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
 	private Set<Reaction> reactions = new HashSet<Reaction>(0);
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment")
 	private Set<Reply> repliesToComments = new HashSet<Reply>(0);
 
@@ -223,5 +226,5 @@ public class Comment implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

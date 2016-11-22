@@ -3,6 +3,7 @@ package com.activitize.springmvc.DAO;
 import java.util.List;
 
 import com.activitize.springmvc.Models.Event;
+import com.activitize.springmvc.Models.User;
 
 public interface EventDao {
 
@@ -10,10 +11,10 @@ public interface EventDao {
 
 	List<Event> findAllEvents();
 
-	void createEvent(Event event);
+	void createEvent(Event event, User user);
 
-	void deleteEvent(Event event);
+	void deleteEvent(Event event, User user);
 
-	void editEvent(Event event);
+	void editEvent(Event event, User user);
 	
 }

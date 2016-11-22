@@ -54,12 +54,12 @@ public class Event implements Serializable {
 	@NotNull
 	@Column(name = "event_start", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	private DateTime event_start;
 
 	@Column(name = "event_end", nullable = true)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
 	private DateTime event_end;
 
 	@Column(name = "description", nullable = true)
@@ -71,7 +71,7 @@ public class Event implements Serializable {
 	private String location;
 
 	@NotNull
-	@Column(name = "priv", nullable = false)
+	@Column(name = "private", nullable = false)
 	private boolean priv;
 
 	@NotNull
@@ -94,16 +94,13 @@ public class Event implements Serializable {
 	@Column(name = "subevent", nullable = false)
 	private boolean subevent;
 
-	@Column(name = "friend_group_id", nullable = true)
-	private Integer friend_group_id;
-
 	public Event() {
 
 	}
 
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, int number_not_going, boolean subevent, 
-			Integer friend_group_id, Set<Comment> comments, Set<User> users, Set<Subevent> subevents) {
+			Set<Comment> comments, Set<User> users, Set<Subevent> subevents) {
 		this.event_id = event_id;
 		this.event_name = event_name;
 		this.event_start = event_start;
@@ -116,7 +113,6 @@ public class Event implements Serializable {
 		this.number_going = number_going;
 		this.number_not_going = number_not_going;
 		this.subevent = subevent;
-		this.friend_group_id = friend_group_id;
 		this.comments = comments;
 		this.users = users;
 		this.subevents = subevents;
@@ -240,14 +236,6 @@ public class Event implements Serializable {
 
 	public void setSubevent(boolean subevent) {
 		this.subevent = subevent;
-	}
-
-	public Integer getFriendGroupId() {
-		return friend_group_id;
-	}
-
-	public void setFriendGroupId(Integer friend_group_id) {
-		this.friend_group_id = friend_group_id;
 	}
 
 	@Override

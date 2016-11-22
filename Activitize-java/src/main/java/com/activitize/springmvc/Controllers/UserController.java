@@ -108,7 +108,7 @@ public class UserController {
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response){
+	public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {    
 			persistentTokenBasedRememberMeServices.logout(request, response, auth);
@@ -117,7 +117,7 @@ public class UserController {
 		return new JsonResponse("OK", "");
 	}
 	
-	private String getPrincipal(){
+	private String getPrincipal() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

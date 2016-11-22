@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.activitize.springmvc.DAO.EventDao;
 import com.activitize.springmvc.DAO.UserDao;
 import com.activitize.springmvc.Models.Event;
+import com.activitize.springmvc.Models.User;
 
 @Service("eventService")
 @Transactional
@@ -25,16 +26,16 @@ public class EventServiceImpl implements EventService {
 		return dao.findAllEvents();
 	}
 
-	public void createEvent(Event event) {
-		dao.createEvent(event);
+	public void createEvent(Event event, User user) {
+		dao.createEvent(event, user);
 	}
 
-	public void deleteEvent(Event event) {
-		dao.deleteEvent(event);
+	public void deleteEvent(Event event, User user) {
+		dao.deleteEvent(event, user);
 	}
 
-	public void editEvent(Event event) {
-		dao.editEvent(event);
+	public void editEvent(Event event, User user) {
+		dao.editEvent(event, user);
 	}
 	
 }

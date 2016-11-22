@@ -1,6 +1,8 @@
 package com.activitize.springmvc.DAO;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -21,16 +23,23 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		return null;
 	}
 
-	public void createEvent(Event event) {	
+	public void createEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
 		persist(event);
 	}
 
-	public void deleteEvent(Event event) {	
-
+	public void deleteEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
 	}
 
-	public void editEvent(Event event) {	
-
+	public void editEvent(Event event, User user) {	
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
 	}
 
 }
