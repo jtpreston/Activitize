@@ -55,11 +55,11 @@ export class SignUp extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      username: 'vshurm',
-      password: 'P@ssw0rd',
-      verifyPassword: 'P@ssw0rd',
+      username: '',
+      password: '',
+      verifyPassword: '',
       fbAccessToken: '',
-      email: 'vlshurman@gmail.com'
+      email: ''
     };
   }
 

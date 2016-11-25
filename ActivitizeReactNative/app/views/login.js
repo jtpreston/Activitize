@@ -17,6 +17,8 @@ import {
   Alert
 } from 'react-native';
 
+var CookieManager = require('react-native-cookies');
+
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginManager,
@@ -35,6 +37,76 @@ export class Login extends React.Component{
     };
   }
 
+  loginGet() {
+    var currentState = this.state;
+    this.props.navigator.setState({jsessionid: ''});
+    var navigator = this.props.navigator;
+    var view = this;
+    return fetch('https://activitize.net/activitize/login', {
+      method: 'GET',
+    })
+    .then(function(response) {
+      console.log("response.status: " + response.status)
+      // console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
+
+      var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+
+      navigator.setState({xcsrfToken: xcsrfToken});
+
+      view.getCookie('https://activitize.net/activitize/login', function(cookie) {
+
+        // console.log("resolved cookie: " + cookie)
+        // console.log("token: " + navigator.state.xcsrfToken)
+
+        var params = {
+          username: currentState.username,
+          password: currentState.password,
+          'remember-me': 'on'
+        }
+
+        var headers = {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-TOKEN': navigator.state.xcsrfToken,
+          'Cookie': cookie
+        }
+
+        let url = 'https://activitize.net/activitize/login?username=' + params.username + '&password=' + params.password + '&remember-me=on';
+        console.log("url: " + url)
+
+        fetch(url, {
+          method: 'POST',
+          headers: headers,
+        })
+        .then(function(response) {
+          console.log("status: " + response.status)
+          if (response.ok) {
+            xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+            navigator.setState({xcsrfToken: xcsrfToken});
+            // console.log("xcsrfToken: " + navigator.state.xcsrfToken)
+            view.getCookie('https://activitize.net/activitize/login', function(cookie) { 
+              navigator.setState({jsessionid: cookie});
+              // console.log("jsessionid: " + navigator.state.jsessionid)
+              view.getRemeberMe('https://activitize.net/activitize/login', function(remember) {
+                navigator.setState({'remember': remember})
+                // console.log("remember-me: " + navigator.state.remember)
+                  navigator.push({
+                  id: 'EventFeed',
+                  name: 'Events'
+                });
+              })
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
   login() {
     var view = this;
     LoginManager.logInWithReadPermissions(['public_profile', 'email', 'user_friends']).then(
@@ -49,6 +121,24 @@ export class Login extends React.Component{
     },
     function(error) {
       Alert.alert('Login failed with error: ' + error);
+    });
+  }
+
+  getCookie(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      // console.log('Got cookies for url ', res);
+      var cookie = 'JSESSIONID=' + res.JSESSIONID;
+      // console.log("cookie: " + cookie)
+      callback(cookie);
+    });
+  }
+
+  getRemeberMe(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      // console.log('Got cookies for url ', res);
+      var remember = 'remember-me=' + res['remember-me'];
+      // console.log("remember-me: " + remember)
+      callback(remember);
     });
   }
 
@@ -90,7 +180,7 @@ export class Login extends React.Component{
                     <Text style={styles.greyFont}>Forgot Password</Text>
                 </View>
             </View>
-              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
+              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.loginGet.bind(this)}>
                 <Text style={styles.whiteFont}>Sign in</Text>
               </TouchableHighlight>
               <TouchableHighlight style={styles.facebook} underlayColor='#840032' onPress={this.login.bind(this)}>
@@ -107,116 +197,22 @@ export class Login extends React.Component{
 
   gotoNext() {
 
-    let navigator = this.props.navigator;
-    //var tokenResult = this.loginGet(); 
-    // tokenResult.then(function(val) {
-    //   navigator.setState({xcsrf: val});
-    // });
-    // console.log("xcsrf: " + this.props.navigator.state.xcsrf)
-    // var params = {
-    //   username: this.state.username,
-    //   password: this.state.password,
-    //   'remember-me': 'on'
-    // };
+    // let navigator = this.props.navigator;
+    // var tokenResult = this.loginGet(); 
+    // // tokenResult.then(function(val) {
+    // //   navigator.setState({xcsrf: val});
+    // // });
+    // // console.log("xcsrf: " + this.props.navigator.state.xcsrf)
+    // // var params = {
+    // //   username: this.state.username,
+    // //   password: this.state.password,
+    // //   'remember-me': 'on'
+    // // };
     // //var loginResult = this.login(params, xcsrf);
     this.props.navigator.push({
       id: 'EventFeed',
       name: 'Events'
     });
-  }
-
-  loginGet() {
-    var token = '';
-    var currentState = this.state;
-    return fetch('https://activitize.net/activitize/login', {
-      method: 'GET',
-      credentials: 'same-origin'
-    })
-    .then(function(response) {
-      console.log("response.status: " + response.status)
-      console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
-
-      var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
-        var params = {
-        username: currentState.username,
-        password: currentState.password,
-        'remember-me': 'on'
-      }
-
-      var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': xcsrfToken
-      };
-
-      console.log("params: " + JSON.stringify(params))
-      console.log("token: " + xcsrfToken)
-
-      fetch('https://activitize.net/activitize/login', {
-        method: 'POST',
-        credential: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': xcsrfToken
-        },
-        body: JSON.stringify(params)
-      })
-      .then(function(response) {
-        console.log("status: " + response.status)
-        return response.text();
-      })
-      .then(function(text) {
-        console.log("text: " + text);
-        this.props.navigator.push({
-          id: 'EventFeed',
-          name: 'Events'
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    })
-    .catch((error) => {
-        console.error(error);
-      });
-
-    return token;
-  }
-
-  loginAPI(xscrfToken) {
-    var params = {
-      username: this.state.username,
-      password: this.state.password,
-      'remember-me': 'on'
-    }
-    console.log("params: " + JSON.stringify(params))
-    console.log("token: " + xscrfToken)
-    fetch('https://activitize.net/activitize/login', {
-      method: 'POST',
-      credential: 'include',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': xscrfToken
-      },
-      body: JSON.stringify(params)
-    })
-    .then(function(response) {
-      console.log("status: " + response.status)
-      return response.json();
-    })
-    .then(function(json) {
-      console.log("response: " + json.responseStatus);
-      console.log("error: " + json.errorMessage);
-      this.props.navigator.push({
-        id: 'EventFeed',
-        name: 'Events'
-      });
-    })
-    .catch((error) => {
-        console.error(error);
-      });
   }
 
   signUp() {
