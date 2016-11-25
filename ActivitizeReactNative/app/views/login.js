@@ -42,7 +42,7 @@ export class Login extends React.Component{
     this.props.navigator.setState({jsessionid: ''});
     var navigator = this.props.navigator;
     var view = this;
-    return fetch('https://activitize.net/activitize/login', {
+    fetch('https://activitize.net/activitize/login', {
       method: 'GET',
     })
     .then(function(response) {
@@ -150,6 +150,9 @@ export class Login extends React.Component{
     );
   }
   renderScene(route, navigator) {
+    if (this.props.navigator.state.remember) {
+      gotoNext();
+    } else {
     return (
         <View style={styles.container}>
             <Image style={styles.bg} source={background} />
@@ -193,6 +196,7 @@ export class Login extends React.Component{
             </View>
         </View>
     );
+  }
   }
 
   gotoNext() {

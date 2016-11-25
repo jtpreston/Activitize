@@ -105,6 +105,9 @@ var NavigationBarRouteMapper = {
           console.log("response: " + json.responseStatus);
       console.log("error: " + json.errorMessage);
           if (json.responseStatus === "OK") {
+            nav.setState({jsessionid: ''});
+            nav.setState({xcsrfToken: ''});
+            nav.setState({remember: ''});
             nav.popToTop();
           }
         })
