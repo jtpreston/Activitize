@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,16 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		crit.add(Restrictions.eq("username", user.getUsername()));
 		User userTemp = (User)crit.uniqueResult();
 		persist(event);
+		Criteria otherCrit = getSession().createCriteria(Event.class);
+		otherCrit.add(Example.create(event));
+		Event tempEvent = (Event)otherCrit.uniqueResult();
+		SQLQuery insertQuery = getSession().createSQLQuery("" + "INSERT INTO users_has_events(users_user_id,events_event_id,favorite,admin,going)VALUES(?,?,?,?,?)");
+		insertQuery.setParameter(0, userTemp.getUserId());
+		insertQuery.setParameter(1, tempEvent.getEventId());
+		insertQuery.setParameter(2, 0);
+		insertQuery.setParameter(3, 1);
+		insertQuery.setParameter(4, 1);
+		insertQuery.executeUpdate();
 	}
 
 	public void deleteEvent(Event event, User user) {
