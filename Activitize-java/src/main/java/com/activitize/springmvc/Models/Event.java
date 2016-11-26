@@ -37,8 +37,8 @@ public class Event implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer event_id;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
-	private Set<User> users = new HashSet<User>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.event")
+	private Set<UserHasEvent> userHasEvents = new HashSet<UserHasEvent>(0);
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
 	private Set<Comment> comments = new HashSet<Comment>(0);
@@ -100,7 +100,7 @@ public class Event implements Serializable {
 
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
 			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, int number_not_going, boolean subevent, 
-			Set<Comment> comments, Set<User> users, Set<Subevent> subevents) {
+			Set<Comment> comments, Set<UserHasEvent> userHasEvents, Set<Subevent> subevents) {
 		this.event_id = event_id;
 		this.event_name = event_name;
 		this.event_start = event_start;
@@ -114,7 +114,7 @@ public class Event implements Serializable {
 		this.number_not_going = number_not_going;
 		this.subevent = subevent;
 		this.comments = comments;
-		this.users = users;
+		this.userHasEvents = userHasEvents;
 		this.subevents = subevents;
 	}
 
@@ -134,12 +134,12 @@ public class Event implements Serializable {
 		this.comments = comments;
 	}
 
-	public Set<User> getUsers() {
-		return users;
+	public Set<UserHasEvent> getUserHasEvents() {
+		return userHasEvents;
 	}
 
-	public void setUsers(Set<User> users) {
-		this.users = users;
+	public void setUserHasEvents(Set<UserHasEvent> userHasEvents) {
+		this.userHasEvents = userHasEvents;
 	}
 
 	public Set<Subevent> getSubevents() {

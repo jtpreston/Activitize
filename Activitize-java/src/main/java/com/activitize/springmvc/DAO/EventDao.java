@@ -19,4 +19,6 @@ public interface EventDao {
 
 	void editEvent(Event event, User user);
 	
+	List<Event> getAllEventsForUser(User user);
+	
 }

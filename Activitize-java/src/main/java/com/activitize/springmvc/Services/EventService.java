@@ -20,5 +20,7 @@ public interface EventService {
 	void editEvent(Event event, User user);
 
 	boolean isEventUnique(Event event);
+	
+	List<Event> getAllEventsForUser(User user);
 
 }

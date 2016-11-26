@@ -51,5 +51,9 @@ public class EventServiceImpl implements EventService {
 			return false;
 		}
 	}
+	
+	public List<Event> getAllEventsForUser(User user) {
+		return dao.getAllEventsForUser(user);
+	}
 
 }

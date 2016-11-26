@@ -70,6 +70,14 @@ public class EventController {
 		return new JsonResponse("OK","");
 	}
 
+	@RequestMapping(value = "/getAllEventsForUser", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Event> getAllEventsForUser() {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllEventsForUser(user);
+	}
+
 	private String getPrincipal() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
