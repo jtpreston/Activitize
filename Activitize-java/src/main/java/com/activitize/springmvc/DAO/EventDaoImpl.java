@@ -61,6 +61,19 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 
 	public void editEvent(Event event, User user) {
 		Event tempEvent = findById(event.getEventId());
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND admin = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		query.setParameter(2, 1);
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			logger.info("User: " + user.toString() + "not allowed to edit " + event.getEventName());
+			return;
+		}
 		//All valid fields are being updated
 		if (event.getEventName() != null && event.getEventStart() != null && event.getEventEnd() != null && event.getDescription() != null && event.getLocation() != null && event.getPriv() != tempEvent.getPriv()) {
 			Query q = getSession().createQuery("update Event set event_name = :event_name, event_start = :event_start, event_end = :event_end, description = :description, location = :location, private = :priv where event_id = :event_id");
