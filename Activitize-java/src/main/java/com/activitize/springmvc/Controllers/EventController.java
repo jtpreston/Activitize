@@ -61,6 +61,9 @@ public class EventController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse editEvent(@RequestBody Event event) {
+		if (event.getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
 		User user = new User();
 		user.setUsername(getPrincipal());
 		service.editEvent(event, user);
