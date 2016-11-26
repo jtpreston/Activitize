@@ -3,6 +3,8 @@ package com.activitizereactnative;
 import android.app.Application;
 import android.util.Log;
 
+import com.psykar.cookiemanager.CookieManagerPackage;
+
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -46,6 +48,7 @@ public class MainApplication extends Application implements ReactApplication {
       ReactPackage packages[] = new ReactPackage[]{
               new MainReactPackage(),
               new FBSDKPackage(mCallbackManager),
+              new CookieManagerPackage()
       };
       return Arrays.<ReactPackage>asList(packages);
     }

@@ -18,6 +18,8 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
+var CookieManager = require('react-native-cookies');
+
 var background = require('../../img/login5-1.jpg');
 
 export class SignUpSecond extends React.Component{
@@ -116,39 +118,61 @@ export class SignUpSecond extends React.Component{
       console.warn('Error ', message);
     }
   };
+
+  getCookie(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      // console.log('Got cookies for url ', res);
+      var cookie = 'JSESSIONID=' + res.JSESSIONID;
+      // console.log("cookie: " + cookie)
+      callback(cookie);
+    });
+  }
+
+  getRemeberMe(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      // console.log('Got cookies for url ', res);
+      var remember = 'remember-me=' + res['remember-me'];
+      // console.log("remember-me: " + remember)
+      callback(remember);
+    });
+  }
+
   gotoNext() {
-      let navigator = this.props.navigator;
+    let navigator = this.props.navigator;
+    let view = this;
 
-      if (!this.state.firstName.trim()) {
-        Alert.alert("First name is a required field.")
-        return;
-      }
-      else if (!this.state.lastName.trim()) {
-        Alert.alert("Last name is a required field.")
-        return;
-      }
-      else if (!this.state.nickname.trim()) {
-        Alert.alert("Nickname is a required field.")
-        return;
-      }
-      else if (!this.state.dob.trim()) {
-        Alert.alert("Birthday is a required field.")
-        return;
-      }
+    if (!this.state.firstName.trim()) {
+      Alert.alert("First name is a required field.")
+      return;
+    }
+    else if (!this.state.lastName.trim()) {
+      Alert.alert("Last name is a required field.")
+      return;
+    }
+    else if (!this.state.nickname.trim()) {
+      Alert.alert("Nickname is a required field.")
+      return;
+    }
+    else if (!this.state.dob.trim()) {
+      Alert.alert("Birthday is a required field.")
+      return;
+    }
 
-      var params = {
-          username: this.props.navigator.state.username,
-          password: this.props.navigator.state.password,
-          nickname: this.state.nickname,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          age: this.state.dob,
-          email: this.props.navigator.state.email,
-          phoneNumber: this.state.phone,
-          numberOfFriends: '0',
-          usingFacebook: 'false'
-        };
-      console.log("json: " + JSON.stringify(params));
+    var params = {
+      username: this.props.navigator.state.username,
+      password: this.props.navigator.state.password,
+      nickname: this.state.nickname,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      age: this.state.dob,
+      email: this.props.navigator.state.email,
+      phoneNumber: this.state.phone,
+      numberOfFriends: '0',
+      usingFacebook: 'false'
+    };
+
+    console.log("json: " + JSON.stringify(params));
+
     fetch('https://activitize.net/activitize/user/createUser', {
       method: 'POST',
       headers: {
@@ -164,23 +188,82 @@ export class SignUpSecond extends React.Component{
       console.log("response: " + json.responseStatus);
       console.log("error: " + json.errorMessage);
       if (json.responseStatus === 'OK') {
-        Alert.alert("Create user success");
-        navigator.push({
-          id: 'EventFeed',
-          name: 'Events',
+        fetch('https://activitize.net/activitize/login', {
+          method: 'GET',
+        })
+        .then(function(response) {
+          console.log("response.status: " + response.status)
+          // console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
+
+          var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+
+          navigator.setState({xcsrfToken: xcsrfToken});
+
+          view.getCookie('https://activitize.net/activitize/login', function(cookie) {
+
+            // console.log("resolved cookie: " + cookie)
+            // console.log("token: " + navigator.state.xcsrfToken)
+
+            var params = {
+              username: navigator.state.username,
+              password: navigator.state.password,
+              'remember-me': 'on'
+            }
+
+            var headers = {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-CSRF-TOKEN': navigator.state.xcsrfToken,
+              'Cookie': cookie
+            }
+
+            let url = 'https://activitize.net/activitize/login?username=' + params.username + '&password=' + params.password + '&remember-me=on';
+            //console.log("url: " + url)
+
+            fetch(url, {
+              method: 'POST',
+              headers: headers,
+            })
+            .then(function(response) {
+              console.log("status: " + response.status)
+              if (response.ok) {
+                xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+                navigator.setState({xcsrfToken: xcsrfToken});
+                //console.log("xcsrfToken: " + navigator.state.xcsrfToken)
+                view.getCookie('https://activitize.net/activitize/login', function(cookie) { 
+                  navigator.setState({jsessionid: cookie});
+                  //console.log("jsessionid: " + navigator.state.jsessionid)
+                  view.getRemeberMe('https://activitize.net/activitize/login', function(remember) {
+                    navigator.setState({'remember': remember});
+                    //console.log("remember-me: " + navigator.state.remember)
+                    navigator.setState({password: ''});
+                    navigator.push({
+                      id: 'EventFeed',
+                      name: 'Events'
+                    });
+                  })
+                })
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          })
+        })
+        .catch((error) => {
+          console.error(error);
         });
       } else {
         Alert.alert(json.errorMessage);
       }
     })
     .catch((error) => {
-        console.error(error);
-      });
+      console.error(error);
+    });
       // this.props.navigator.push({
       //   id: 'EventFeed',
       //   name: 'Events',
       // });
-  }
+    }
 
   back() {
     this.props.navigator.pop();
