@@ -142,6 +142,12 @@ export class Login extends React.Component{
     });
   }
 
+  componentWillMount() {
+    if (this.props.navigator.state.remember) {
+      this.gotoNext();
+    }  
+  }
+
   render() {
     return (
       <Navigator
@@ -150,9 +156,7 @@ export class Login extends React.Component{
     );
   }
   renderScene(route, navigator) {
-    if (this.props.navigator.state.remember) {
-      gotoNext();
-    } else {
+    
     return (
         <View style={styles.container}>
             <Image style={styles.bg} source={background} />
@@ -196,7 +200,6 @@ export class Login extends React.Component{
             </View>
         </View>
     );
-  }
   }
 
   gotoNext() {
