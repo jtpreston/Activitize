@@ -20,6 +20,13 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 	public Event findById(int id) {
 		return getByKey(id);
 	}
+	
+	public Event findByEvent(Event event) {
+		Criteria crit = getSession().createCriteria(Event.class);
+		crit.add(Example.create(event));
+		Event tempEvent = (Event)crit.uniqueResult();
+		return tempEvent;
+	}
 
 	public List<Event> findAllEvents() {	
 		return null;
@@ -49,9 +56,7 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 	}
 
 	public void editEvent(Event event, User user) {	
-		Criteria crit = getSession().createCriteria(User.class);
-		crit.add(Restrictions.eq("username", user.getUsername()));
-		User userTemp = (User)crit.uniqueResult();
+		
 	}
 
 }

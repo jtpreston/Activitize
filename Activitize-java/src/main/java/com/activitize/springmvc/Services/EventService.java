@@ -9,6 +9,8 @@ public interface EventService {
 
 	Event findById(int id);
 
+	Event findByEvent(Event event);
+
 	List<Event> findAllEvents();
 
 	void createEvent(Event event, User user);
@@ -16,5 +18,7 @@ public interface EventService {
 	void deleteEvent(Event event, User user);
 
 	void editEvent(Event event, User user);
-	
+
+	boolean isEventUnique(Event event);
+
 }

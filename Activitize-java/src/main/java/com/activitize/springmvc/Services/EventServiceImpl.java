@@ -22,6 +22,10 @@ public class EventServiceImpl implements EventService {
 		return dao.findById(id);
 	}
 
+	public Event findByEvent(Event event) {
+		return dao.findByEvent(event);
+	}
+
 	public List<Event> findAllEvents() {
 		return dao.findAllEvents();
 	}
@@ -37,5 +41,15 @@ public class EventServiceImpl implements EventService {
 	public void editEvent(Event event, User user) {
 		dao.editEvent(event, user);
 	}
-	
+
+	public boolean isEventUnique(Event event) {
+		Event tempEvent = findByEvent(event);
+		if (tempEvent == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 }

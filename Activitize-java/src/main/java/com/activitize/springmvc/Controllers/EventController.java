@@ -36,6 +36,9 @@ public class EventController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse createEvent(@RequestBody Event event) {
+		if (service.isEventUnique(event) == false) {
+			return new JsonResponse("FAILED","Event was already created");
+		}
 		User user = new User();
 		user.setUsername(getPrincipal());
 		service.createEvent(event, user);

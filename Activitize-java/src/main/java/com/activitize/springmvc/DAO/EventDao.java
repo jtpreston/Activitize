@@ -8,6 +8,8 @@ import com.activitize.springmvc.Models.User;
 public interface EventDao {
 
 	Event findById(int id);
+	
+	Event findByEvent(Event event);
 
 	List<Event> findAllEvents();
 
