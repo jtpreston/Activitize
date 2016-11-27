@@ -660,4 +660,47 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		}
 	}
 
+	public boolean addUserToEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count > 0) {
+			logger.info("User: " + user.toString() + " has already been added to this event");
+			return false;
+		}
+		SQLQuery insertQuery = getSession().createSQLQuery("" + "INSERT INTO users_has_events(users_user_id,events_event_id,favorite,admin,going)VALUES(?,?,?,?,?)");
+		insertQuery.setParameter(0, userTemp.getUserId());
+		insertQuery.setParameter(1, event.getEventId());
+		insertQuery.setParameter(2, 0);
+		insertQuery.setParameter(3, 0);
+		insertQuery.setParameter(4, 0);
+		insertQuery.executeUpdate();
+		return true;
+	}
+
+	public boolean removeUserFromEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			logger.info("User: " + user.toString() + " has already been removed from this event");
+			return false;
+		}
+		Query q = getSession().createSQLQuery("DELETE FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		q.setParameter(0, event.getEventId());
+		q.setParameter(1, userTemp.getUserId());
+		q.executeUpdate();
+		return true;
+	}
+
 }

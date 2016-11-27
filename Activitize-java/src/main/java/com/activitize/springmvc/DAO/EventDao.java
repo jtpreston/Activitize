@@ -12,6 +12,10 @@ public interface EventDao {
 	Event findByEvent(Event event);
 
 	List<Event> findAllEvents();
+	
+	boolean addUserToEvent(Event event, User user);
+	
+	boolean removeUserFromEvent(Event event, User user);
 
 	void createEvent(Event event, User user);
 

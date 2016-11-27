@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.activitize.springmvc.Models.Event;
 import com.activitize.springmvc.Models.User;
+import com.activitize.springmvc.Models.UserEventWrapper;
 import com.activitize.springmvc.Models.JsonResponse;
 import com.activitize.springmvc.Services.EventService;
 
@@ -67,6 +68,30 @@ public class EventController {
 		User user = new User();
 		user.setUsername(getPrincipal());
 		service.editEvent(event, user);
+		return new JsonResponse("OK","");
+	}
+
+	@RequestMapping(value = "/addUserToEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse addUserToEvent(@RequestBody UserEventWrapper userEventWrapper) {
+		boolean success = service.addUserToEvent(userEventWrapper.getEvent(), userEventWrapper.getUser());
+		if (!success) {
+			return new JsonResponse("FAILED","User was already added to this event");
+		}
+		return new JsonResponse("OK","");
+	}
+
+	@RequestMapping(value = "/removeUserFromEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse removeUserFromEvent(@RequestBody UserEventWrapper userEventWrapper) {
+		boolean success = service.removeUserFromEvent(userEventWrapper.getEvent(), userEventWrapper.getUser());
+		if (!success) {
+			return new JsonResponse("FAILED","User was already removed from this event");
+		}
 		return new JsonResponse("OK","");
 	}
 

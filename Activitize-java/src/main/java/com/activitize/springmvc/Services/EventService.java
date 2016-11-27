@@ -13,6 +13,10 @@ public interface EventService {
 
 	List<Event> findAllEvents();
 
+	boolean addUserToEvent(Event event, User user);
+
+	boolean removeUserFromEvent(Event event, User user);
+
 	void createEvent(Event event, User user);
 
 	void deleteEvent(Event event, User user);
@@ -20,7 +24,7 @@ public interface EventService {
 	void editEvent(Event event, User user);
 
 	boolean isEventUnique(Event event);
-	
+
 	List<Event> getAllEventsForUser(User user);
 
 }
