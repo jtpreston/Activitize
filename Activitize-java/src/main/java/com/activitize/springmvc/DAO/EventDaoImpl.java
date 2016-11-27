@@ -35,12 +35,15 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 	public List<Event> findAllEvents() {	
 		return null;
 	}
-	
+
 	public List<Event> getAllEventsForUser(User user) {
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
 		User userTemp = (User)crit.uniqueResult();
-		return null;
+		Query q = getSession().createSQLQuery("SELECT * FROM events INNER JOIN users_has_events ON events.event_id = users_has_events.events_event_id WHERE users_has_events.users_user_id = ?");
+		q.setParameter(0, userTemp.getUserId());
+		List result = q.list();
+		return result;
 	}
 
 	public void createEvent(Event event, User user) {
