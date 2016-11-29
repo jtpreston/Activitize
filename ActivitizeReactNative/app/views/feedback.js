@@ -24,7 +24,7 @@ const {
 
 var background = require('../../img/login.jpeg');
 
-export class Login extends React.Component{
+export class feedback extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +75,7 @@ export class Login extends React.Component{
               <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Sign in</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
+              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.feedback.bind(this)}>
                 <Text style={styles.whiteFont}>Sign in with Facebook</Text>
               </TouchableHighlight>
             <View style={styles.signup}>
