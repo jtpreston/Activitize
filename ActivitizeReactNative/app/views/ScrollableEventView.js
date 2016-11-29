@@ -41,7 +41,7 @@ export class ScrollableEventView extends React.Component {
 
 var styles = StyleSheet.create({
     container: {
-    	backgroundColor: '#808080',
+    	backgroundColor: '#2B4162',
       flexDirection: 'row',
       height: 250, 
       padding: 20, 

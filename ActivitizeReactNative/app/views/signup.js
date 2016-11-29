@@ -21,7 +21,35 @@ const {
   LoginManager,
 } = FBSDK;
 
-var background = require('../../img/login.jpeg');
+var background = require('../../img/login5-1.jpg');
+
+function isValidUsername(string) {
+  var re = new RegExp("[A-Za-z0-9\u00C0-\u1FFF\u2C00-\uD7FF\w]{6,}");
+  return re.test(string);
+}
+
+function isValidPassword(string) {
+  var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]|[\u00C0-\u1FFF\u2C00-\uD7FF\w]){8,}");
+  var hasAllValidChars = allCharsTest.test(string);
+  var specialCharsTest = new RegExp("[!@#$?]");
+  var hasSpecialChar = specialCharsTest.test(string);
+  var uppercaseTest = new RegExp("[A-Z]");
+  var hasUppercase = uppercaseTest.test(string);
+  var numericTest = new RegExp("[0-9]");
+  var hasNumeric = numericTest.test(string);
+  var lowercaseTest = new RegExp("[a-z]");
+  var hasLowercase = lowercaseTest.test(string);
+  return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric && hasLowercase;
+}
+
+function isPasswordMatch(str1, str2) {
+  return str1 == str2;
+}
+
+function isValidEmail(string) {
+  var emailTest = new RegExp("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}");
+  return emailTest.test(string);
+}
 
 export class SignUp extends React.Component{
   constructor(props) {
@@ -30,7 +58,8 @@ export class SignUp extends React.Component{
       username: '',
       password: '',
       verifyPassword: '',
-      fbAccessToken: ''
+      fbAccessToken: '',
+      email: ''
     };
   }
 
@@ -51,27 +80,6 @@ export class SignUp extends React.Component{
     });
   }
 
-  isValidUsername(string) {
-    var re = new RegExp("[A-Za-z0-9]{6,}");
-    return re.test(string);
-  }
-
-  isValidPassword(string) {
-    var allCharsTest = new RegExp("([a-z]|[A-Z]|[!@#$?]|[0-9]){8,}");
-    var hasAllValidChars = allCharsTest.test(string);
-    var specialCharsTest = new RegExp("[!@#$?]");
-    var hasSpecialChar = specialCharsTest.test(string);
-    var uppercaseTest = new RegExp("[A-Z]");
-    var hasUppercase = uppercaseTest.test(string);
-    var numericTest = new RegExp("[0-9]");
-    var hasNumeric = numericTest.test(string);
-    return hasAllValidChars && hasSpecialChar && hasUppercase && hasNumeric;
-  }
-
-  isPasswordMatch(str1, str2) {
-    return str1 == str2;
-  }
-
   render() {
     return (
       <Navigator
@@ -84,7 +92,7 @@ export class SignUp extends React.Component{
         <View style={styles.container}>
         <Image style={styles.bg} source={background} />
             <View style={styles.header}>
-                <Image style={styles.mark} source={require('../../img/logo2.png')} />
+                <Image style={styles.mark} source={require('../../img/logo2.png')} resizeMode='contain' />
             </View>
             <View style={styles.inputs}>
                 <View style={styles.inputContainer}>
@@ -94,6 +102,15 @@ export class SignUp extends React.Component{
                         placeholderTextColor="#FFF"
                         onChangeText={(username) => this.setState({username})}
                         value={this.state.username}
+                    />
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.input, styles.whiteFont]}
+                        placeholder="Email"
+                        placeholderTextColor="#FFF"
+                        onChangeText={(email) => this.setState({email})}
+                        value={this.state.email}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -117,10 +134,10 @@ export class SignUp extends React.Component{
                     />
                 </View>
             </View>
-              <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
+              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Next</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.facebook} underlayColor='#BFE9DB' onPress={this.login.bind(this)}>
+              <TouchableHighlight style={styles.facebook} underlayColor='#840032' onPress={this.login.bind(this)}>
                 <Text style={styles.whiteFont}>Sign up with Facebook</Text>
               </TouchableHighlight>
               <View style={styles.signup}>
@@ -132,21 +149,24 @@ export class SignUp extends React.Component{
     );
   }
   gotoNext() {
-    if (!this.isValidUsername(this.state.username)) {
+    if (!isValidUsername(this.state.username)) {
       Alert.alert("Invalid username: username must be at least 6 alphanumeric characters")
     } 
-    else if (!this.isPasswordMatch(this.state.password, this.state.verifyPassword)) {
+    else if (!isPasswordMatch(this.state.password, this.state.verifyPassword)) {
       Alert.alert("Passwords do not match.")
     }
-    else if (!this.isValidPassword(this.state.password)) {
+    else if (!isValidPassword(this.state.password)) {
       Alert.alert("Invalid password: password must be at least 8 characters, with" +
                   "at least one uppercase letter, at least one number, and at least one" +
                   "of !, @, #, $, or ?")
+    } else if (!isValidEmail(this.state.email)) {
+      Alert.alert("Invalid email address.")
     }
     else {
       this.props.navigator.setState({
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
+        email: this.state.email
       });
       this.props.navigator.push({
         id: 'SignUp2',
@@ -209,7 +229,7 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#547980',
+        backgroundColor: '#E07E06',
         padding: 20,
         alignItems: 'center'
     },
@@ -219,8 +239,9 @@ var styles = StyleSheet.create({
       flex: .15
     },
     inputs: {
-        marginBottom: 10,
-        flex: .25
+        marginBottom: 100,
+        flex: .25,
+        justifyContent: 'space-between',
     },
     inputPassword: {
         marginLeft: 15,

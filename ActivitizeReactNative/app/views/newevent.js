@@ -39,7 +39,7 @@ export class NewEvent extends React.Component{
           renderScene={this.renderScene.bind(this)}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#547980'}}
+            <Navigator.NavigationBar style={{backgroundColor: '#E07E06'}}
                 routeMapper={NavigationBarRouteMapper} />
           } />
     );
@@ -57,7 +57,7 @@ export class NewEvent extends React.Component{
                     />
                 </View>
                   <TouchableWithoutFeedback
-                    onPress={this.showPicker.bind(this, {date: new Date(2016, 5, 5)})}>
+                    onPress={this.showPicker.bind(this, {date: new Date()})}>
                     <View style={styles.inputContainer}>
                     <Text style={styles.date}>{this.state.dateText}</Text>
                     </View>
@@ -195,7 +195,7 @@ var styles = StyleSheet.create({
     inputContainer: {
         padding: 20,
         borderWidth: 1,
-        borderBottomColor: '#D8D8D8',
+        borderBottomColor: '#1A1423',
         borderColor: 'transparent'
     },
     input: {

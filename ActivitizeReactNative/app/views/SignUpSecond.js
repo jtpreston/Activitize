@@ -13,10 +13,14 @@ import {
   TouchableHighlight,
   Navigator,
   TouchableOpacity,
-  Alert
+  Alert,
+  DatePickerAndroid,
+  TouchableWithoutFeedback
 } from 'react-native';
 
-var background = require('../../img/login.jpeg');
+var CookieManager = require('react-native-cookies');
+
+var background = require('../../img/login5-1.jpg');
 
 export class SignUpSecond extends React.Component{
   constructor(props) {
@@ -24,9 +28,10 @@ export class SignUpSecond extends React.Component{
     this.state = {
       firstName: '',
       lastName: '',
+      nickname: '',
       dob: '',
       phone: '',
-      eamil: ''
+      dateText: 'Birthday'
     };
   }
 
@@ -40,6 +45,7 @@ export class SignUpSecond extends React.Component{
   renderScene(route, navigator) {
     return (
         <View style={styles.container}>
+          <Image style={styles.bg} source={background} />
             <View style={styles.header}>
                 <Image style={styles.mark} source={require('../../img/logo2.png')} />
             </View>
@@ -47,19 +53,19 @@ export class SignUpSecond extends React.Component{
                 <View style={styles.inputContainer}>
                     <TextInput 
                         style={[styles.input, styles.whiteFont]}
-                        placeholder="Email Address"
+                        placeholder="First Name"
                         placeholderTextColor="#FFF"
-                        onChangeText={(email) => this.setState({email})}
-                        value={this.state.email}
+                        onChangeText={(firstName) => this.setState({firstName})}
+                        value={this.state.firstName}
                     />
                 </View>
                 <View style={styles.inputContainer}>
                     <TextInput 
                         style={[styles.input, styles.whiteFont]}
-                        placeholder="First Name"
+                        placeholder="Nickname"
                         placeholderTextColor="#FFF"
-                        onChangeText={(firstName) => this.setState({firstName})}
-                        value={this.state.firstName}
+                        onChangeText={(nickname) => this.setState({nickname})}
+                        value={this.state.nickname}
                     />
                 </View>
                 <View style={styles.inputContainer}>
@@ -71,15 +77,12 @@ export class SignUpSecond extends React.Component{
                         value={this.state.lastName}
                     />
                 </View>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={[styles.input, styles.whiteFont]}
-                        placeholder="Date of Birth"
-                        placeholderTextColor="#FFF"
-                        onChangeText={(dob) => this.setState({dob})}
-                        value={this.state.dob}
-                    />
-                </View>
+                <TouchableWithoutFeedback
+                    onPress={this.showPicker.bind(this, {date: new Date(1990, 0, 1)})}>
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.date}>{this.state.dateText}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={[styles.input, styles.whiteFont]}
@@ -90,74 +93,177 @@ export class SignUpSecond extends React.Component{
                     />
                 </View>
             </View>
-              <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB' onPress={this.gotoNext.bind(this)}>
+              <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Sign up</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.back} underlayColor='#BFE9DB' onPress={this.back.bind(this)}>
+              <TouchableHighlight style={styles.back} underlayColor='#840032' onPress={this.back.bind(this)}>
                 <Text style={styles.whiteFont}>Go back</Text>
               </TouchableHighlight>
         </View>
     );
   }
-  gotoNext() {
-      let navigator = this.props.navigator;
 
-      var params;
-      if (this.state.phone) {
-        params = {
-          username: this.props.navigator.state.username,
-          password: this.props.navigator.state.password,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          age: this.state.dob,
-          email: this.state.email,
-          phoneNumber: this.state.phone,
-          numberOfFriends: '0',
-          usingFacebook: 'false'
-        };
+  showPicker = async (options) => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action === DatePickerAndroid.dismissedAction) {
       } else {
-        params = {
-          username: this.props.navigator.state.username,
-          password: this.props.navigator.state.password,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          age: this.state.dob,
-          email: this.state.email,
-          numberOfFriends: '0',
-          usingFacebook: 'false'
-        };
+        var dateString = (month + 1) + "/" + day + "/" + year;
+        var dbDate = day + "/" + (month + 1) + "/" + year
+        this.setState({dateText: dateString});
+        this.setState({dob: dbDate});
+        console.log("Birthday: " + this.state.dob)
       }
-    // fetch('https://activitize.net/activitize/user/createUser', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(params)
-    // })
-    // .then(function(response) {
-    //   var obj = JSON.parse(response.json());
-    //   Alert.alert(obj.status.toString());
-    //   // return response.json().then(function(json) {
-    //   // if (json.status.parse() === "OK") {
-    //   //   Alert.alert("Create user success");
-    //   //   navigator.push({
-    //   //     id: 'EventFeed',
-    //   //     name: 'Events',
-    //   //   });
-    //   // } else {
-    //   //   Alert.alert(json.errorMessage.toString());
-    //   // }
-    //   // });
-    // })
-    // .catch((error) => {
-    //     console.error(error);
-    //   });
-      this.props.navigator.push({
-        id: 'EventFeed',
-        name: 'Events',
-      });
+    } catch ({code, message}) {
+      console.warn('Error ', message);
+    }
+  };
+
+  getCookie(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      // console.log('Got cookies for url ', res);
+      var cookie = 'JSESSIONID=' + res.JSESSIONID;
+      // console.log("cookie: " + cookie)
+      callback(cookie);
+    });
   }
+
+  getRemeberMe(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      // console.log('Got cookies for url ', res);
+      var remember = 'remember-me=' + res['remember-me'];
+      // console.log("remember-me: " + remember)
+      callback(remember);
+    });
+  }
+
+  gotoNext() {
+    let navigator = this.props.navigator;
+    let view = this;
+
+    if (!this.state.firstName.trim()) {
+      Alert.alert("First name is a required field.")
+      return;
+    }
+    else if (!this.state.lastName.trim()) {
+      Alert.alert("Last name is a required field.")
+      return;
+    }
+    else if (!this.state.nickname.trim()) {
+      Alert.alert("Nickname is a required field.")
+      return;
+    }
+    else if (!this.state.dob.trim()) {
+      Alert.alert("Birthday is a required field.")
+      return;
+    }
+
+    var params = {
+      username: this.props.navigator.state.username,
+      password: this.props.navigator.state.password,
+      nickname: this.state.nickname,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      age: this.state.dob,
+      email: this.props.navigator.state.email,
+      phoneNumber: this.state.phone,
+      numberOfFriends: '0',
+      usingFacebook: 'false'
+    };
+
+    console.log("json: " + JSON.stringify(params));
+
+    fetch('https://activitize.net/activitize/user/createUser', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params)
+    })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(json) {
+      console.log("response: " + json.responseStatus);
+      console.log("error: " + json.errorMessage);
+      if (json.responseStatus === 'OK') {
+        fetch('https://activitize.net/activitize/login', {
+          method: 'GET',
+        })
+        .then(function(response) {
+          console.log("response.status: " + response.status)
+          // console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
+
+          var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+
+          navigator.setState({xcsrfToken: xcsrfToken});
+
+          view.getCookie('https://activitize.net/activitize/login', function(cookie) {
+
+            // console.log("resolved cookie: " + cookie)
+            // console.log("token: " + navigator.state.xcsrfToken)
+
+            var params = {
+              username: navigator.state.username,
+              password: navigator.state.password,
+              'remember-me': 'on'
+            }
+
+            var headers = {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-CSRF-TOKEN': navigator.state.xcsrfToken,
+              'Cookie': cookie
+            }
+
+            let url = 'https://activitize.net/activitize/login?username=' + params.username + '&password=' + params.password + '&remember-me=on';
+            //console.log("url: " + url)
+
+            fetch(url, {
+              method: 'POST',
+              headers: headers,
+            })
+            .then(function(response) {
+              console.log("status: " + response.status)
+              if (response.ok) {
+                xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+                navigator.setState({xcsrfToken: xcsrfToken});
+                //console.log("xcsrfToken: " + navigator.state.xcsrfToken)
+                view.getCookie('https://activitize.net/activitize/login', function(cookie) { 
+                  navigator.setState({jsessionid: cookie});
+                  //console.log("jsessionid: " + navigator.state.jsessionid)
+                  view.getRemeberMe('https://activitize.net/activitize/login', function(remember) {
+                    navigator.setState({'remember': remember});
+                    //console.log("remember-me: " + navigator.state.remember)
+                    navigator.setState({password: ''});
+                    navigator.push({
+                      id: 'EventFeed',
+                      name: 'Events'
+                    });
+                  })
+                })
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          })
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      } else {
+        Alert.alert(json.errorMessage);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+      // this.props.navigator.push({
+      //   id: 'EventFeed',
+      //   name: 'Events',
+      // });
+    }
 
   back() {
     this.props.navigator.pop();
@@ -186,7 +292,14 @@ var styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
-      backgroundColor: '#03414D'
+      backgroundColor: 'transparent'
+    },
+    bg: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: windowSize.width,
+        height: windowSize.height
     },
     header: {
         justifyContent: 'center',
@@ -199,7 +312,7 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#547980',
+        backgroundColor: '#E07E06',
         padding: 20,
         alignItems: 'center',
         marginTop: 40
@@ -210,8 +323,9 @@ var styles = StyleSheet.create({
       flex: .15
     },
     inputs: {
-        marginBottom: 10,
-        flex: .25
+        marginBottom: 100,
+        flex: .25,
+        justifyContent: 'space-between',
     },
     inputPassword: {
         marginLeft: 15,
@@ -248,8 +362,18 @@ var styles = StyleSheet.create({
       color: '#FFF'
     },
     back: {
-        backgroundColor: '#808080',
+        backgroundColor: '#2B4162',
         padding: 20,
         alignItems: 'center'
+    },
+    date: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        height: 40,
+        fontSize: 12,
+        marginRight: 50,
+        color: '#FFF'
     }
 });

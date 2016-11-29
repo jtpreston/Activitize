@@ -39,12 +39,8 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private Integer user_id;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "users_has_events", joinColumns = {
-			@JoinColumn(name = "users_user_id", nullable = false, updatable = false) },
-	inverseJoinColumns = { @JoinColumn(name = "events_event_id",
-	nullable = false, updatable = false) })
-	private Set<Event> events = new HashSet<Event>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
+	private Set<UserHasEvent> userHasEvents = new HashSet<UserHasEvent>(0);
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "users_has_friend_groups", joinColumns = {
@@ -123,7 +119,7 @@ public class User implements Serializable {
 
 	public User(Integer user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
 			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
-			long facebook_user_id, Set<Friend> friends, Set<UserProfile> userProfiles, Set<Event> events, Set<FriendGroup> friendGroups) {
+			long facebook_user_id, Set<Friend> friends, Set<UserProfile> userProfiles, Set<UserHasEvent> userHasEvents, Set<FriendGroup> friendGroups) {
 		this.user_id = user_id;
 		this.username = username;	
 		this.password = password;
@@ -139,7 +135,7 @@ public class User implements Serializable {
 		this.facebook_user_id = facebook_user_id;
 		this.friends = friends;
 		this.userProfiles = userProfiles;
-		this.events = events;
+		this.userHasEvents = userHasEvents;
 		this.friendGroups = friendGroups;
 	}
 
@@ -150,12 +146,12 @@ public class User implements Serializable {
 		this.user_id = user_id;
 	}
 
-	public Set<Event> getEvents() {
-		return events;
+	public Set<UserHasEvent> getUserHasEvents() {
+		return userHasEvents;
 	}
 
-	public void setEvents(Set<Event> events) {
-		this.events = events;
+	public void setUserHasEvents(Set<UserHasEvent> userHasEvents) {
+		this.userHasEvents = userHasEvents;
 	}
 
 	public Set<Friend> getFriends() {

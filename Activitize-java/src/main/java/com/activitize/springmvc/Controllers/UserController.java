@@ -6,7 +6,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -35,21 +35,21 @@ import org.apache.logging.log4j.Logger;
 @RequestMapping("/user")
 @SessionAttributes("roles")
 public class UserController {
-    
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	UserProfileService userProfileService;
-	
+
 	@Autowired
 	PersistentTokenBasedRememberMeServices persistentTokenBasedRememberMeServices;
-     
+
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
-	
+
 	private static final Logger logger = LogManager.getLogger(UserController.class);
-	
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage() {
 		if (isCurrentAuthenticationAnonymous()) {
@@ -58,7 +58,7 @@ public class UserController {
 			return "redirect:/list";  
 		}
 	}
-	
+
 	@RequestMapping(value = "/createUser", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
@@ -73,7 +73,7 @@ public class UserController {
 		userService.createUser(user);
 		return new JsonResponse("OK","");
 	}
-	
+
 	@RequestMapping(value = "/deleteUser", 
 			method = RequestMethod.POST)
 	@ResponseBody
@@ -84,7 +84,7 @@ public class UserController {
 		logoutPage(request, response);
 		return new JsonResponse("OK","");
 	}
-	
+
 	@RequestMapping(value = "/editUser", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
@@ -94,21 +94,34 @@ public class UserController {
 		userService.editUser(user);
 		return new JsonResponse("OK","");
 	}
-	
+
+	@RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+	@ResponseBody
+	public User getUserInfo() {
+		User user = userService.findByUsername(getPrincipal());
+		User tempUser = new User();
+		tempUser.setAge(user.getAge());
+		tempUser.setFirstName(user.getFirstName());
+		tempUser.setLastName(user.getLastName());
+		tempUser.setPhoneNumber(user.getPhoneNumber());
+		tempUser.setNickname(user.getNickname());
+		return tempUser;
+	}
+
 	@ModelAttribute("roles")
 	public List<UserProfile> initializeProfiles() {
 		return userProfileService.findAll();
 	}
-	
+
 	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
 	@ResponseBody
 	public JsonResponse accessDeniedPage() {
 		return new JsonResponse("Access Denied!","Improper credentials were provided");
 	}
-	
+
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response){
+	public JsonResponse logoutPage (HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {    
 			persistentTokenBasedRememberMeServices.logout(request, response, auth);
@@ -116,8 +129,8 @@ public class UserController {
 		}
 		return new JsonResponse("OK", "");
 	}
-	
-	private String getPrincipal(){
+
+	private String getPrincipal() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -129,10 +142,10 @@ public class UserController {
 		}
 		return userName;
 	}
-	
+
 	private boolean isCurrentAuthenticationAnonymous() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		return authenticationTrustResolver.isAnonymous(authentication);
 	}
-	
+
 }

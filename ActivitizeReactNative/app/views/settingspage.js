@@ -26,7 +26,7 @@ export class SettingsPage extends React.Component{
           renderScene={this.renderScene.bind(this)}
           navigator={this.props.navigator}
           navigationBar={
-            <Navigator.NavigationBar style={{backgroundColor: '#547980'}}
+            <Navigator.NavigationBar style={{backgroundColor: '#E07E06'}}
                 routeMapper={NavigationBarRouteMapper} />
           } />
     );
@@ -79,7 +79,42 @@ var NavigationBarRouteMapper = {
   RightButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.popToTop()}>
+          onPress={() => {
+            // console.log("xcsrf parent: "+ navigator.parentNavigator.state.xcsrfToken)
+            // console.log("xcsrf parent: "+ navigator.parentNavigator.state.jsessionid)
+            // console.log("remember parent: "+ navigator.parentNavigator.state.remember)
+
+        var nav = navigator.parentNavigator;
+
+        var headers = {
+            'Accept': 'application/json',
+            Cookie: nav.state.jsessionid,
+            'X-CSRF-TOKEN': nav.state.xcsrfToken
+          }
+        // console.log("headers: " + JSON.stringify(headers))
+
+        return fetch('https://activitize.net/activitize/user/logout', {
+          method: 'GET',
+          headers: headers
+        })
+        .then(function(response) {
+          console.log("status: " + response.status)
+          return response.json()
+        })
+        .then(function(json) {
+          console.log("response: " + json.responseStatus);
+      console.log("error: " + json.errorMessage);
+          if (json.responseStatus === "OK") {
+            nav.setState({jsessionid: ''});
+            nav.setState({xcsrfToken: ''});
+            nav.setState({remember: ''});
+            nav.popToTop();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }}>
         <Text style={{color: 'white', margin: 10,}}>
           Log out
         </Text>
@@ -131,11 +166,11 @@ var styles = StyleSheet.create({
         flexDirection: 'row'
     },
     name: {
-      color: '#547980', 
+      color: '#1A1423', 
       fontSize: 24
     },
     button: {
-        backgroundColor: '#547980',
+        backgroundColor: '#2B4162',
         padding: 10,
         marginLeft: 10,
         marginRight: 10,

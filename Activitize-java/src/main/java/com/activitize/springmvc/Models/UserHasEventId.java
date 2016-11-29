@@ -5,55 +5,52 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class UserHasEventId implements Serializable {
-	
-	@NotNull
-	@Column(name = "users_user_id", nullable = false)
-	private Integer users_user_id;
-	
-	@NotNull
-	@Column(name = "events_event_id", nullable = false)
-	private Integer events_event_id;
 
-	public UserHasEventId() {
+	@ManyToOne
+	private User user;
 
+	@ManyToOne
+	private Event event;
+
+	public User getUser() {
+		return user;
 	}
 
-	public UserHasEventId(Integer users_user_id, Integer events_event_id) {
-		this.users_user_id = users_user_id;
-		this.events_event_id = events_event_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Integer getUsersUserId() {
-		return users_user_id;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setUsersUserId(Integer users_user_id) {
-		this.users_user_id = users_user_id;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
-	public Integer getEventsEventId() {
-		return events_event_id;
-	}
-
-	public void setEventsEventId(Integer events_event_id) {
-		this.events_event_id = events_event_id;
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof UserHasEventId)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
+
 		UserHasEventId that = (UserHasEventId) o;
-		return Objects.equals(getUsersUserId(), that.getUsersUserId()) && Objects.equals(getEventsEventId(), that.getEventsEventId());
+
+		if (user != null ? !user.equals(that.user) : that.user != null) return false;
+		if (event != null ? !event.equals(that.event) : that.event != null)
+			return false;
+
+		return true;
 	}
 
-	@Override
 	public int hashCode() {
-		return Objects.hash(getUsersUserId(), getEventsEventId());
+		int result;
+		result = (user != null ? user.hashCode() : 0);
+		result = 31 * result + (event != null ? event.hashCode() : 0);
+		return result;
 	}
-	
+
 }

@@ -17,7 +17,7 @@ import com.activitize.springmvc.Models.UserProfile;
 
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
-	
+
 	private static final Logger logger = LogManager.getLogger(UserDaoImpl.class); 
 
 	public User findById(int id) {

@@ -47,6 +47,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/", "/user/createUser").permitAll()
 		.antMatchers("/user/deleteUser")
 		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		.antMatchers("/user/getUserInfo")
+		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
 		.antMatchers("/user/editUser")
 		.access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
 		.antMatchers("/comment/**")
