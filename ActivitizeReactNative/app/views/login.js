@@ -14,7 +14,8 @@ import {
   Navigator,
   TouchableOpacity,
   NativeModules,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
 
 var CookieManager = require('react-native-cookies');
@@ -37,26 +38,24 @@ export class Login extends React.Component{
     };
   }
 
-  loginGet() {
+  async loginGet() {
     var currentState = this.state;
-    this.props.navigator.setState({jsessionid: ''});
     var navigator = this.props.navigator;
     var view = this;
     fetch('https://activitize.net/activitize/login', {
       method: 'GET',
     })
-    .then(function(response) {
-      //console.log("response.status: " + response.status)
-      //console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
+    .then(async function(response) {
+      console.log("response.status: " + response.status)
+      // console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
 
       var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
+      await AsyncStorage.setItem('xcsrfToken', xcsrfToken);
 
-      navigator.setState({xcsrfToken: xcsrfToken});
-
-      view.getCookie('https://activitize.net/activitize/login', function(cookie) {
-
-        //console.log("resolved cookie: " + cookie)
-        //console.log("token: " + navigator.state.xcsrfToken)
+      view.getCookie('https://activitize.net/activitize/login', async function(cookie) {
+        // console.log("resolved cookie: " + cookie)
+        var token = await AsyncStorage.getItem('xcsrfToken');
+        // console.log("token: " + token)
 
         var params = {
           username: currentState.username,
@@ -66,7 +65,7 @@ export class Login extends React.Component{
 
         var headers = {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRF-TOKEN': navigator.state.xcsrfToken,
+          'X-CSRF-TOKEN': token,
           'Cookie': cookie
         }
 
@@ -77,18 +76,21 @@ export class Login extends React.Component{
           method: 'POST',
           headers: headers,
         })
-        .then(function(response) {
-          //console.log("status: " + response.status)
+        .then(async function(response) {
+          console.log("status: " + response.status)
           if (response.ok) {
             xcsrfToken = response.headers.get('X-CSRF-TOKEN');
-            navigator.setState({xcsrfToken: xcsrfToken});
-            //console.log("xcsrfToken: " + navigator.state.xcsrfToken)
-            view.getCookie('https://activitize.net/activitize/login', function(cookie) { 
-              navigator.setState({jsessionid: cookie});
-              //console.log("jsessionid: " + navigator.state.jsessionid)
-              view.getRemeberMe('https://activitize.net/activitize/login', function(remember) {
-                navigator.setState({'remember': remember})
-                //console.log("remember-me: " + navigator.state.remember)
+            await AsyncStorage.setItem('xcsrfToken', xcsrfToken);
+            var token = await AsyncStorage.getItem('xcsrfToken');
+            // console.log("xcsrfToken: " + token)
+            view.getCookie('https://activitize.net/activitize/login', async function(cookie) { 
+              await AsyncStorage.setItem('jsessionid', cookie);
+              var cookie2 = await AsyncStorage.getItem('jsessionid');
+              // console.log("jsessionid: " + cookie2);
+              view.getRemeberMe('https://activitize.net/activitize/login', async function(remember) {
+                await AsyncStorage.setItem('remember', remember)
+                var memory = await AsyncStorage.getItem('remember');
+                // console.log("remember-me: " + memory)
                   navigator.push({
                   id: 'EventFeed',
                   name: 'Events'
@@ -142,10 +144,26 @@ export class Login extends React.Component{
     });
   }
 
-  componentWillMount() {
-    if (this.props.navigator.state.remember) {
+  async hasRememberMe() {
+    var remember = await AsyncStorage.getItem('remember');
+    console.log("remember: " + remember);
+    if (remember !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  async componentWillMount() {
+    var val = await this.hasRememberMe();
+    if (val) {
       this.gotoNext();
     }  
+  }
+
+  componentWillReceiveProps(props) {
+    this.setState({username: ''});
+    this.setState({password: ''});
   }
 
   render() {

@@ -12,8 +12,22 @@ import {
   Image,
   Navigator,
   TouchableOpacity,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage
 } from 'react-native';
+
+async function getParams(navigator) {
+  var token = await AsyncStorage.getItem('xcsrfToken');
+  var cookie = await AsyncStorage.getItem('jsessionid');
+  var memory = await AsyncStorage.getItem('remember');
+  return {token: token, cookie: cookie, memory: memory};
+}
+
+async function clearStorage() {
+  await AsyncStorage.removeItem('xcsrfToken');
+  await AsyncStorage.removeItem('jsessionid');
+  await AsyncStorage.removeItem('remember');
+}
 
 export class SettingsPage extends React.Component{
   constructor(props) {
@@ -79,17 +93,18 @@ var NavigationBarRouteMapper = {
   RightButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => {
-            // console.log("xcsrf parent: "+ navigator.parentNavigator.state.xcsrfToken)
-            // console.log("xcsrf parent: "+ navigator.parentNavigator.state.jsessionid)
-            // console.log("remember parent: "+ navigator.parentNavigator.state.remember)
+          onPress={async () => {
+            var params = await getParams(navigator.parentNavigator);
+            // console.log("xcsrf parent: "+ params.token)
+            // console.log("cookie parent: "+ params.cookie)
+            // console.log("remember parent: "+ params.memory)
 
         var nav = navigator.parentNavigator;
 
         var headers = {
             'Accept': 'application/json',
-            Cookie: nav.state.jsessionid,
-            'X-CSRF-TOKEN': nav.state.xcsrfToken
+            Cookie: params.cookie,
+            'X-CSRF-TOKEN': params.token
           }
         // console.log("headers: " + JSON.stringify(headers))
 
@@ -101,13 +116,11 @@ var NavigationBarRouteMapper = {
           console.log("status: " + response.status)
           return response.json()
         })
-        .then(function(json) {
+        .then(async function(json) {
           console.log("response: " + json.responseStatus);
       console.log("error: " + json.errorMessage);
           if (json.responseStatus === "OK") {
-            nav.setState({jsessionid: ''});
-            nav.setState({xcsrfToken: ''});
-            nav.setState({remember: ''});
+            await clearStorage();
             nav.popToTop();
           }
         })
