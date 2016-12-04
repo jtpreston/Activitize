@@ -95,6 +95,34 @@ public class EventController {
 		return new JsonResponse("OK","");
 	}
 
+	@RequestMapping(value = "/addMultipleUsersToEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse addMultipleUsersToEvent(@RequestBody UserEventWrapper[] userEventWrapper) {
+		for (int i = 0; i < userEventWrapper.length; i++) {
+			boolean success = service.addUserToEvent(userEventWrapper[i].getEvent(), userEventWrapper[i].getUser());
+			if (!success) {
+				return new JsonResponse("FAILED","User " + userEventWrapper[i].getUser().getUsername() + " was already added to this event");
+			}
+		}
+		return new JsonResponse("OK","");
+	}
+
+	@RequestMapping(value = "/removeMultipleUsersFromEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse removeMultipleUsersFromEvent(@RequestBody UserEventWrapper[] userEventWrapper) {
+		for (int i = 0; i < userEventWrapper.length; i++) {
+			boolean success = service.removeUserFromEvent(userEventWrapper[i].getEvent(), userEventWrapper[i].getUser());
+			if (!success) {
+				return new JsonResponse("FAILED","User " + userEventWrapper[i].getUser().getUsername() + " was already removed from this event");
+			}
+		}
+		return new JsonResponse("OK","");
+	}
+
 	@RequestMapping(value = "/getAllEventsForUser", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Event> getAllEventsForUser() {
