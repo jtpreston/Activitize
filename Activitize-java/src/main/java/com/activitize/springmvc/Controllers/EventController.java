@@ -95,6 +95,20 @@ public class EventController {
 		return new JsonResponse("OK","");
 	}
 
+	@RequestMapping(value = "/confirmUserIsGoingToEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse confirmUserIsGoingToEvent(@RequestBody Event event) {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		boolean success = service.confirmUserIsGoingToEvent(event, user);
+		if (!success) {
+			return new JsonResponse("FAILED","User couldn't confirm going to this event");
+		}
+		return new JsonResponse("OK","");
+	}
+
 	@RequestMapping(value = "/addMultipleUsersToEvent", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})

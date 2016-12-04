@@ -64,4 +64,8 @@ public class EventServiceImpl implements EventService {
 		return dao.removeUserFromEvent(event, user);
 	}
 
+	public boolean confirmUserIsGoingToEvent(Event event, User user) {
+		return dao.confirmUserIsGoingToEvent(event, user);
+	}
+
 }
