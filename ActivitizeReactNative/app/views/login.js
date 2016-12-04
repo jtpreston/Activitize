@@ -46,8 +46,8 @@ export class Login extends React.Component{
       method: 'GET',
     })
     .then(function(response) {
-      console.log("response.status: " + response.status)
-      // console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
+      //console.log("response.status: " + response.status)
+      //console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
 
       var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
 
@@ -55,8 +55,8 @@ export class Login extends React.Component{
 
       view.getCookie('https://activitize.net/activitize/login', function(cookie) {
 
-        // console.log("resolved cookie: " + cookie)
-        // console.log("token: " + navigator.state.xcsrfToken)
+        //console.log("resolved cookie: " + cookie)
+        //console.log("token: " + navigator.state.xcsrfToken)
 
         var params = {
           username: currentState.username,
@@ -71,24 +71,24 @@ export class Login extends React.Component{
         }
 
         let url = 'https://activitize.net/activitize/login?username=' + params.username + '&password=' + params.password + '&remember-me=on';
-        console.log("url: " + url)
+        //console.log("url: " + url)
 
         fetch(url, {
           method: 'POST',
           headers: headers,
         })
         .then(function(response) {
-          console.log("status: " + response.status)
+          //console.log("status: " + response.status)
           if (response.ok) {
             xcsrfToken = response.headers.get('X-CSRF-TOKEN');
             navigator.setState({xcsrfToken: xcsrfToken});
-            // console.log("xcsrfToken: " + navigator.state.xcsrfToken)
+            //console.log("xcsrfToken: " + navigator.state.xcsrfToken)
             view.getCookie('https://activitize.net/activitize/login', function(cookie) { 
               navigator.setState({jsessionid: cookie});
-              // console.log("jsessionid: " + navigator.state.jsessionid)
+              //console.log("jsessionid: " + navigator.state.jsessionid)
               view.getRemeberMe('https://activitize.net/activitize/login', function(remember) {
                 navigator.setState({'remember': remember})
-                // console.log("remember-me: " + navigator.state.remember)
+                //console.log("remember-me: " + navigator.state.remember)
                   navigator.push({
                   id: 'EventFeed',
                   name: 'Events'
@@ -123,21 +123,21 @@ export class Login extends React.Component{
       Alert.alert('Login failed with error: ' + error);
     });
   }
-
+  
   getCookie(url, callback) {
     CookieManager.get(url, (err, res) => {
-      // console.log('Got cookies for url ', res);
+      //console.log('Got cookies for url ', res);
       var cookie = 'JSESSIONID=' + res.JSESSIONID;
-      // console.log("cookie: " + cookie)
+      //console.log("cookie: " + cookie)
       callback(cookie);
     });
   }
 
   getRemeberMe(url, callback) {
     CookieManager.get(url, (err, res) => {
-      // console.log('Got cookies for url ', res);
+      //console.log('Got cookies for url ', res);
       var remember = 'remember-me=' + res['remember-me'];
-      // console.log("remember-me: " + remember)
+      //console.log("remember-me: " + remember)
       callback(remember);
     });
   }
@@ -183,10 +183,10 @@ export class Login extends React.Component{
                         value={this.state.password}
                     />
                 </View>
-                <View style={styles.forgotContainer}>
-                    <Text style={styles.greyFont}>Forgot Password</Text>
-                </View>
-            </View>
+              </View>
+ 	      <TouchableOpacity style={styles.signup} onPress={this.forgotPassword.bind(this)}>
+                <Text style={styles.whiteFont}>Forgot Password ?</Text>
+              </TouchableOpacity>
               <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.loginGet.bind(this)}>
                 <Text style={styles.whiteFont}>Sign in</Text>
               </TouchableHighlight>
@@ -226,6 +226,12 @@ export class Login extends React.Component{
     this.props.navigator.push({
       id: 'SignUp',
       name: 'SignUp',
+    });
+  }
+  forgotPassword() {
+    this.props.navigator.push({
+      id: 'ForgotPassword',
+      name: 'ForgotPassword',
     });
   }
   /*feedback() {

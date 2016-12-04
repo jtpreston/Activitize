@@ -42,7 +42,12 @@ export class EventView extends React.Component{
         <Text style={styles.title}>{this.props.navigator.state.e_name}</Text>
         <Text style={styles.date}>{this.props.navigator.state.e_date}</Text>
         <Text style={styles.time}>{this.props.navigator.state.e_time}</Text>
-       </View>
+	<View>
+	  <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB'>
+	    <Text style={styles.display}>Mute Notifications</Text>
+	  </TouchableHighlight>
+	</View>
+	</View>
        </View>
     );
   }
@@ -125,5 +130,10 @@ var styles = StyleSheet.create({
       color: '#1A1423',
       fontSize: 16,
       marginTop: 10 
+    },
+    signin: {
+    	backgroundColor: '#E07E06',
+	padding: 20,
+	alignItems: 'center',
     }
 });

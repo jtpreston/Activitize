@@ -36,6 +36,7 @@ import { EditProfile } from './app/views/EditProfile'
 import { EventView } from './app/views/EventView'
 import { EditEventView } from './app/views/EditEventView'
 import { SignUpSecond } from './app/views/SignUpSecond'
+import { ForgotPassword } from './app/views/ForgotPassword'
 
 class ActivitizeReactNative extends React.Component {
   render() {
@@ -108,7 +109,12 @@ class ActivitizeReactNative extends React.Component {
           navigator={navigator} />
       );
     }
-
+    if (routeId === 'ForgotPassword') {
+      return (
+        <ForgotPassword
+          navigator={navigator} />
+      );    
+    }
   }
 }
 
