@@ -49,22 +49,29 @@ function makeDBAge(age) {
 export class Profile extends React.Component{
   constructor(props) {
     super(props);
+    this.getUserInfo();
     this.state = {};
   }
   
+  async clearStorage() {
+    await AsyncStorage.removeItem('xcsrfToken');
+    await AsyncStorage.removeItem('jsessionid');
+    await AsyncStorage.removeItem('remember');
+  }
+  
   async getUserInfo() {
-      var self = this;
+    var self = this;
     var url = 'https://activitize.net/activitize/user/getUserInfo';
     var cookie = await AsyncStorage.getItem('jsessionid');
     var token = await AsyncStorage.getItem('xcsrfToken');
-    // console.log("token: " + token)
+    console.log("token: " + token)
     var headers = {
       'Accept': 'application/json',
       Cookie: cookie,
       'X-CSRF-TOKEN': token
     }
 
-    // console.log("headers: " + JSON.stringify(headers))
+    console.log("headers: " + JSON.stringify(headers))
 
     fetch(url, {
           method: 'GET',
@@ -72,7 +79,7 @@ export class Profile extends React.Component{
         })
         .then(async function(response) {
           console.log("status: " + response.status)
-          // console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+          console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
           await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
           return response.json()
         })
@@ -120,7 +127,7 @@ export class Profile extends React.Component{
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.label}First Name />
-          <Text style={styles.name}>{this.props.navigator.state.first}</Text>
+ 	  <Text style={styles.name}>{this.props.navigator.state.first}</Text>
           <Text style={styles.label}Last Name />
           <Text style={styles.name}>{this.props.navigator.state.last}</Text>
           <Text style={styles.label}Nickname />
@@ -132,24 +139,6 @@ export class Profile extends React.Component{
 	</View>
       </View>  
       );
-  }
-
-  showPicker = async (options) => {
-    try {
-      const {action, year, month, day} = await DatePickerAndroid.open(options);
-      if (action === DatePickerAndroid.dismissedAction) {
-      } else {
-        var date = new Date();
-        date.setMonth(month);
-        date.setDate(day);
-        date.setYear(year);
-        this.props.navigator.setState({dob: date});
-        var dateString = (month + 1) + "/" + day + "/" + year;
-        this.props.navigator.setState({dobString: dateString});
-      }
-    } catch ({code, message}) {
-      console.warn('Error ', message);
-    }
   }
 }
 
