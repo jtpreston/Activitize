@@ -90,7 +90,10 @@ export class SettingsPage extends React.Component{
   }
 
   viewProfile() {
-
+     this.props.navigator.push({
+      id: 'Profile',
+      name: 'Profile',
+    });
   }
 }
 
