@@ -111,6 +111,7 @@ export class SignUp extends React.Component{
                         placeholderTextColor="#FFF"
                         onChangeText={(email) => this.setState({email})}
                         value={this.state.email}
+                        keyboardType='email-address'
                     />
                 </View>
                 <View style={styles.inputContainer}>

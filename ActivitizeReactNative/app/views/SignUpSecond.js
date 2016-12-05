@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   Alert,
   DatePickerAndroid,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  AsyncStorage
 } from 'react-native';
 
 var CookieManager = require('react-native-cookies');
@@ -33,6 +34,23 @@ export class SignUpSecond extends React.Component{
       phone: '',
       dateText: 'Birthday'
     };
+  }
+
+  stripPhoneNumber(number) {
+    if (number) {
+      number = number.replace(/\D+/g, "");
+    }
+
+    return number;
+  }
+
+  checkPhoneNumber(number) {
+    if (number) {
+      var numericTest = new RegExp("[0-9]{10}");
+      return numericTest.test(number);
+    }
+
+    return true;
   }
 
   render() {
@@ -90,6 +108,7 @@ export class SignUpSecond extends React.Component{
                         placeholderTextColor="#FFF"
                         onChangeText={(phone) => this.setState({phone})}
                         value={this.state.phone}
+                        keyboardType='numeric'
                     />
                 </View>
             </View>
@@ -137,10 +156,11 @@ export class SignUpSecond extends React.Component{
     });
   }
 
-  gotoNext() {
+  async gotoNext() {
     let navigator = this.props.navigator;
     let view = this;
 
+    var number = this.state.phone;
     if (!this.state.firstName.trim()) {
       Alert.alert("First name is a required field.")
       return;
@@ -156,6 +176,13 @@ export class SignUpSecond extends React.Component{
     else if (!this.state.dob.trim()) {
       Alert.alert("Birthday is a required field.")
       return;
+    } else {
+      number = this.stripPhoneNumber(number);
+      console.log("number: " + number);
+      if (!this.checkPhoneNumber(number)) {
+        Alert.alert("Phone number is not a valid number.")
+        return;
+      }
     }
 
     var params = {
@@ -191,18 +218,19 @@ export class SignUpSecond extends React.Component{
         fetch('https://activitize.net/activitize/login', {
           method: 'GET',
         })
-        .then(function(response) {
+        .then(async function(response) {
           console.log("response.status: " + response.status)
           // console.log("X-CSRF-TOKEN: " + response.headers.get('X-CSRF-TOKEN'))
 
           var xcsrfToken = response.headers.get('X-CSRF-TOKEN');
 
-          navigator.setState({xcsrfToken: xcsrfToken});
+          await AsyncStorage.setItem('xcsrfToken', xcsrfToken);
 
-          view.getCookie('https://activitize.net/activitize/login', function(cookie) {
+          view.getCookie('https://activitize.net/activitize/login', async function(cookie) {
 
             // console.log("resolved cookie: " + cookie)
-            // console.log("token: " + navigator.state.xcsrfToken)
+            var token = await AsyncStorage.getItem('xcsrfToken');
+            // console.log("token: " + token)
 
             var params = {
               username: navigator.state.username,
@@ -212,7 +240,7 @@ export class SignUpSecond extends React.Component{
 
             var headers = {
               'Content-Type': 'application/x-www-form-urlencoded',
-              'X-CSRF-TOKEN': navigator.state.xcsrfToken,
+              'X-CSRF-TOKEN': token,
               'Cookie': cookie
             }
 
@@ -223,18 +251,23 @@ export class SignUpSecond extends React.Component{
               method: 'POST',
               headers: headers,
             })
-            .then(function(response) {
+            .then(async function(response) {
               console.log("status: " + response.status)
               if (response.ok) {
                 xcsrfToken = response.headers.get('X-CSRF-TOKEN');
-                navigator.setState({xcsrfToken: xcsrfToken});
-                //console.log("xcsrfToken: " + navigator.state.xcsrfToken)
-                view.getCookie('https://activitize.net/activitize/login', function(cookie) { 
-                  navigator.setState({jsessionid: cookie});
-                  //console.log("jsessionid: " + navigator.state.jsessionid)
-                  view.getRemeberMe('https://activitize.net/activitize/login', function(remember) {
-                    navigator.setState({'remember': remember});
-                    //console.log("remember-me: " + navigator.state.remember)
+                await AsyncStorage.setItem('xcsrfToken', xcsrfToken);
+                var token = await AsyncStorage.getItem('xcsrfToken');
+                // console.log("xcsrfToken: " + token)
+                view.getCookie('https://activitize.net/activitize/login', async function(cookie) { 
+                  await AsyncStorage.setItem('jsessionid', cookie);
+                  var cookie2 = await AsyncStorage.getItem('jsessionid');
+                  // console.log("jsessionid: " + cookie2)
+                  view.getRemeberMe('https://activitize.net/activitize/login', async function(remember) {
+                    await AsyncStorage.setItem('remember', remember);
+                    var memory = await AsyncStorage.getItem('remember');
+                    // console.log("remember-me: " + memory)
+                    navigator.setState({username: ''});
+                    navigator.setState({email: ''});
                     navigator.setState({password: ''});
                     navigator.push({
                       id: 'EventFeed',
