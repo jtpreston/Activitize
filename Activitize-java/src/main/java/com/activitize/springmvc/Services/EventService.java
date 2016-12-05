@@ -17,6 +17,8 @@ public interface EventService {
 
 	boolean removeUserFromEvent(Event event, User user);
 
+	boolean removeUserFromEventAfterConfirming(Event event, User user);
+
 	boolean confirmUserIsGoingToEvent(Event event, User user);
 
 	void createEvent(Event event, User user);

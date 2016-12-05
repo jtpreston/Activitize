@@ -103,6 +103,21 @@ public class EventController {
 		}
 		return new JsonResponse("OK","");
 	}
+	
+	@RequestMapping(value = "/removeUserFromEventAfterConfirming", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse removeUserFromEventAfterConfirming(@RequestBody UserEventWrapper userEventWrapper) {
+		if (userEventWrapper.getEvent().getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
+		boolean success = service.removeUserFromEventAfterConfirming(userEventWrapper.getEvent(), userEventWrapper.getUser());
+		if (!success) {
+			return new JsonResponse("FAILED","User was already removed from this event");
+		}
+		return new JsonResponse("OK","");
+	}
 
 	@RequestMapping(value = "/confirmUserIsGoingToEvent", 
 			method = RequestMethod.POST,
