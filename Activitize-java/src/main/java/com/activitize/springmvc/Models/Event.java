@@ -73,7 +73,7 @@ public class Event implements Serializable {
 
 	@NotNull
 	@Column(name = "private", nullable = false)
-	private boolean priv;
+	private boolean priv = false;
 
 	@NotNull
 	@Column(name = "number_of_comments", nullable = false)
@@ -88,19 +88,19 @@ public class Event implements Serializable {
 	private int number_going = 1;
 
 	@NotNull
-	@Column(name = "number_not_going", nullable = false)
-	private int number_not_going = 0;
+	@Column(name = "number_pending", nullable = false)
+	private int number_pending = 0;
 
 	@NotNull
 	@Column(name = "subevent", nullable = false)
-	private boolean subevent;
+	private boolean subevent = false;
 
 	public Event() {
 
 	}
 
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
-			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, int number_not_going, boolean subevent, 
+			boolean priv, int number_of_comments, String path_to_event_picture, int number_going, int number_pending, boolean subevent, 
 			Set<Comment> comments, Set<UserHasEvent> userHasEvents, Set<Subevent> subevents) {
 		this.event_id = event_id;
 		this.event_name = event_name;
@@ -112,7 +112,7 @@ public class Event implements Serializable {
 		this.number_of_comments = number_of_comments;
 		this.path_to_event_picture = path_to_event_picture;
 		this.number_going = number_going;
-		this.number_not_going = number_not_going;
+		this.number_pending = number_pending;
 		this.subevent = subevent;
 		this.comments = comments;
 		this.userHasEvents = userHasEvents;
@@ -223,12 +223,12 @@ public class Event implements Serializable {
 		this.number_going = number_going;
 	}
 
-	public int getNumberNotGoing() {
-		return number_not_going;
+	public int getNumberPending() {
+		return number_pending;
 	}
 
-	public void setNumberNotGoing(int number_not_going) {
-		this.number_not_going = number_not_going;
+	public void setNumberPending(int number_pending) {
+		this.number_pending = number_pending;
 	}
 
 	public boolean getSubevent() {

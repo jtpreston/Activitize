@@ -67,6 +67,21 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
 		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND admin = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		query.setParameter(2, 1);
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			logger.info("User: " + user.toString() + " was not allowed to delete this event");
+			return;
+		}
+		Query q = getSession().createSQLQuery("delete from users_has_events where events_event_id=:id").setParameter("id", event.getEventId());
+		q.executeUpdate();
+		q = getSession().createQuery("delete Event where event_id = :id");
+		q.setParameter("id", event.getEventId());
+		q.executeUpdate();
 	}
 
 	public void editEvent(Event event, User user) {

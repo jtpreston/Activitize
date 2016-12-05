@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users` (
   `phone_number` VARCHAR(20) NULL,
   `path_to_profile_picture` VARCHAR(255) NULL,
   `number_of_friends` INT NOT NULL DEFAULT 0,
-  `using_facebook` TINYINT(1) NOT NULL,
+  `using_facebook` TINYINT(1) NOT NULL DEFAULT 0,
   `facebook_user_id` BIGINT(20) UNSIGNED NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
@@ -47,12 +47,12 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`events` (
   `event_end` DATETIME NOT NULL,
   `description` TEXT NULL,
   `location` VARCHAR(255) NOT NULL,
-  `private` TINYINT(1) NOT NULL,
+  `private` TINYINT(1) NOT NULL DEFAULT 0,
   `number_of_comments` INT NOT NULL DEFAULT 0,
   `path_to_event_picture` VARCHAR(255) NULL,
   `number_going` INT NOT NULL DEFAULT 1,
-  `number_not_going` INT NOT NULL DEFAULT 0,
-  `subevent` TINYINT(1) NOT NULL,
+  `number_pending` INT NOT NULL DEFAULT 0,
+  `subevent` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`event_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -83,9 +83,9 @@ COLLATE utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_has_events` (
   `users_user_id` BIGINT NOT NULL,
   `events_event_id` BIGINT NOT NULL,
-  `favorite` TINYINT(1) NOT NULL,
-  `admin` TINYINT(1) NOT NULL,
-  `going` TINYINT(1) NOT NULL,
+  `favorite` TINYINT(1) NOT NULL DEFAULT 0,
+  `admin` TINYINT(1) NOT NULL DEFAULT 0,
+  `going` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`users_user_id`, `events_event_id`),
   INDEX `fk_users_has_events_events1_idx` (`events_event_id` ASC),
   INDEX `fk_users_has_events_users_idx` (`users_user_id` ASC),
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friends` (
   `friends_id` BIGINT NOT NULL AUTO_INCREMENT,
   `users_user_id` BIGINT NOT NULL,
   `other_user_id` BIGINT NOT NULL,
-  `status` TINYINT(1) NOT NULL,
+  `status` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`friends_id`),
   CONSTRAINT `fk_friends_users1`
     FOREIGN KEY (`users_user_id`)

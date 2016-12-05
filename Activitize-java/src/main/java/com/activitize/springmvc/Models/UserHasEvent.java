@@ -37,15 +37,15 @@ public class UserHasEvent implements Serializable {
 
 	@NotNull
 	@Column(name = "favorite", nullable = false)
-	private boolean favorite;
+	private boolean favorite = false;
 
 	@NotNull
 	@Column(name = "admin", nullable = false)
-	private boolean admin;
+	private boolean admin = false;
 
 	@NotNull
 	@Column(name = "going", nullable = false)
-	private boolean going;
+	private boolean going = false;
 
 	public UserHasEvent() {
 
