@@ -119,12 +119,16 @@ export class Profile extends React.Component{
     return (
       <View style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.date}First Name />
+          <Text style={styles.label}First Name />
           <Text style={styles.name}>{this.props.navigator.state.first}</Text>
+          <Text style={styles.label}Last Name />
           <Text style={styles.name}>{this.props.navigator.state.last}</Text>
+          <Text style={styles.label}Nickname />
           <Text style={styles.date}>{this.props.navigator.state.nickname}</Text>
-          <Text style={styles.time}>{this.props.navigator.state.dobString}</Text>
-          <Text style={styles.time}>{this.props.navigator.state.phone}</Text>
+          <Text style={styles.label}Date of Birth />
+	  <Text style={styles.time}>{this.props.navigator.state.dobString}</Text>
+          <Text style={styles.label}Phone Number />
+	  <Text style={styles.time}>{this.props.navigator.state.phone}</Text>
 	</View>
       </View>  
       );
