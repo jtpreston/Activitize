@@ -47,35 +47,50 @@ export class SettingsPage extends React.Component{
   }
   renderScene(route, navigator) {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent:'center'}}>
-        <View style={styles.header}>
-                <Image style={styles.mark} source={require('../../img/profile_blank.png')} />
-        </View>
-        <View style={styles.profile_info}>
-          <TouchableOpacity onPress={this.editProfile.bind(this)}>
-            <Text style={styles.name}>FirstName LastName</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={{flex: 1, marginTop: 50}}>
         <View style={styles.profile_info}>
           <View>
-          <TouchableHighlight style={styles.button} underlayColor='#BFE9DB'>
+          <TouchableHighlight onPress={this.viewProfile.bind(this)} style={styles.button} underlayColor='#BFE9DB'>
+            <Text style={styles.display}>My Profile</Text>
+          </TouchableHighlight>
+          </View>
+          <View>
+          <TouchableHighlight onPress={this.editProfile.bind(this)} style={styles.button} underlayColor='#BFE9DB'>
+            <Text style={styles.display}>Edit Profile</Text>
+          </TouchableHighlight>
+          </View>
+          <View>
+          <TouchableHighlight onPress={this.viewEvents.bind(this)} style={styles.button} underlayColor='#BFE9DB'>
             <Text style={styles.display}>My Events</Text>
           </TouchableHighlight>
           </View>
           <View>
-          <TouchableHighlight style={styles.button} underlayColor='#BFE9DB'>
-            <Text style={styles.display}>Friends</Text>
+          <TouchableHighlight onPress={this.viewFriends.bind(this)} style={styles.button} underlayColor='#BFE9DB'>
+            <Text style={styles.display}>My Friends</Text>
           </TouchableHighlight>
           </View>
         </View>
       </View>
     );
   }
+
   editProfile() {
     this.props.navigator.push({
       id: 'EditProfile',
       name: 'EditProfile',
     });
+  }
+
+  viewEvents() {
+
+  }
+
+  viewFriends() {
+
+  }
+
+  viewProfile() {
+
   }
 }
 
@@ -173,10 +188,10 @@ var styles = StyleSheet.create({
         flexDirection: 'row'
     },
     profile_info: {
-        marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row'
+        marginTop: 20,
+        flexDirection: 'column'
     },
     name: {
       color: '#1A1423', 
@@ -187,6 +202,7 @@ var styles = StyleSheet.create({
         padding: 10,
         marginLeft: 10,
         marginRight: 10,
-        width: 100
+        marginTop: 30,
+        width: 300
     }
 });

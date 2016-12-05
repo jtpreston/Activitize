@@ -74,7 +74,7 @@ var NavigationBarRouteMapper = {
             });
           }}>
         <Text style={{color: 'white', margin: 10,}}>
-          Profile
+          Settings
         </Text>
       </TouchableOpacity>
     );
