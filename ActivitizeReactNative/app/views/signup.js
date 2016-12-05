@@ -138,9 +138,6 @@ export class SignUp extends React.Component{
               <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.gotoNext.bind(this)}>
                 <Text style={styles.whiteFont}>Next</Text>
               </TouchableHighlight>
-              <TouchableHighlight style={styles.facebook} underlayColor='#840032' onPress={this.login.bind(this)}>
-                <Text style={styles.whiteFont}>Sign up with Facebook</Text>
-              </TouchableHighlight>
               <View style={styles.signup}>
               <TouchableOpacity onPress={this.signIn.bind(this)}>
                 <Text style={styles.greyFont}>Already have an account?<Text style={styles.whiteFont}>  Sign in</Text></Text>
