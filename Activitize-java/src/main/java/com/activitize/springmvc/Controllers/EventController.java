@@ -51,6 +51,9 @@ public class EventController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse deleteEvent(@RequestBody Event event) {
+		if (event.getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
 		User user = new User();
 		user.setUsername(getPrincipal());
 		service.deleteEvent(event, user);
@@ -76,6 +79,9 @@ public class EventController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse addUserToEvent(@RequestBody UserEventWrapper userEventWrapper) {
+		if (userEventWrapper.getEvent().getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
 		boolean success = service.addUserToEvent(userEventWrapper.getEvent(), userEventWrapper.getUser());
 		if (!success) {
 			return new JsonResponse("FAILED","User was already added to this event");
@@ -88,6 +94,9 @@ public class EventController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse removeUserFromEvent(@RequestBody UserEventWrapper userEventWrapper) {
+		if (userEventWrapper.getEvent().getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
 		boolean success = service.removeUserFromEvent(userEventWrapper.getEvent(), userEventWrapper.getUser());
 		if (!success) {
 			return new JsonResponse("FAILED","User was already removed from this event");
@@ -100,6 +109,9 @@ public class EventController {
 			headers = {"Content-type=application/json"})
 	@ResponseBody
 	public JsonResponse confirmUserIsGoingToEvent(@RequestBody Event event) {
+		if (event.getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
 		User user = new User();
 		user.setUsername(getPrincipal());
 		boolean success = service.confirmUserIsGoingToEvent(event, user);
@@ -115,6 +127,9 @@ public class EventController {
 	@ResponseBody
 	public JsonResponse addMultipleUsersToEvent(@RequestBody UserEventWrapper[] userEventWrapper) {
 		for (int i = 0; i < userEventWrapper.length; i++) {
+			if (userEventWrapper[i].getEvent().getEventId() == null) {
+				return new JsonResponse("FAILED", "No event ID present in request");
+			}
 			boolean success = service.addUserToEvent(userEventWrapper[i].getEvent(), userEventWrapper[i].getUser());
 			if (!success) {
 				return new JsonResponse("FAILED","User " + userEventWrapper[i].getUser().getUsername() + " was already added to this event");
@@ -129,6 +144,9 @@ public class EventController {
 	@ResponseBody
 	public JsonResponse removeMultipleUsersFromEvent(@RequestBody UserEventWrapper[] userEventWrapper) {
 		for (int i = 0; i < userEventWrapper.length; i++) {
+			if (userEventWrapper[i].getEvent().getEventId() == null) {
+				return new JsonResponse("FAILED", "No event ID present in request");
+			}
 			boolean success = service.removeUserFromEvent(userEventWrapper[i].getEvent(), userEventWrapper[i].getUser());
 			if (!success) {
 				return new JsonResponse("FAILED","User " + userEventWrapper[i].getUser().getUsername() + " was already removed from this event");
