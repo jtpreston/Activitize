@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`events` (
   `event_id` BIGINT NOT NULL AUTO_INCREMENT,
   `event_name` VARCHAR(255) NOT NULL,
   `event_start` DATETIME NOT NULL,
-  `event_end` DATETIME NULL,
+  `event_end` DATETIME NOT NULL,
   `description` TEXT NULL,
   `location` VARCHAR(255) NOT NULL,
   `private` TINYINT(1) NOT NULL,
