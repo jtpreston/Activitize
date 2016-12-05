@@ -69,6 +69,11 @@ export class SettingsPage extends React.Component{
             <Text style={styles.display}>My Friends</Text>
           </TouchableHighlight>
           </View>
+	  <View>
+	  <TouchableHighlight onPress={this.searchFriends.bind(this)} style={styles.button} underlayColor='#BFE9DB'>
+	    <Text style={styles.display}>Search For Friends</Text>
+	  </TouchableHighlight>
+	  </View>
         </View>
       </View>
     );
@@ -94,6 +99,10 @@ export class SettingsPage extends React.Component{
       id: 'Profile',
       name: 'Profile',
     });
+  }
+  
+  searchFriends() {
+
   }
 }
 
