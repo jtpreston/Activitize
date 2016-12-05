@@ -703,6 +703,30 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		return true;
 	}
 
+	public boolean removeUserFromEventAfterConfirming(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			logger.info("User: " + user.toString() + " has already been removed from this event");
+			return false;
+		}
+		Query q = getSession().createSQLQuery("DELETE FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		q.setParameter(0, event.getEventId());
+		q.setParameter(1, userTemp.getUserId());
+		q.executeUpdate();
+		q = getSession().createSQLQuery("UPDATE events SET number_going = ? WHERE event_id = ?");
+		q.setParameter(0, event.getNumberGoing() - 1);
+		q.setParameter(1, event.getEventId());
+		q.executeUpdate();
+		return true;
+	}
+
 	public boolean confirmUserIsGoingToEvent(Event event, User user) {
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
@@ -721,6 +745,10 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		q.setParameter(0, 1);
 		q.setParameter(1, event.getEventId());
 		q.setParameter(2, userTemp.getUserId());
+		q.executeUpdate();
+		q = getSession().createSQLQuery("UPDATE events SET number_going = ? WHERE event_id = ?");
+		q.setParameter(0, event.getNumberGoing() + 1);
+		q.setParameter(1, event.getEventId());
 		q.executeUpdate();
 		return true;
 	}
