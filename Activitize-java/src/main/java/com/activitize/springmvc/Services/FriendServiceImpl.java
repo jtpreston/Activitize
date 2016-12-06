@@ -22,15 +22,19 @@ public class FriendServiceImpl implements FriendService {
 		return dao.findFriendById(id);
 	}
 
-	public List<Friend> findFriendsbyUserID(int id) {
-		return dao.findFriendsbyUserID(id);
+	public Friend findIfCurrentFriend(Friend friend) {
+		return dao.findIfCurrentFriend(friend);
+	}
+
+	public List<Friend> findFriendsByUserID(int id) {
+		return dao.findFriendsByUserID(id);
 	}
 
 	public List<Friend> findFriendsByUsername(String username) {
 		return dao.findFriendsByUsername(username);
 	}
 
-	public List<Friend> findFriendsByUser(User user) {
+	public List<User> findFriendsByUser(User user) {
 		return dao.findFriendsByUser(user);
 	}
 
@@ -41,5 +45,13 @@ public class FriendServiceImpl implements FriendService {
 	public void deleteFriend(Friend friend) {
 		dao.deleteFriend(friend);
 	}
-	
+
+	public void confirmFriend(Friend friend) {
+		dao.confirmFriend(friend);
+	}
+
+	public void rejectFriend(Friend friend) {
+		dao.rejectFriend(friend);
+	}
+
 }
