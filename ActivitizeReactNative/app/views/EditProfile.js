@@ -292,6 +292,7 @@ var NavigationBarRouteMapper = {
           console.log("status: " + response.status)
           // console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
           if (response.ok) {
+            console.log("setting xcsrfToken")
             await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
           }
 

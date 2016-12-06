@@ -15,24 +15,100 @@ import {
   TouchableHighlight,
   DatePickerAndroid,
   TouchableWithoutFeedback,
-  TimePickerAndroid
+  TimePickerAndroid,
+  AsyncStorage
 } from 'react-native';
 
+var CookieManager = require('react-native-cookies');
+
+function utcDate(date, time) {
+  var tokens = time.split(" ");
+  var clock = tokens[0];
+  var suffix = tokens[1];
+  var hour = parseInt(clock.substring(0, clock.indexOf(':')));
+  var minutes = clock.substring(clock.indexOf(':') + 1, clock.length);
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+
+  if (suffix === "p.m.") {
+    console.log("hour: " + hour)
+    hour = hour + 12;
+    console.log("hour: " + hour)
+  }
+
+  var hourStr;
+  if (hour < 10) {
+    hourStr = "0" + hour;
+  } else {
+    hourStr = hour;
+  }
+
+  var offset = date.getTimezoneOffset() / 60;
+
+  var str = year + "-" + month + "-" + day + "T" + hourStr + ":" + minutes + ":00";
+  if (offset < 0) {
+    offset = offset * -1;
+    if (offset < 10) {
+      str = str + "+0" + offset + ":00";
+    } else {
+      str = str + "+" + offset + ":00";
+    }
+  } else if (offset < 10) {
+    str = str + "-0" + offset + ":00";
+  } else {
+    str = str + "-" + offset + ":00";
+  }
+
+  return str;
+}
+
 function getFormattedTime(hour, minute) {
-  return (hour > 12 ? (hour - 12) : hour ) + ':' + (minute < 10 ? '0' + minute : minute) + (hour > 12 ? ' p.m.' : ' a.m.');
+  return (hour > 12 ? (hour - 12) : hour ) + ':' + (minute < 10 ? '0' + minute : minute) + (hour >= 12 ? ' p.m.' : ' a.m.');
 }
 
 export class NewEvent extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      eventName: '',
-      date: '',
-      time: 'Time',
-      invite: '',
-      dateText: 'Date',
-    };
+    this.state = {};
+
   }
+
+  async componentWillMount() {
+    await this.props.navigator.setState({
+      eventName: '',
+      date: new Date(),
+      date2: '',
+      dateEnd: '',
+      time: 'Start Time',
+      invite: '',
+      dateText: 'Start Date',
+      time2: 'End Time',
+      dateText2: 'End Date',
+      hour: 12,
+      minute: 0,
+      description: '',
+      location: ''
+    });
+    this.forceUpdate();
+  }
+
+  getCookie(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      console.log('Got cookies for url ', res);
+      var cookie = 'JSESSIONID=' + res.JSESSIONID;
+      callback(cookie);
+    });
+  }
+
+  getRememberMe(url, callback) {
+    CookieManager.get(url, (err, res) => {
+      console.log('Got cookies for url ', res);
+      var remember = 'remember-me=' + res['remember-me'];
+      callback(remember);
+    });
+  }
+
   render() {
     return (
       <Navigator
@@ -52,33 +128,59 @@ export class NewEvent extends React.Component{
                     <TextInput 
                         style={[styles.input]}
                         placeholder="Event Name"
-                        onChangeText={(eventName) => this.setState({eventName})}
-                        value={this.state.eventName}
+                        onChangeText={(eventName) => this.props.navigator.setState({eventName})}
+                        value={this.props.navigator.state.eventName}
+                    />
+                    </View>
+                    <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.input]}
+                        placeholder="Location"
+                        onChangeText={(location) => this.props.navigator.setState({location})}
+                        value={this.props.navigator.state.location}
+                    />
+                    </View>
+                    <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.input]}
+                        multiline={true}
+                        maxLength={50}
+                        numberOfLines={4}
+                        placeholder="Description"
+                        onChangeText={(description) => this.props.navigator.setState({description})}
+                        value={this.props.navigator.state.description}
                     />
                 </View>
                   <TouchableWithoutFeedback
-                    onPress={this.showPicker.bind(this, {date: new Date()})}>
+                    onPress={this.showPicker.bind(this, {date: this.props.navigator.state.date, minDate: new Date()})}>
                     <View style={styles.inputContainer}>
-                    <Text style={styles.date}>{this.state.dateText}</Text>
+                    <Text style={styles.date}>{this.props.navigator.state.dateText}</Text>
                     </View>
                     </TouchableWithoutFeedback>
           <TouchableWithoutFeedback
             onPress={this.showTimePicker.bind(this, {
-              hour: 12,
-              minute: 0,
+              hour: this.props.navigator.state.hour,
+              minute: this.props.navigator.state.minute,
             })}>
             <View style={styles.inputContainer}>
-                    <Text style={styles.date}>{this.state.time}</Text>
+                    <Text style={styles.date}>{this.props.navigator.state.time}</Text>
                     </View>
           </TouchableWithoutFeedback>
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={[styles.input]}
-                        placeholder="Invite Friends"
-                        onChangeText={(invite) => this.setState({invite})}
-                        value={this.state.invite}
-                    />
-                </View>
+          <TouchableWithoutFeedback
+                    onPress={this.showPicker2.bind(this, {date: this.props.navigator.state.date2 || this.props.navigator.state.date, minDate: this.props.navigator.state.date})}>
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.date}>{this.props.navigator.state.dateText2}</Text>
+                    </View>
+                    </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={this.showTimePicker2.bind(this, {
+              hour: this.props.navigator.state.hour,
+              minute: this.props.navigator.state.minute,
+            })}>
+            <View style={styles.inputContainer}>
+                    <Text style={styles.date}>{this.props.navigator.state.time2}</Text>
+                    </View>
+          </TouchableWithoutFeedback>
             </View>
         </View>
     );
@@ -89,10 +191,26 @@ export class NewEvent extends React.Component{
       if (action === DatePickerAndroid.dismissedAction) {
         //newState[stateKey + 'Text'] = 'dismissed';
       } else {
-        this.setState({date: new Date(year, month, day)});
+        this.props.navigator.setState({date: new Date(year, month, day)});
         //newState[stateKey + 'Text'] = date.toLocaleDateString();
         var dateString = (month + 1) + "/" + day + "/" + year;
-        this.setState({dateText: dateString});
+        this.props.navigator.setState({dateText: dateString});
+      }
+    } catch ({code, message}) {
+      console.warn('Error ', message);
+    }
+  };
+
+  showPicker2 = async (options) => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action === DatePickerAndroid.dismissedAction) {
+        //newState[stateKey + 'Text'] = 'dismissed';
+      } else {
+        this.props.navigator.setState({date2: new Date(year, month, day)});
+        //newState[stateKey + 'Text'] = date.toLocaleDateString();
+        var dateString = (month + 1) + "/" + day + "/" + year;
+        this.props.navigator.setState({dateText2: dateString});
       }
     } catch ({code, message}) {
       console.warn('Error ', message);
@@ -103,7 +221,9 @@ export class NewEvent extends React.Component{
     try {
       const {action, minute, hour} = await TimePickerAndroid.open(options);
       if (action === TimePickerAndroid.timeSetAction) {
-        this.setState({time: getFormattedTime(hour, minute)});
+        this.props.navigator.setState({time: getFormattedTime(hour, minute)});
+        this.props.navigator.setState({hour: hour});
+        this.props.navigator.setState({minute: minute});
       } else if (action === TimePickerAndroid.dismissedAction) {
         //newState[stateKey + 'Text'] = 'dismissed';
       }
@@ -111,6 +231,20 @@ export class NewEvent extends React.Component{
       console.warn(`Error in example: `, message);
     }
   };
+
+  showTimePicker2 = async (options) => {
+    try {
+      const {action, minute, hour} = await TimePickerAndroid.open(options);
+      if (action === TimePickerAndroid.timeSetAction) {
+        this.props.navigator.setState({time2: getFormattedTime(hour, minute)});
+      } else if (action === TimePickerAndroid.dismissedAction) {
+        //newState[stateKey + 'Text'] = 'dismissed';
+      }
+    } catch ({code, message}) {
+      console.warn(`Error in example: `, message);
+    }
+  };
+
 }
 
 var NavigationBarRouteMapper = {
@@ -127,14 +261,91 @@ var NavigationBarRouteMapper = {
   RightButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => {
-            navigator.parentNavigator.pop();
-          }}>
-        <Text style={{color: 'white', margin: 10,}}>
-          Done
-        </Text>
+      onPress={async () => {
+        var startDate = utcDate(navigator.parentNavigator.state.date, navigator.parentNavigator.state.time);
+        var endDate = utcDate(navigator.parentNavigator.state.date2, navigator.parentNavigator.state.time2);
+        console.log("date: " + startDate)
+        console.log("date2: " + endDate)
+
+        var nav = navigator.parentNavigator;
+        var url = 'https://activitize.net/activitize/events/createEvent';
+        var cookie = await AsyncStorage.getItem('jsessionid');
+        var token = await AsyncStorage.getItem('xcsrfToken');
+
+        var headers = {
+          Cookie: cookie,
+          'X-CSRF-TOKEN': token
+        }
+
+        fetch (url, {
+          method: 'GET',
+          headers: headers,
+        })
+        .then(async function(response) {
+            console.log("status: " + response.status)
+            console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+            console.log("setting xcsrfToken")
+            await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+
+          var token = await AsyncStorage.getItem('xcsrfToken');
+
+          var headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            Cookie: cookie,
+            'X-CSRF-TOKEN': token
+          }
+
+          var params = {
+            eventName: nav.state.eventName,
+            eventStart: startDate,
+            eventEnd: endDate,
+            description: nav.state.description,
+            location: nav.state.location,
+            priv: 1,
+            numberOfComments: 0,
+            numberGoing: 1,
+            numberPending: 0,
+            subevent: 0
+          }
+
+          console.log("headers: " + JSON.stringify(headers))
+          console.log("params: " + JSON.stringify(params))
+
+          fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(params)
+          })
+          .then(async function(response) {
+            console.log("status: " + response.status)
+            console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+            if (response.ok) {
+              console.log("setting xcsrfToken")
+              await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+            }
+
+            return response.json();
+          })
+          .then(function(json) {
+          console.log("json.responseStatus: " + json.responseStatus);
+          if (json.responseStatus === "OK") {
+            nav.pop();
+          } else {
+            Alert.alert(json.errorMessage);
+          }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        })
+        //nav.pop();
+      }}>
+      <Text style={{color: 'white', margin: 10,}}>
+      Done
+      </Text>
       </TouchableOpacity>
-    );
+      );
   },
   Title(route, navigator, index, navState) {
     return (

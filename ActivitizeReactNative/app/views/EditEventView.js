@@ -22,7 +22,7 @@ import {
 var stateVars;
 
 function getFormattedTime(hour, minute) {
-  return (hour > 12 ? (hour - 12) : hour ) + ':' + (minute < 10 ? '0' + minute : minute) + (hour > 12 ? ' p.m.' : ' a.m.');
+  return (hour > 12 ? (hour - 12) : hour ) + ':' + (minute < 10 ? '0' + minute : minute) + (hour >= 12 ? ' p.m.' : ' a.m.');
 }
 
 function getDate(dateString) {
