@@ -28,6 +28,26 @@ public class FriendDaoImpl extends AbstractDao<Integer, Friend> implements Frien
 		}
 	}
 
+	public Friend findIfDuplicateFriendRequest(Friend friend) {
+		boolean exists = (Long) getSession().createQuery("select count(*) from Friend where WHERE users_user_id = :users_user_id AND other_user_id = :other_user_id AND status = :status").setParameter("users_user_id", friend.getUsersUserId()).setParameter("other_user_id", friend.getOtherUserId()).setParameter("status", 0).uniqueResult() > 0;
+		if (exists) {
+			return new Friend();
+		}
+		else {
+			return null;
+		}
+	}
+
+	public Friend findIfDuplicateAdd(Friend friend) {
+		boolean exists = (Long) getSession().createQuery("select count(*) from Friend where WHERE users_user_id = :users_user_id AND other_user_id = :other_user_id").setParameter("users_user_id", friend.getUsersUserId()).setParameter("other_user_id", friend.getOtherUserId()).uniqueResult() > 0;
+		if (exists) {
+			return new Friend();
+		}
+		else {
+			return null;
+		}
+	}
+
 	public List<Friend> findFriendsByUserID(int id) {
 		return null;
 	}

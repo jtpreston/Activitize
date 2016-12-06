@@ -11,6 +11,10 @@ public interface FriendDao {
 
 	Friend findIfCurrentFriend(Friend friend);
 
+	Friend findIfDuplicateFriendRequest(Friend friend);
+
+	Friend findIfDuplicateAdd(Friend friend);
+
 	List<Friend> findFriendsByUserID(int id);
 
 	List<Friend> findFriendsByUsername(String username);

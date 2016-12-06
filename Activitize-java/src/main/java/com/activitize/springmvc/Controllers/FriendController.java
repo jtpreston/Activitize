@@ -47,6 +47,9 @@ public class FriendController {
 		tempUser = userService.findByUsername(user.getUsername());
 		friend.setOtherUserId(tempUser.getUserId());
 		friend.setStatus(false);
+		if (service.findIfDuplicateAdd(friend) != null) {
+			return new JsonResponse("FAILED", "Cannot add this friend due to duplicate friend request");
+		}
 		service.addFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -61,6 +64,9 @@ public class FriendController {
 		friend.setUsersUserId(tempUser.getUserId());
 		tempUser = userService.findByUsername(user.getUsername());
 		friend.setOtherUserId(tempUser.getUserId());
+		if (service.findIfCurrentFriend(friend) == null) {
+			return new JsonResponse("FAILED", "Cannot delete this friend as they are not a friend of requester");
+		}
 		service.deleteFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -76,6 +82,9 @@ public class FriendController {
 		tempUser = userService.findByUsername(user.getUsername());
 		friend.setOtherUserId(tempUser.getUserId());
 		friend.setStatus(true);
+		if (service.findIfDuplicateFriendRequest(friend) == null) {
+			return new JsonResponse("FAILED", "No friend request exists for this request");
+		}
 		service.confirmFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -90,6 +99,9 @@ public class FriendController {
 		friend.setUsersUserId(tempUser.getUserId());
 		tempUser = userService.findByUsername(user.getUsername());
 		friend.setOtherUserId(tempUser.getUserId());
+		if (service.findIfDuplicateFriendRequest(friend) == null) {
+			return new JsonResponse("FAILED", "No friend request exists for this request");
+		}
 		service.rejectFriend(friend);
 		return new JsonResponse("OK","");
 	}

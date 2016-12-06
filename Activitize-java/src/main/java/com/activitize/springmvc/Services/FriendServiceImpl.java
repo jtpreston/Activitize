@@ -26,6 +26,14 @@ public class FriendServiceImpl implements FriendService {
 		return dao.findIfCurrentFriend(friend);
 	}
 
+	public Friend findIfDuplicateFriendRequest(Friend friend) {
+		return dao.findIfDuplicateFriendRequest(friend);
+	}
+
+	public Friend findIfDuplicateAdd(Friend friend) {
+		return dao.findIfDuplicateAdd(friend);
+	}
+
 	public List<Friend> findFriendsByUserID(int id) {
 		return dao.findFriendsByUserID(id);
 	}
