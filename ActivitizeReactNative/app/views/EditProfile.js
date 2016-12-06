@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 
 var CookieManager = require('react-native-cookies');
+var dismissKeyboard = require('dismissKeyboard');
 
 function formatAgeString(age) {
   var year = age.substring(0, age.indexOf(','));
@@ -204,6 +205,7 @@ export class EditProfile extends React.Component{
   renderScene(route, navigator) {
     return (
       <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
         <View style={styles.inputs}>
         <View>
         <Text style={styles.label}>First Name:</Text>
@@ -256,6 +258,7 @@ export class EditProfile extends React.Component{
                 <Text style={styles.whiteFont}>Delete user</Text>
               </TouchableHighlight>
         </View>
+        </TouchableWithoutFeedback>
       </View>
       );
   }
