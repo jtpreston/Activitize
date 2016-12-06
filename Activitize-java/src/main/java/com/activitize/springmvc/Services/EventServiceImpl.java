@@ -63,13 +63,21 @@ public class EventServiceImpl implements EventService {
 	public boolean removeUserFromEvent(Event event, User user) {
 		return dao.removeUserFromEvent(event, user);
 	}
-	
-	public boolean removeUserFromEventAfterConfirming(Event event, User user) {
-		return dao.removeUserFromEventAfterConfirming(event, user);
+
+	public boolean declineUserIsGoingToEvent(Event event, User user) {
+		return dao.declineUserIsGoingToEvent(event, user);
 	}
 
 	public boolean confirmUserIsGoingToEvent(Event event, User user) {
 		return dao.confirmUserIsGoingToEvent(event, user);
+	}
+
+	public boolean doesRequestingUserHavePermission(Event event, User user) {
+		return dao.doesRequestingUserHavePermission(event, user);
+	}
+
+	public Event canUserBeRemoved(Event event, User user) {
+		return dao.canUserBeRemoved(event, user);
 	}
 
 }
