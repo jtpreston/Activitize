@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.activitize.springmvc.Models.Event;
 import com.activitize.springmvc.Models.Friend;
 import com.activitize.springmvc.Models.JsonResponse;
 import com.activitize.springmvc.Models.User;
@@ -107,6 +108,38 @@ public class FriendController {
 			return null;
 		}
 		return service.findFriendsByUser(tempUser);
+	}
+
+	@RequestMapping(value = "/getAllFriendsForCurrentUser", method = RequestMethod.GET)
+	@ResponseBody
+	public List<User> getAllFriendsForCurrentUser() {
+		User user = new User();
+		user = userService.findByUsername(getPrincipal());
+		return service.findFriendsByUser(user);
+	}
+
+	@RequestMapping(value = "/getAllFriendsForSpecificUser", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public User getProfileForFriend(@RequestBody User user) {
+		Friend friend = new Friend();
+		User tempUser = userService.findByUsername(getPrincipal());
+		friend.setUsersUserId(tempUser.getUserId());
+		tempUser = userService.findByUsername(user.getUsername());
+		friend.setOtherUserId(tempUser.getUserId());
+		if (service.findIfCurrentFriend(friend) == null) {
+			return null;
+		}
+		User returnedUser = new User();
+		returnedUser.setAge(tempUser.getAge());
+		returnedUser.setFirstName(tempUser.getFirstName());
+		returnedUser.setLastName(tempUser.getLastName());
+		returnedUser.setPhoneNumber(tempUser.getPhoneNumber());
+		returnedUser.setNickname(tempUser.getNickname());
+		returnedUser.setUsername(tempUser.getUsername());
+		returnedUser.setNumberOfFriends(tempUser.getNumberOfFriends());
+		return returnedUser;
 	}
 
 	private String getPrincipal() {
