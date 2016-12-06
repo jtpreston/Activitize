@@ -13,7 +13,8 @@ import {
   Navigator,
   TouchableOpacity,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 async function getParams(navigator) {
@@ -152,7 +153,8 @@ var NavigationBarRouteMapper = {
           }
         })
         .catch((error) => {
-          console.error(error);
+          Alert.alert("There was an error logging out")
+          console.log(error);
         });
       }}>
         <Text style={{color: 'white', margin: 10,}}>

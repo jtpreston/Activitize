@@ -14,7 +14,8 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 import { ScrollableEventView } from './ScrollableEventView'
@@ -137,7 +138,8 @@ export class EventFeed extends React.Component{
       self.forceUpdate();
     })
     .catch((error) => {
-      console.error(error);
+      Alert.alert("There was an error loading your events")
+      console.log(error);
     });
   }
 

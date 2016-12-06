@@ -126,9 +126,14 @@ export class EditProfile extends React.Component{
         }
       })
       .catch((error) => {
-        console.error(error);
+        Alert.alert("There was an error deleting your user")
+        console.log(error);
       });
     })
+    .catch((error) => {
+      Alert.alert("There was an error deleting your user")
+      console.log(error);
+    });
   }
 
   async componentWillMount() {
@@ -179,7 +184,9 @@ export class EditProfile extends React.Component{
           });
         })
         .catch((error) => {
+          Alert.alert("There was an error loading profile information.")
           console.error(error);
+          self.props.navigator.pop();
         });
   }
 
@@ -228,6 +235,14 @@ export class EditProfile extends React.Component{
             value={this.props.navigator.state.last}
             />
           </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input]}
+              onChangeText={(phone) => this.props.navigator.setState({phone})}
+              value={this.props.navigator.state.phone}
+              keyboardType='numeric'
+            />
+                </View>
           <View>
           <Text style={styles.label}>Date of Birth:</Text>
           </View>
@@ -343,9 +358,14 @@ var NavigationBarRouteMapper = {
           }
         })
         .catch((error) => {
+          Alert.alert("There was an error submitting your changes")
           console.error(error);
         });
       })
+      .catch((error) => {
+        Alert.alert("There was an error submitting your changes")
+        console.error(error);
+      });
           }}>
           <Text style={{color: 'white', margin: 10,}}>
           Submit
