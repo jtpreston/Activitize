@@ -214,8 +214,96 @@ export class EditEventView extends React.Component{
                     </TouchableWithoutFeedback>
             </View>
             </TouchableWithoutFeedback>
+            <View>
+            <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.deleteEvent.bind(this)}>
+                <Text style={styles.whiteFont}>Delete Event</Text>
+              </TouchableHighlight>
+              </View>
         </ScrollView>
     );
+  }
+
+  deleteEvent() {
+    Alert.alert(
+      'Delete event?',
+      'Are you sure you want to delete this event?',
+      [
+      {text: 'No', onPress: () => this.cancelDeleteEvent(), style: 'cancel'},
+      {text: 'Yes', onPress: () => this.proceedDeleteEvent()}
+      ]
+      )
+  }
+
+  cancelDeleteEvent() {
+    console.log("no pressed")
+  }
+
+  async proceedDeleteEvent() {
+    console.log("yes pressed")
+    var navigator = this.props.navigator;
+    var self = this;
+    var url = 'https://activitize.net/activitize/events/deleteEvent';
+    var cookie = await AsyncStorage.getItem('jsessionid');
+    var token = await AsyncStorage.getItem('xcsrfToken');
+    var headers = {
+      Cookie: cookie,
+      'X-CSRF-TOKEN': token
+    }
+
+    console.log("headers: " + headers)
+
+    fetch (url, {
+      method: 'GET',
+      headers: headers,
+    })
+    .then(async function(response) {
+      console.log("status: " + response.status)
+      console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+      console.log("setting xcsrfToken")
+      await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+
+      var token = await AsyncStorage.getItem('xcsrfToken');
+
+      var headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        Cookie: cookie,
+        'X-CSRF-TOKEN': token
+      }
+
+      var params = {
+        eventId: navigator.state.e_id
+      }
+
+      console.log("headers: " + JSON.stringify(headers))
+      console.log("params: " + JSON.stringify(params))
+
+      fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(params)
+      })
+      .then(async function(response) {
+        console.log("status: " + response.status)
+        console.log("xcsrfToken: " + response.headers.get("X-CSRF-TOKEN"))
+        if (response.ok) {
+          console.log("setting token")
+          await AsyncStorage.setItem("xcsrfToken", response.headers.get("X-CSRF-TOKEN"));
+        }
+        return response.json()
+      })
+      .then(async function(json) {
+        console.log("response status: " + json.responseStatus)
+        if (json.responseStatus === "OK") {
+          navigator.popN(2);
+        } else {
+          Alert.alert(json.errorMessage);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    })
   }
 
   showPicker = async (options) => {
@@ -433,9 +521,10 @@ var styles = StyleSheet.create({
         height: 150
     },
     signin: {
-        backgroundColor: '#547980',
+        backgroundColor: '#B20000',
         padding: 20,
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 50
     },
     signup: {
       justifyContent: 'center',
