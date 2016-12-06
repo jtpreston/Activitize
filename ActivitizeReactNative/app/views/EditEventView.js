@@ -65,7 +65,7 @@ function utcDate(date, time) {
   var month = date.getMonth() + 1;
   var year = date.getFullYear();
 
-  if (suffix === "p.m.") {
+  if (suffix === "p.m." && hour !== 12) {
     console.log("hour: " + hour)
     hour = hour + 12;
     console.log("hour: " + hour)
@@ -311,9 +311,14 @@ export class EditEventView extends React.Component{
         }
       })
       .catch((error) => {
-        console.error(error);
+        Alert.alert("There was an error deleting the event")
+        console.log(error);
       });
     })
+    .catch((error) => {
+      Alert.alert("There was an error deleting the event")
+      console.log(error);
+    });
   }
 
   showPicker = async (options) => {
@@ -488,9 +493,14 @@ var NavigationBarRouteMapper = {
             }
           })
           .catch((error) => {
-            console.error(error);
+            Alert.alert("There was an error updating your event")
+            console.log(error);
           });
         })
+        .catch((error) => {
+          Alert.alert("There was an error updating your event")
+          console.log(error);
+        });
         //navigator.parentNavigator.pop();
       }}>
       <Text style={{color: 'white', margin: 10,}}>

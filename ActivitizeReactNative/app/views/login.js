@@ -100,12 +100,14 @@ export class Login extends React.Component{
           }
         })
         .catch((error) => {
-          console.error(error);
+          Alert.alert("There was an error logging in.")
+          console.log(error);
         });
       })
     })
     .catch((error) => {
-      console.error(error);
+      Alert.alert("There was an error logging in.")
+      console.log(error);
     });
   }
 

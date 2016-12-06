@@ -33,7 +33,7 @@ function utcDate(date, time) {
   var month = date.getMonth() + 1;
   var year = date.getFullYear();
 
-  if (suffix === "p.m.") {
+  if (suffix === "p.m." && hour !== 12) {
     console.log("hour: " + hour)
     hour = hour + 12;
     console.log("hour: " + hour)
@@ -46,9 +46,19 @@ function utcDate(date, time) {
     hourStr = hour;
   }
 
+  var dayStr = day;
+  if (day < 10) {
+    dayStr = "0" + day;
+  }
+
+  var monthStr = month;
+  if (month < 10) {
+    monthStr = "0" + month;
+  }
+
   var offset = date.getTimezoneOffset() / 60;
 
-  var str = year + "-" + month + "-" + day + "T" + hourStr + ":" + minutes + ":00";
+  var str = year + "-" + monthStr + "-" + dayStr + "T" + hourStr + ":" + minutes + ":00";
   if (offset < 0) {
     offset = offset * -1;
     if (offset < 10) {
@@ -361,9 +371,14 @@ var NavigationBarRouteMapper = {
           }
           })
           .catch((error) => {
-            console.error(error);
+            Alert.alert("There was an error creating the event")
+            console.log(error);
           });
         })
+        .catch((error) => {
+          Alert.alert("There was an error creating the event")
+          console.log(error);
+        });
         //nav.pop();
       }}>
       <Text style={{color: 'white', margin: 10,}}>

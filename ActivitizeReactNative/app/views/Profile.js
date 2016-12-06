@@ -112,7 +112,9 @@ export class Profile extends React.Component{
           self.forceUpdate();
         })
         .catch((error) => {
-          console.error(error);
+          Alert.alert("There was an error loading profile information")
+          console.log(error);
+          self.props.navigator.pop();
         });
   }
 

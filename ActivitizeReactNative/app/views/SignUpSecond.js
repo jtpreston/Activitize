@@ -129,6 +129,7 @@ export class SignUpSecond extends React.Component{
       } else {
         var dateString = (month + 1) + "/" + day + "/" + year;
         var dbDate = day + "/" + (month + 1) + "/" + year
+        console.log("date: " + dbDate);
         this.setState({dateText: dateString});
         this.setState({dob: dbDate});
         console.log("Birthday: " + this.state.dob)
@@ -278,19 +279,22 @@ export class SignUpSecond extends React.Component{
               }
             })
             .catch((error) => {
-              console.error(error);
+              Alert.alert("There was an error signing up")
+              console.log(error);
             });
           })
         })
         .catch((error) => {
-          console.error(error);
+          Alert.alert("There was an error signing up")
+          console.log(error);
         });
       } else {
         Alert.alert(json.errorMessage);
       }
     })
     .catch((error) => {
-      console.error(error);
+      Alert.alert("There was an error signing up")
+      console.log(error);
     });
       // this.props.navigator.push({
       //   id: 'EventFeed',
