@@ -83,34 +83,52 @@ export class EditProfile extends React.Component{
     var cookie = await AsyncStorage.getItem('jsessionid');
     var token = await AsyncStorage.getItem('xcsrfToken');
     var headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       Cookie: cookie,
       'X-CSRF-TOKEN': token
     }
 
+    fetch (url, {
+      method: 'GET',
+      headers: headers,
+    })
+    .then(async function(response) {
+      console.log("status: " + response.status)
+      console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+      console.log("setting xcsrfToken")
+      await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+
+      var token = await AsyncStorage.getItem('xcsrfToken');
+
+      var headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        Cookie: cookie,
+        'X-CSRF-TOKEN': token
+      }
+
     // console.log("headers: " + JSON.stringify(headers))
 
-    fetch(url, {
-      method: 'POST',
-      headers: headers
+      fetch(url, {
+        method: 'POST',
+        headers: headers
+      })
+      .then(function(response) {
+        console.log("status: " + response.status)
+        return response.json()
+      })
+      .then(async function(json) {
+        console.log("response status: " + json.responseStatus)
+        if (json.responseStatus === "OK") {
+          await self.clearStorage();
+          navigator.popToTop();
+        } else {
+          Alert.alert(json.errorMessage);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     })
-    .then(function(response) {
-      console.log("status: " + response.status)
-      return response.json()
-    })
-    .then(async function(json) {
-      console.log("response status: " + json.responseStatus)
-      if (json.responseStatus === "OK") {
-        await self.clearStorage();
-        navigator.popToTop();
-      } else {
-        Alert.alert(json.errorMessage);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
   }
 
   async componentWillMount() {
@@ -265,7 +283,25 @@ var NavigationBarRouteMapper = {
         var url = 'https://activitize.net/activitize/user/editUser';
         var cookie = await AsyncStorage.getItem('jsessionid');
         var token = await AsyncStorage.getItem('xcsrfToken');
+        
         var headers = {
+          Cookie: cookie,
+          'X-CSRF-TOKEN': token
+        }
+
+        fetch (url, {
+          method: 'GET',
+          headers: headers,
+        })
+        .then(async function(response) {
+            console.log("status: " + response.status)
+            console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+            console.log("setting xcsrfToken")
+            await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+
+          var token = await AsyncStorage.getItem('xcsrfToken');
+
+          var headers = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           Cookie: cookie,
@@ -309,6 +345,7 @@ var NavigationBarRouteMapper = {
         .catch((error) => {
           console.error(error);
         });
+      })
           }}>
           <Text style={{color: 'white', margin: 10,}}>
           Submit
