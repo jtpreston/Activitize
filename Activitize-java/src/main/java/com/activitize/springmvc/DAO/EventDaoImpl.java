@@ -58,7 +58,7 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		if (count == 0) {
 			return null;
 		}
-		Query q = getSession().createSQLQuery("SELECT username, first_name, last_name, nickname FROM users INNER JOIN users_has_events ON users.user_id = users_has_events.users_user_id WHERE users_has_events.events_event_id = ?");
+		Query q = getSession().createSQLQuery("SELECT username, first_name, last_name, nickname, admin, going FROM users INNER JOIN users_has_events ON users.user_id = users_has_events.users_user_id WHERE users_has_events.events_event_id = ?");
 		q.setParameter(0, event.getEventId());
 		List result = q.list();
 		return result;
