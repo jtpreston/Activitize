@@ -17,7 +17,8 @@ import {
   TouchableWithoutFeedback,
   Alert,
   TimePickerAndroid,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 
 var dismissKeyboard = require('dismissKeyboard');
@@ -52,6 +53,48 @@ function getMinute(timeString) {
   var minute = parseInt(timeString.substring(timeString.indexOf(':') + 1, timeString.indexOf(' ')));
   console.log("minute: " + minute)
   return minute;
+}
+
+function utcDate(date, time) {
+  var tokens = time.split(" ");
+  var clock = tokens[0];
+  var suffix = tokens[1];
+  var hour = parseInt(clock.substring(0, clock.indexOf(':')));
+  var minutes = clock.substring(clock.indexOf(':') + 1, clock.length);
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+
+  if (suffix === "p.m.") {
+    console.log("hour: " + hour)
+    hour = hour + 12;
+    console.log("hour: " + hour)
+  }
+
+  var hourStr;
+  if (hour < 10) {
+    hourStr = "0" + hour;
+  } else {
+    hourStr = hour;
+  }
+
+  var offset = date.getTimezoneOffset() / 60;
+
+  var str = year + "-" + month + "-" + day + "T" + hourStr + ":" + minutes + ":00";
+  if (offset < 0) {
+    offset = offset * -1;
+    if (offset < 10) {
+      str = str + "+0" + offset + ":00";
+    } else {
+      str = str + "+" + offset + ":00";
+    }
+  } else if (offset < 10) {
+    str = str + "-0" + offset + ":00";
+  } else {
+    str = str + "-" + offset + ":00";
+  }
+
+  return str;
 }
 
 export class EditEventView extends React.Component{
@@ -273,14 +316,90 @@ var NavigationBarRouteMapper = {
   RightButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => {
-            navigator.parentNavigator.pop();
-          }}>
-        <Text style={{color: 'white', margin: 10,}}>
-          Done
-        </Text>
+      onPress={async () => {
+        var startDate = utcDate(stateVars.date, navigator.parentNavigator.state.e_time);
+        var endDate = utcDate(stateVars.date2, navigator.parentNavigator.state.e_time2);
+        console.log("date: " + startDate)
+        console.log("date2: " + endDate)
+
+        var nav = navigator.parentNavigator;
+        var url = 'https://activitize.net/activitize/events/editEvent';
+        var cookie = await AsyncStorage.getItem('jsessionid');
+        var token = await AsyncStorage.getItem('xcsrfToken');
+
+        var headers = {
+          Cookie: cookie,
+          'X-CSRF-TOKEN': token
+        }
+
+        console.log("headers: " + headers)
+
+        fetch (url, {
+          method: 'GET',
+          headers: headers,
+        })
+        .then(async function(response) {
+          console.log("status: " + response.status)
+          console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+          console.log("setting xcsrfToken")
+          await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+
+          var token = await AsyncStorage.getItem('xcsrfToken');
+
+          var headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            Cookie: cookie,
+            'X-CSRF-TOKEN': token
+          }
+
+          var params = {
+            eventId: nav.state.e_id,
+            eventName: nav.state.e_name,
+            eventStart: startDate,
+            eventEnd: endDate,
+            description: nav.state.e_description,
+            location: nav.state.e_location
+          }
+
+          console.log("headers: " + JSON.stringify(headers))
+          console.log("params: " + JSON.stringify(params))
+
+          fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(params)
+          })
+          .then(async function(response) {
+            console.log("status: " + response.status)
+            console.log("xcsrftoken: " + response.headers.get('X-CSRF-TOKEN'));
+            if (response.ok) {
+              console.log("setting xcsrfToken")
+              await AsyncStorage.setItem('xcsrfToken', response.headers.get('X-CSRF-TOKEN'));
+            }
+
+            return response.json();
+          })
+          .then(function(json) {
+            console.log("json.responseStatus: " + json.responseStatus)
+            console.log("json.errorMessage: " + json.errorMessage)
+            if (json.responseStatus === "OK") {
+              nav.pop();
+            } else {
+              Alert.alert(json.errorMessage);
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        })
+        //navigator.parentNavigator.pop();
+      }}>
+      <Text style={{color: 'white', margin: 10,}}>
+      Done
+      </Text>
       </TouchableOpacity>
-    );
+      );
   },
   Title(route, navigator, index, navState) {
     return (

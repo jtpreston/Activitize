@@ -70,6 +70,14 @@ export class EventFeed extends React.Component{
   }
 
   async componentWillMount() {
+    await this.loadEvents();
+  }
+
+  async componentWillReceiveProps() {
+    await this.loadEvents();
+  }
+
+  async loadEvents() {
     var self = this;
     var url = 'https://activitize.net/activitize/events/getAllEventsForUser';
     var cookie = await AsyncStorage.getItem('jsessionid');
@@ -83,7 +91,7 @@ export class EventFeed extends React.Component{
 
     console.log("headers: " + JSON.stringify(headers))
 
-    fetch(url, {
+    return fetch(url, {
       method: 'GET',
       headers: headers
     })
