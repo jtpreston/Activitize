@@ -17,7 +17,7 @@ public interface EventDao {
 
 	boolean removeUserFromEvent(Event event, User user);
 
-	boolean removeUserFromEventAfterConfirming(Event event, User user);
+	boolean declineUserIsGoingToEvent(Event event, User user);
 
 	boolean confirmUserIsGoingToEvent(Event event, User user);
 
@@ -28,5 +28,9 @@ public interface EventDao {
 	void editEvent(Event event, User user);
 
 	List<Event> getAllEventsForUser(User user);
+
+	boolean doesRequestingUserHavePermission(Event event, User user);
+
+	Event canUserBeRemoved(Event event, User user);
 
 }

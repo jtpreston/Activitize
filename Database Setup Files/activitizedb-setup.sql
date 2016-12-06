@@ -50,9 +50,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`events` (
   `private` TINYINT(1) NOT NULL DEFAULT 0,
   `number_of_comments` INT NOT NULL DEFAULT 0,
   `path_to_event_picture` VARCHAR(255) NULL,
-  `number_going` INT NOT NULL DEFAULT 1,
-  `number_pending` INT NOT NULL DEFAULT 0,
   `subevent` TINYINT(1) NOT NULL DEFAULT 0,
+  `creator` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`event_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

@@ -50,6 +50,7 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
 		User userTemp = (User)crit.uniqueResult();
+		event.setCreator(user.getUsername());
 		persist(event);
 		Criteria otherCrit = getSession().createCriteria(Event.class);
 		otherCrit.add(Example.create(event));
@@ -64,17 +65,8 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 	}
 
 	public void deleteEvent(Event event, User user) {
-		Criteria crit = getSession().createCriteria(User.class);
-		crit.add(Restrictions.eq("username", user.getUsername()));
-		User userTemp = (User)crit.uniqueResult();
-		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND admin = ?");
-		query.setParameter(0, event.getEventId());
-		query.setParameter(1, userTemp.getUserId());
-		query.setParameter(2, 1);
-		Object countobj = query.list().get(0);
-		int count = ((Number) countobj).intValue();
-		if (count == 0) {
-			logger.info("User: " + user.toString() + " was not allowed to delete this event");
+		if (!doesRequestingUserHavePermission(event, user)) {
+			logger.info("User: " + user.toString() + " was not allowed to edit this event");
 			return;
 		}
 		Query q = getSession().createSQLQuery("delete from users_has_events where events_event_id=:id").setParameter("id", event.getEventId());
@@ -89,6 +81,10 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
 		User userTemp = (User)crit.uniqueResult();
+		if (!doesRequestingUserHavePermission(event, user)) {
+			logger.info("User: " + user.toString() + " was not allowed to edit this event");
+			return;
+		}
 		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND admin = ?");
 		query.setParameter(0, event.getEventId());
 		query.setParameter(1, userTemp.getUserId());
@@ -718,7 +714,7 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		return true;
 	}
 
-	public boolean removeUserFromEventAfterConfirming(Event event, User user) {
+	public boolean declineUserIsGoingToEvent(Event event, User user) {
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
 		User userTemp = (User)crit.uniqueResult();
@@ -734,10 +730,6 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		Query q = getSession().createSQLQuery("DELETE FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
 		q.setParameter(0, event.getEventId());
 		q.setParameter(1, userTemp.getUserId());
-		q.executeUpdate();
-		q = getSession().createSQLQuery("UPDATE events SET number_going = ? WHERE event_id = ?");
-		q.setParameter(0, event.getNumberGoing() - 1);
-		q.setParameter(1, event.getEventId());
 		q.executeUpdate();
 		return true;
 	}
@@ -761,11 +753,28 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		q.setParameter(1, event.getEventId());
 		q.setParameter(2, userTemp.getUserId());
 		q.executeUpdate();
-		q = getSession().createSQLQuery("UPDATE events SET number_going = ? WHERE event_id = ?");
-		q.setParameter(0, event.getNumberGoing() + 1);
-		q.setParameter(1, event.getEventId());
-		q.executeUpdate();
 		return true;
+	}
+
+	public boolean doesRequestingUserHavePermission(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND admin = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		query.setParameter(2, 1);
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	public Event canUserBeRemoved(Event event, User user) {
+		Event eventTemp = getByKey(event.getEventId());
+		return eventTemp;
 	}
 
 }
