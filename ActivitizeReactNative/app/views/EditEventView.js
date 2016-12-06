@@ -78,9 +78,19 @@ function utcDate(date, time) {
     hourStr = hour;
   }
 
+  var dayStr = day;
+  if (day < 10) {
+    dayStr = "0" + day;
+  }
+
+  var monthStr = month;
+  if (month < 10) {
+    monthStr = "0" + month;
+  }
+
   var offset = date.getTimezoneOffset() / 60;
 
-  var str = year + "-" + month + "-" + day + "T" + hourStr + ":" + minutes + ":00";
+  var str = year + "-" + monthStr + "-" + dayStr + "T" + hourStr + ":" + minutes + ":00";
   if (offset < 0) {
     offset = offset * -1;
     if (offset < 10) {

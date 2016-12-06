@@ -28,8 +28,8 @@ function convertTime(milliseconds) {
 
 function getFormattedDate(date) {
   var month = date.getMonth() + 1;
-  var day = date.getDate() + 1;
-  var year = date.getFullYear() + 1;
+  var day = date.getDate();
+  var year = date.getFullYear();
   return month + "/" + day + "/" + year;
 } 
 
@@ -38,13 +38,11 @@ function getFormattedTime(date) {
   var minutes = date.getMinutes();
 
   var time = "a.m.";
-  if (hours >= 11) {
+  if (hours > 11) {
     time = "p.m."
   }
 
-  if (hours < 12) {
-    hours = hours + 1;
-  } else {
+  if (hours > 12) {
     hours = hours - 12;
   }
 
@@ -107,9 +105,15 @@ export class EventFeed extends React.Component{
       for (i = 0; i < json.length; i++) {
         var start = convertTime(json[i][2]);
         var end = convertTime(json[i][3]);
+        console.log("start ms: " + json[i][2])
+        console.log("start: " + start.toString());
+        console.log("end ms: " + json[i][3])
+        console.log("end: " + end.toString())
         var startDate = getFormattedDate(start);
+        console.log("startDate: " + startDate)
         var startTime = getFormattedTime(start);
         var endDate = getFormattedDate(end);
+        console.log("endDate: " + endDate)
         var endTime = getFormattedTime(end);
         var fields = {
           eventId: json[i][0],

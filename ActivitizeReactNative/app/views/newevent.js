@@ -16,7 +16,8 @@ import {
   DatePickerAndroid,
   TouchableWithoutFeedback,
   TimePickerAndroid,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 var dismissKeyboard = require('dismissKeyboard');
@@ -265,12 +266,35 @@ var NavigationBarRouteMapper = {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
       onPress={async () => {
+
+        var nav = navigator.parentNavigator;
+        if (!nav.state.eventName) {
+          Alert.alert("Event name is a required field.")
+          return;
+        } else if (!nav.state.date) {
+          Alert.alert("Start date is a required field.")
+          return;
+        } else if (nav.state.time === 'Start Time') {
+          Alert.alert("Start time is a required field.")
+          return;
+        } else if (!nav.state.date2) {
+          Alert.alert("End date is a required field.")
+          return;
+        } else if (nav.state.time2 === 'End Time') {
+          Alert.alert("End time is a required field.")
+          return;
+        } else if (!nav.state.description) {
+          Alert.alert("Description is a required field.")
+          return;
+        } else if (!nav.state.location) {
+          Alert.alert("Location is a required field.")
+          return;
+        }
         var startDate = utcDate(navigator.parentNavigator.state.date, navigator.parentNavigator.state.time);
         var endDate = utcDate(navigator.parentNavigator.state.date2, navigator.parentNavigator.state.time2);
         console.log("date: " + startDate)
         console.log("date2: " + endDate)
 
-        var nav = navigator.parentNavigator;
         var url = 'https://activitize.net/activitize/events/createEvent';
         var cookie = await AsyncStorage.getItem('jsessionid');
         var token = await AsyncStorage.getItem('xcsrfToken');
