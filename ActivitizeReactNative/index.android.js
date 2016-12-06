@@ -38,6 +38,7 @@ import { EditEventView } from './app/views/EditEventView'
 import { SignUpSecond } from './app/views/SignUpSecond'
 import { ForgotPassword } from './app/views/ForgotPassword'
 import { Profile } from './app/views/Profile'
+import { Friend } from './app/views/Friend'
 
 class ActivitizeReactNative extends React.Component {
   render() {
@@ -120,6 +121,12 @@ class ActivitizeReactNative extends React.Component {
       return (
 	<Profile
 	  navigator={navigator} />
+      );
+    }
+    if (routeId === 'Friend') {
+      return (
+        <Friend
+          navigator={navigator} />
       );
     } 
   }
