@@ -49,8 +49,8 @@ function makeDBAge(age) {
 export class Profile extends React.Component{
   constructor(props) {
     super(props);
-    this.getUserInfo();
     this.state = {};
+    //this.getUserInfo.bind(this);
   }
   
   async clearStorage() {
@@ -123,19 +123,28 @@ export class Profile extends React.Component{
     );
   }
   renderScene(route, navigator) {
+    this.getUserInfo.bind(this)
     return (
       <View style={styles.container}>
         <View style={styles.textContainer}>
-          <Text style={styles.label}First Name />
- 	  <Text style={styles.name}>{this.props.navigator.state.first}</Text>
-          <Text style={styles.label}Last Name />
-          <Text style={styles.name}>{this.props.navigator.state.last}</Text>
-          <Text style={styles.label}Nickname />
-          <Text style={styles.date}>{this.props.navigator.state.nickname}</Text>
-          <Text style={styles.label}Date of Birth />
-	  <Text style={styles.time}>{this.props.navigator.state.dobString}</Text>
-          <Text style={styles.label}Phone Number />
-	  <Text style={styles.time}>{this.props.navigator.state.phone}</Text>
+          <Text>First Name</Text>
+	  <Text style={styles.name}>{this.props.navigator.state.first}</Text>
+	</View>
+	<View style={styles.textContainer}>
+          <Text>Last Name</Text>
+	  <Text style={styles.name}>{this.props.navigator.state.last}</Text>
+	</View>
+	<View style={styles.textContainer}>
+          <Text>Nickname</Text>
+	  <Text style={styles.name}>{this.props.navigator.state.nickname}</Text>
+	</View>
+	<View style={styles.textContainer}>
+          <Text>Date of Birth</Text>
+	  <Text style={styles.name}>{this.props.navigator.state.dobString}</Text>
+	</View>
+	<View style={styles.textContainer}>
+          <Text>Phone Number</Text>
+	  <Text style={styles.name}>{this.props.navigator.state.phone}</Text>
 	</View>
       </View>  
       );
@@ -178,7 +187,10 @@ var styles = StyleSheet.create({
       backgroundColor: 'transparent'
     },
     textContainer: {
-      width: windowSize.width
+      padding: 30,
+      borderWidth: 1,
+      marginTop: 10,
+      borderColor: 'transparent'
     },
     greyFont: {
       color: '#D8D8D8'
