@@ -101,7 +101,8 @@ public class User implements Serializable {
 	private int number_of_friends = 0;
 	
 	@NotNull
-	private boolean using_facebook;
+	@Column(name = "using_facebook", nullable = false)
+	private boolean using_facebook = false;
 	
 	@Column(name = "facebook_user_id", nullable = true)
 	private long facebook_user_id;

@@ -38,7 +38,8 @@ public class Friend implements Serializable {
 	private Integer other_user_id;
 	
 	@NotNull
-	private boolean status;
+	@Column(name = "status", nullable = false)
+	private boolean status = false;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
