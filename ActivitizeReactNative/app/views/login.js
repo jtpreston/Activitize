@@ -82,15 +82,15 @@ export class Login extends React.Component{
             xcsrfToken = response.headers.get('X-CSRF-TOKEN');
             await AsyncStorage.setItem('xcsrfToken', xcsrfToken);
             var token = await AsyncStorage.getItem('xcsrfToken');
-            // console.log("xcsrfToken: " + token)
+            console.log("xcsrfToken: " + token)
             view.getCookie('https://activitize.net/activitize/login', async function(cookie) { 
               await AsyncStorage.setItem('jsessionid', cookie);
               var cookie2 = await AsyncStorage.getItem('jsessionid');
-              // console.log("jsessionid: " + cookie2);
+              console.log("jsessionid: " + cookie2);
               view.getRemeberMe('https://activitize.net/activitize/login', async function(remember) {
                 await AsyncStorage.setItem('remember', remember)
                 var memory = await AsyncStorage.getItem('remember');
-                // console.log("remember-me: " + memory)
+                console.log("remember-me: " + memory)
                   navigator.push({
                   id: 'EventFeed',
                   name: 'Events'
