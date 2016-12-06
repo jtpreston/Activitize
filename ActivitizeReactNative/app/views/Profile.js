@@ -52,6 +52,10 @@ export class Profile extends React.Component{
     this.state = {};
     //this.getUserInfo.bind(this);
   }
+
+  async componentWillMount() {
+    await this.getUserInfo();
+  }
   
   async clearStorage() {
     await AsyncStorage.removeItem('xcsrfToken');
@@ -73,7 +77,7 @@ export class Profile extends React.Component{
 
     console.log("headers: " + JSON.stringify(headers))
 
-    fetch(url, {
+    return fetch(url, {
           method: 'GET',
           headers: headers
         })
@@ -105,6 +109,7 @@ export class Profile extends React.Component{
             nickname: nickname,
             phone: phone
           });
+          self.forceUpdate();
         })
         .catch((error) => {
           console.error(error);
@@ -163,14 +168,7 @@ var NavigationBarRouteMapper = {
     );
   },
   RightButton(route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.pop()}>
-        <Text style={{color: 'white', margin: 10,}}>
-          Done
-        </Text>
-      </TouchableOpacity>
-    );
+    return null;
   },
   Title(route, navigator, index, navState) {
     return (
@@ -184,12 +182,14 @@ var styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
       flex: 1,
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      marginTop: 50
     },
     textContainer: {
-      padding: 30,
+      padding: 5,
       borderWidth: 1,
       marginTop: 10,
+      marginLeft: 20,
       borderColor: 'transparent'
     },
     greyFont: {
