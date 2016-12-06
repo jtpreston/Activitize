@@ -56,6 +56,10 @@ public class EventServiceImpl implements EventService {
 		return dao.getAllEventsForUser(user);
 	}
 
+	public List<User> getAllUsersForEvent(Event event, User user) {
+		return dao.getAllUsersForEvent(event, user);
+	}
+
 	public boolean addUserToEvent(Event event, User user) {
 		return dao.addUserToEvent(event, user);
 	}

@@ -29,6 +29,8 @@ public interface EventDao {
 
 	List<Event> getAllEventsForUser(User user);
 
+	List<User> getAllUsersForEvent(Event event, User user);
+
 	boolean doesRequestingUserHavePermission(Event event, User user);
 
 	Event canUserBeRemoved(Event event, User user);

@@ -212,6 +212,16 @@ public class EventController {
 		return service.getAllEventsForUser(user);
 	}
 
+	@RequestMapping(value = "/getAllUsersForEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public List<User> getAllUserForEvent(@RequestBody Event event) {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllUsersForEvent(event, user);
+	}
+
 	private String getPrincipal() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
