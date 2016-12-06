@@ -304,8 +304,6 @@ var NavigationBarRouteMapper = {
             location: nav.state.location,
             priv: 1,
             numberOfComments: 0,
-            numberGoing: 1,
-            numberPending: 0,
             subevent: 0
           }
 
