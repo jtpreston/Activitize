@@ -13,7 +13,8 @@ import {
   Navigator,
   TouchableOpacity,
   TouchableHighlight,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
 
 var navProps;
@@ -38,17 +39,19 @@ export class EventView extends React.Component{
     navProps = this.props.navigator.state;
     return (
       <View style={styles.container}>
-      <View style={styles.textContainer}>
+      <ScrollView>
+        <View style={styles.textContainer}>
         <Text style={styles.title}>{this.props.navigator.state.e_name}</Text>
-        <Text style={styles.date}>{this.props.navigator.state.e_date}</Text>
-        <Text style={styles.time}>{this.props.navigator.state.e_time}</Text>
-	<View>
-	  <TouchableHighlight style={styles.signin} underlayColor='#BFE9DB'>
-	    <Text style={styles.display}>Mute Notifications</Text>
-	  </TouchableHighlight>
-	</View>
-	</View>
-       </View>
+        <Text style={styles.date}>{this.props.navigator.state.e_date}, {this.props.navigator.state.e_time} to</Text>
+        <Text style={styles.date}>{this.props.navigator.state.e_date2}, {this.props.navigator.state.e_time2}</Text>
+        <Text style={styles.location}>at {this.props.navigator.state.e_location}</Text>
+        <Text style={styles.description}>Description: {this.props.navigator.state.e_description}</Text>
+        </View>
+      </ScrollView>
+        <TouchableHighlight style={styles.mute} underlayColor='#BFE9DB'>
+          <Text style={styles.whiteFont}>Mute Notifications</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }
@@ -69,10 +72,14 @@ var NavigationBarRouteMapper = {
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
           onPress={() => {
             navigator.setState({
-              e_id: navProps.e_id,
-              e_name: navProps.e_name,
-              e_date: navProps.e_date,
-              e_time: navProps.e_time
+              e_id: navigator.parentNavigator.state.e_id,
+              e_name: navigator.parentNavigator.state.e_name,
+              e_date: navigator.parentNavigator.state.e_date,
+              e_time: navigator.parentNavigator.state.e_time,
+              e_date2: navigator.parentNavigator.state.e_date2,
+              e_time2: navigator.parentNavigator.state.e_time2,
+              e_location: navigator.parentNavigator.state.e_location,
+              e_description: navigator.parentNavigator.state.e_location
             });
             navigator.parentNavigator.push({
             id: 'EditEvent',
@@ -115,7 +122,7 @@ var styles = StyleSheet.create({
       marginTop: 55, 
     },
     textContainer: {
-      width: windowSize.width
+      width: windowSize.width - 40
     },
     title: {
       color: '#1A1423',
@@ -126,14 +133,26 @@ var styles = StyleSheet.create({
       fontSize: 20,
       marginTop: 10
     },
-    time: {
+    location: {
+      color: '#1A1423',
+      fontSize: 20,
+      marginTop: 10 
+    },
+    description: {
       color: '#1A1423',
       fontSize: 16,
       marginTop: 10 
     },
-    signin: {
+    mute: {
     	backgroundColor: '#E07E06',
-	padding: 20,
-	alignItems: 'center',
+    	padding: 20,
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
+    whiteFont: {
+      color: '#FFF'
     }
 });
