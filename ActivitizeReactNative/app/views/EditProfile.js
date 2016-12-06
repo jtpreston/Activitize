@@ -235,6 +235,14 @@ export class EditProfile extends React.Component{
             value={this.props.navigator.state.last}
             />
           </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input]}
+              onChangeText={(phone) => this.props.navigator.setState({phone})}
+              value={this.props.navigator.state.phone}
+              keyboardType='numeric'
+            />
+                </View>
           <View>
           <Text style={styles.label}>Date of Birth:</Text>
           </View>
