@@ -130,7 +130,7 @@ public class FriendController {
 		return service.findFriendsByUser(user);
 	}
 
-	@RequestMapping(value = "/getAllFriendsForSpecificUser", 
+	@RequestMapping(value = "/getProfileForFriend", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
