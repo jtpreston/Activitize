@@ -16,8 +16,11 @@ import {
   DatePickerAndroid,
   TouchableWithoutFeedback,
   Alert,
-  TimePickerAndroid
+  TimePickerAndroid,
+  ScrollView
 } from 'react-native';
+
+var dismissKeyboard = require('dismissKeyboard');
 
 var stateVars;
 
@@ -33,17 +36,22 @@ function getDate(dateString) {
   date.setMonth(month - 1);
   date.setDate(day);
   date.setYear(year);
+  console.log("date: " + date.toString())
   return date;
 }
 
 function getHour(timeString) {
   var hour = timeString.substring(0, timeString.indexOf(':'));
-  var ampm = timeString.substring(timeString.indexOf(' '), timeString.length);
-  return ampm === 'a.m.' ? parseInt(hour) : (parseInt(hour) + 12);
+  var ampm = timeString.substring(timeString.indexOf(' ') + 1, timeString.length);
+  hour = ampm === 'a.m.' ? parseInt(hour) : (parseInt(hour) + 12);
+  console.log("hour: " + hour)
+  return hour;
 }
 
 function getMinute(timeString) {
-  return parseInt(timeString.substring(timeString.indexOf(':') + 1, timeString.indexOf(' ')));
+  var minute = parseInt(timeString.substring(timeString.indexOf(':') + 1, timeString.indexOf(' ')));
+  console.log("minute: " + minute)
+  return minute;
 }
 
 export class EditEventView extends React.Component{
@@ -52,11 +60,19 @@ export class EditEventView extends React.Component{
     this.state = {
       eventName: this.props.navigator.state.e_name,
       holdDate: this.props.navigator.state.e_date,
+      holdDate2: this.props.navigator.state.e_date2,
       dateText: this.props.navigator.state.e_date,
+      dateText2: this.props.navigator.state.e_date2,
       time: this.props.navigator.state.e_time,
+      time2: this.props.navigator.state.e_time2,
       date: getDate(this.props.navigator.state.e_date),
+      date2: getDate(this.props.navigator.state.e_date2),
       hour: getHour(this.props.navigator.state.e_time),
-      minute: getMinute(this.props.navigator.state.e_time)
+      minute: getMinute(this.props.navigator.state.e_time),
+      hour2: getHour(this.props.navigator.state.e_time2),
+      minute2: getMinute(this.props.navigator.state.e_time2),
+      location: this.props.navigator.state.e_location,
+      description: this.props.navigator.state.e_description
     };
   }
   render() {
@@ -73,8 +89,12 @@ export class EditEventView extends React.Component{
   renderScene(route, navigator) {
     stateVars = this.state;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
+      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
             <View style={styles.inputs}>
+            <View>
+            <Text style={styles.label}>Name:</Text>
+            </View>
                 <View style={styles.inputContainer}>
                     <TextInput 
                         style={[styles.input]}
@@ -82,23 +102,76 @@ export class EditEventView extends React.Component{
                         value={this.props.navigator.state.e_name}
                     />
                 </View>
+                <View>
+                <Text style={styles.label}>Location:</Text>
+                </View>
+                <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.input]}
+                        placeholder="Location"
+                        onChangeText={(e_location) => this.props.navigator.setState({e_location})}
+                        value={this.props.navigator.state.e_location}
+                    />
+                    </View>
+                    <View>
+                    <Text style={styles.label}>Description:</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                    <TextInput 
+                        style={[styles.input]}
+                        multiline={true}
+                        maxLength={50}
+                        numberOfLines={4}
+                        placeholder="Description"
+                        onChangeText={(e_description) => this.props.navigator.setState({e_description})}
+                        value={this.props.navigator.state.e_description}
+                    />
+                </View>
+                <View>
+                <Text style={styles.label}>Start Date:</Text>
+                </View>
                 <TouchableWithoutFeedback
-                    onPress={this.showPicker.bind(this, {date: this.state.date})}>
+                    onPress={this.showPicker.bind(this, {date: this.state.date, minDate: new Date()})}>
                     <View style={styles.inputContainer}>
                     <Text style={styles.input}>{this.state.dateText}</Text>
                     </View>
                     </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            onPress={this.showTimePicker.bind(this, {
-              hour: this.state.hour,
-              minute: this.state.minute,
-            })}>
-            <View style={styles.inputContainer}>
-                    <Text style={styles.input}>{this.props.navigator.state.e_time}</Text>
+                    <View>
+                    <Text style={styles.label}>Start Time:</Text>
                     </View>
-          </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback
+                      onPress={this.showTimePicker.bind(this, {
+                        hour: this.state.hour,
+                        minute: this.state.minute,
+                      })}>
+                      <View style={styles.inputContainer}>
+                        <Text style={styles.input}>{this.props.navigator.state.e_time}</Text>
+                      </View>
+                    </TouchableWithoutFeedback>
+                    <View>
+                    <Text style={styles.label}>End Date:</Text>
+                    </View>
+                    <TouchableWithoutFeedback
+                    onPress={this.showPicker2.bind(this, {date: this.state.date2, minDate: this.state.date})}>
+                    <View style={styles.inputContainer}>
+                    <Text style={styles.input}>{this.state.dateText2}</Text>
+                    </View>
+                    </TouchableWithoutFeedback>
+                    <View>
+                    <Text style={styles.label}>End Time:</Text>
+                    </View>
+                    <TouchableWithoutFeedback
+                      onPress={this.showTimePicker2.bind(this, {
+                        hour: this.state.hour2,
+                        minute: this.state.minute2,
+                      })}>
+                      <View style={styles.inputContainer}>
+                              <Text style={styles.input}>{this.props.navigator.state.e_time2}</Text>
+                              </View>
+                    </TouchableWithoutFeedback>
             </View>
-        </View>
+            </TouchableWithoutFeedback>
+        </ScrollView>
     );
   }
 
@@ -113,10 +186,32 @@ export class EditEventView extends React.Component{
         date.setDate(day);
         date.setYear(year);
         this.setState({date: date});
+        console.log("date: " + date)
         //newState[stateKey + 'Text'] = date.toLocaleDateString();
         var dateString = (month + 1) + "/" + day + "/" + year;
         this.setState({dateText: dateString});
         this.props.navigator.setState({e_date: dateString});
+      }
+    } catch ({code, message}) {
+      console.warn('Error ', message);
+    }
+  };
+
+  showPicker2 = async (options) => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action === DatePickerAndroid.dismissedAction) {
+        //newState[stateKey + 'Text'] = 'dismissed';
+      } else {
+        var date = new Date();
+        date.setMonth(month);
+        date.setDate(day);
+        date.setYear(year);
+        this.setState({date2: date});
+        //newState[stateKey + 'Text'] = date.toLocaleDateString();
+        var dateString = (month + 1) + "/" + day + "/" + year;
+        this.setState({dateText2: dateString});
+        this.props.navigator.setState({e_date2: dateString});
       }
     } catch ({code, message}) {
       console.warn('Error ', message);
@@ -128,6 +223,23 @@ export class EditEventView extends React.Component{
       const {action, minute, hour} = await TimePickerAndroid.open(options);
       if (action === TimePickerAndroid.timeSetAction) {
         this.props.navigator.setState({e_time: getFormattedTime(hour, minute)});
+        this.setState({hour: hour});
+        this.setState({minute: minute});
+      } else if (action === TimePickerAndroid.dismissedAction) {
+        //newState[stateKey + 'Text'] = 'dismissed';
+      }
+    } catch ({code, message}) {
+      console.warn(`Error in example: `, message);
+    }
+  };
+
+  showTimePicker2 = async (options) => {
+    try {
+      const {action, minute, hour} = await TimePickerAndroid.open(options);
+      if (action === TimePickerAndroid.timeSetAction) {
+        this.props.navigator.setState({e_time2: getFormattedTime(hour, minute)});
+        this.setState({hour2: hour});
+        this.setState({minute2: minute});
       } else if (action === TimePickerAndroid.dismissedAction) {
         //newState[stateKey + 'Text'] = 'dismissed';
       }
@@ -145,7 +257,11 @@ var NavigationBarRouteMapper = {
             navigator.parentNavigator.setState({
               e_name: stateVars.eventName,
               e_date: stateVars.holdDate,
-              e_time: stateVars.time
+              e_time: stateVars.time,
+              e_date2: stateVars.holdDate2,
+              e_time2: stateVars.time2,
+              e_location: stateVars.location,
+              e_description: stateVars.description
             });
             navigator.parentNavigator.pop()}}>
         <Text style={{color: 'white', margin: 10,}}>
@@ -256,5 +372,14 @@ var styles = StyleSheet.create({
         fontSize: 12,
         marginRight: 50,
         color: '#808080'
+    },
+    label: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        height: 40,
+        fontSize: 10,
+        color: '#1A1423'
     }
 });

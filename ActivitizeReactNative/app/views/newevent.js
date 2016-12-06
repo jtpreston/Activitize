@@ -19,6 +19,7 @@ import {
   AsyncStorage
 } from 'react-native';
 
+var dismissKeyboard = require('dismissKeyboard');
 var CookieManager = require('react-native-cookies');
 
 function utcDate(date, time) {
@@ -123,6 +124,7 @@ export class NewEvent extends React.Component{
   renderScene(route, navigator) {
     return (
       <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
             <View style={styles.inputs}>
                 <View style={styles.inputContainer}>
                     <TextInput 
@@ -182,6 +184,7 @@ export class NewEvent extends React.Component{
                     </View>
           </TouchableWithoutFeedback>
             </View>
+            </TouchableWithoutFeedback>
         </View>
     );
   }

@@ -30,8 +30,10 @@ export class ScrollableEventView extends React.Component {
       <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{this.props.name}</Text>
-        <Text style={styles.date}>{this.props.date}</Text>
-        <Text style={styles.time}>{this.props.time}</Text>
+        <Text style={styles.date}>{this.props.date}, {this.props.time} to</Text>
+        <Text style={styles.date}>{this.props.date2}, {this.props.time2}</Text>
+        <Text style={styles.location}>at {this.props.location}</Text>
+        <Text style={styles.description} numberOfLines={3}>Description: {this.props.description}</Text>
        </View>
        </View>
       </TouchableOpacity>
@@ -50,7 +52,7 @@ var styles = StyleSheet.create({
       marginRight: 15
     },
     textContainer: {
-    	width: windowSize.width
+    	width: windowSize.width - 40
     },
     title: {
     	color: '#FFF',
@@ -61,9 +63,14 @@ var styles = StyleSheet.create({
     	fontSize: 20,
     	marginTop: 10
     },
-    time: {
+    location: {
     	color: '#FFF',
-    	fontSize: 16,
+    	fontSize: 20,
     	marginTop: 10	
+    },
+    description: {
+      color: '#FFF',
+      fontSize: 16,
+      marginTop: 10 
     }
 });
