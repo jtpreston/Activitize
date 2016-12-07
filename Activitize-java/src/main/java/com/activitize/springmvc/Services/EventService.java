@@ -11,6 +11,8 @@ public interface EventService {
 
 	Event findByEvent(Event event);
 
+	Event canUserBeRemoved(Event event, User user);
+
 	boolean isEventUnique(Event event);
 
 	boolean addUserToEvent(Event event, User user);
@@ -20,6 +22,8 @@ public interface EventService {
 	boolean declineUserIsGoingToEvent(Event event, User user);
 
 	boolean confirmUserIsGoingToEvent(Event event, User user);
+
+	boolean doesRequestingUserHavePermission(Event event, User user);
 
 	void createEvent(Event event, User user);
 
@@ -31,16 +35,16 @@ public interface EventService {
 
 	List<Event> getAllEventsForUser(User user);
 
+	List<Event> getAllEventFavoritesForUser(User user);
+
+	List<Event> getAllPendingEventsForUser(User user);
+
+	List<Event> getAllAcceptedEventsForUser(User user);
+
 	List<User> getAllUsersForEvent(Event event, User user);
 
 	List<User> getAllAdminsForEvent(Event event, User user);
 
 	List<User> getAllNonAdminsForEvent(Event event, User user);
-
-	List<Event> getAllEventFavoritesForUser(User user);
-
-	boolean doesRequestingUserHavePermission(Event event, User user);
-
-	Event canUserBeRemoved(Event event, User user);
 
 }

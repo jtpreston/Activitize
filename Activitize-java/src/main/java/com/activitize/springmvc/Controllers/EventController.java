@@ -220,6 +220,22 @@ public class EventController {
 		return service.getAllEventFavoritesForUser(user);
 	}
 
+	@RequestMapping(value = "/getAllPendingEventsForUser", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Event> getAllPendingEventsForUser() {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllPendingEventsForUser(user);
+	}
+
+	@RequestMapping(value = "/getAllAcceptedEventsForUser", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Event> getAllAcceptedEventsForUser() {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllAcceptedEventsForUser(user);
+	}
+
 	@RequestMapping(value = "/getAllAdminsForEvent", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})

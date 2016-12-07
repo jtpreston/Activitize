@@ -42,6 +42,14 @@ public class EventServiceImpl implements EventService {
 		return dao.getAllEventFavoritesForUser(user);
 	}
 
+	public List<Event> getAllPendingEventsForUser(User user) {
+		return dao.getAllPendingEventsForUser(user);
+	}
+
+	public List<Event> getAllAcceptedEventsForUser(User user) {
+		return dao.getAllAcceptedEventsForUser(user);
+	}
+
 	public void createEvent(Event event, User user) {
 		dao.createEvent(event, user);
 	}

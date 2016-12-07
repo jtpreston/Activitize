@@ -46,6 +46,28 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		return result;
 	}
 
+	public List<Event> getAllPendingEventsForUser(User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		Query q = getSession().createSQLQuery("SELECT * FROM events INNER JOIN users_has_events ON events.event_id = users_has_events.events_event_id WHERE users_has_events.users_user_id = ? AND users_has_events.going = ?");
+		q.setParameter(0, userTemp.getUserId());
+		q.setParameter(1, 0);
+		List result = q.list();
+		return result;
+	}
+
+	public List<Event> getAllAcceptedEventsForUser(User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		Query q = getSession().createSQLQuery("SELECT * FROM events INNER JOIN users_has_events ON events.event_id = users_has_events.events_event_id WHERE users_has_events.users_user_id = ? AND users_has_events.going = ?");
+		q.setParameter(0, userTemp.getUserId());
+		q.setParameter(1, 1);
+		List result = q.list();
+		return result;
+	}
+
 	public List<Event> getAllEventFavoritesForUser(User user) {
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));
