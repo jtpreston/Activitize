@@ -1,6 +1,7 @@
 package com.activitize.springmvc.DAO;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -44,9 +45,13 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 	public void removeUserTokens(String username) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("username", username));
-		PersistentLogin persistentLogin = (PersistentLogin) crit.uniqueResult();
-		if (persistentLogin != null) {
-			delete(persistentLogin);
+		List<PersistentLogin> persistentLogins = crit.list();
+		if (persistentLogins.size() > 0) {
+			for (PersistentLogin persistentLogin : persistentLogins) {
+				if (persistentLogin != null) {
+					delete(persistentLogin);
+				}
+			}
 		}
 	}
 
