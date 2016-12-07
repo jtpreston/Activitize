@@ -17,6 +17,8 @@ public interface EventDao {
 
 	List<User> getAllNonAdminsForEvent(Event event, User user);
 
+	List<Event> getAllEventFavoritesForUser(User user);
+
 	boolean addUserToEvent(Event event, User user);
 
 	boolean removeUserFromEvent(Event event, User user);

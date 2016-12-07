@@ -37,6 +37,8 @@ public interface EventService {
 
 	List<User> getAllNonAdminsForEvent(Event event, User user);
 
+	List<Event> getAllEventFavoritesForUser(User user);
+
 	boolean doesRequestingUserHavePermission(Event event, User user);
 
 	Event canUserBeRemoved(Event event, User user);

@@ -212,6 +212,14 @@ public class EventController {
 		return service.getAllEventsForUser(user);
 	}
 
+	@RequestMapping(value = "/getAllEventFavoritesForUser", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Event> getAllEventFavoritesForUser() {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllEventFavoritesForUser(user);
+	}
+
 	@RequestMapping(value = "/getAllAdminsForEvent", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
