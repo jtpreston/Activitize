@@ -25,6 +25,10 @@ public interface EventService {
 
 	boolean doesRequestingUserHavePermission(Event event, User user);
 
+	boolean favoriteAnEvent(Event event, User user);
+
+	boolean unfavoriteAnEvent(Event event, User user);
+
 	void createEvent(Event event, User user);
 
 	void deleteEvent(Event event, User user);

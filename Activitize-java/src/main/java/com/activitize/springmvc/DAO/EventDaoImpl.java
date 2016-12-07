@@ -859,6 +859,48 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		return true;
 	}
 
+	public boolean favoriteAnEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND favorite = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		query.setParameter(2, 0);
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			return false;
+		}
+		Query q = getSession().createSQLQuery("UPDATE users_has_events SET favorite = ? WHERE events_event_id = ? AND users_user_id = ?");
+		q.setParameter(0, 1);
+		q.setParameter(1, event.getEventId());
+		q.setParameter(2, userTemp.getUserId());
+		q.executeUpdate();
+		return true;
+	}
+
+	public boolean unfavoriteAnEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ? AND favorite = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		query.setParameter(2, 1);
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			return false;
+		}
+		Query q = getSession().createSQLQuery("UPDATE users_has_events SET favorite = ? WHERE events_event_id = ? AND users_user_id = ?");
+		q.setParameter(0, 0);
+		q.setParameter(1, event.getEventId());
+		q.setParameter(2, userTemp.getUserId());
+		q.executeUpdate();
+		return true;
+	}
+
 	public Event canUserBeRemoved(Event event, User user) {
 		Event eventTemp = getByKey(event.getEventId());
 		return eventTemp;

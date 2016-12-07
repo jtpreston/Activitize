@@ -74,6 +74,38 @@ public class EventController {
 		return new JsonResponse("OK","");
 	}
 
+	@RequestMapping(value = "/favoriteAnEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse favoriteAnEvent(@RequestBody Event event) {
+		if (event.getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
+		User user = new User();
+		user.setUsername(getPrincipal());
+		if (!service.favoriteAnEvent(event, user)) {
+			return new JsonResponse("FAILED", "Unable to favorite this event");
+		}
+		return new JsonResponse("OK","");
+	}
+
+	@RequestMapping(value = "/unfavoriteAnEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse unfavoriteAnEvent(@RequestBody Event event) {
+		if (event.getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
+		User user = new User();
+		user.setUsername(getPrincipal());
+		if (!service.unfavoriteAnEvent(event, user)) {
+			return new JsonResponse("FAILED", "Unable to unfavorite this event");
+		}
+		return new JsonResponse("OK","");
+	}
+
 	@RequestMapping(value = "/addUserToEvent", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})

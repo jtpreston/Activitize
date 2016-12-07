@@ -100,6 +100,14 @@ public class EventServiceImpl implements EventService {
 		return dao.doesRequestingUserHavePermission(event, user);
 	}
 
+	public boolean favoriteAnEvent(Event event, User user) {
+		return dao.favoriteAnEvent(event, user);
+	}
+
+	public boolean unfavoriteAnEvent(Event event, User user) {
+		return dao.unfavoriteAnEvent(event, user);
+	}
+
 	public Event canUserBeRemoved(Event event, User user) {
 		return dao.canUserBeRemoved(event, user);
 	}
