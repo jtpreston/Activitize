@@ -47,6 +47,10 @@ public interface EventService {
 
 	List<User> getAllUsersForEvent(Event event, User user);
 
+	List<User> getAllPendingUsersForEvent(Event event, User user);
+
+	List<User> getAllAcceptedUsersForEvent(Event event, User user);
+
 	List<User> getAllAdminsForEvent(Event event, User user);
 
 	List<User> getAllNonAdminsForEvent(Event event, User user);

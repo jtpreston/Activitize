@@ -298,6 +298,26 @@ public class EventController {
 		return service.getAllUsersForEvent(event, user);
 	}
 
+	@RequestMapping(value = "/getAllPendingUsersForEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public List<User> getAllPendingUsersForEvent(@RequestBody Event event) {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllPendingUsersForEvent(event, user);
+	}
+
+	@RequestMapping(value = "/getAllAcceptedUsersForEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public List<User> getAllAcceptedUsersForEvent(@RequestBody Event event) {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllAcceptedUsersForEvent(event, user);
+	}
+
 	private String getPrincipal() {
 		String userName = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

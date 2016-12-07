@@ -80,6 +80,14 @@ public class EventServiceImpl implements EventService {
 		return dao.getAllUsersForEvent(event, user);
 	}
 
+	public List<User> getAllPendingUsersForEvent(Event event, User user) {
+		return dao.getAllPendingUsersForEvent(event, user);
+	}
+
+	public List<User> getAllAcceptedUsersForEvent(Event event, User user) {
+		return dao.getAllAcceptedUsersForEvent(event, user);
+	}
+
 	public boolean addUserToEvent(Event event, User user) {
 		return dao.addUserToEvent(event, user);
 	}
