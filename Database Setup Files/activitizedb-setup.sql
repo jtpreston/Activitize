@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`subevents` (
   CONSTRAINT `fk_subevents_events1`
     FOREIGN KEY (`events_event_id`)
     REFERENCES `activitizedbtest`.`events` (`event_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -91,13 +91,13 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_has_events` (
   CONSTRAINT `fk_users_has_events_users`
     FOREIGN KEY (`users_user_id`)
     REFERENCES `activitizedbtest`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_users_has_events_events1`
     FOREIGN KEY (`events_event_id`)
     REFERENCES `activitizedbtest`.`events` (`event_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE utf8mb4_unicode_ci;
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`comments` (
   CONSTRAINT `fk_comments_events1`
     FOREIGN KEY (`events_event_id`)
     REFERENCES `activitizedbtest`.`events` (`event_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`replies_to_comments` (
   CONSTRAINT `fk_replies_to_comments_comments1`
     FOREIGN KEY (`comments_comment_id`)
     REFERENCES `activitizedbtest`.`comments` (`comment_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`reactions` (
   CONSTRAINT `fk_reactions_comments1`
     FOREIGN KEY (`comments_comment_id`)
     REFERENCES `activitizedbtest`.`comments` (`comment_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friends` (
   CONSTRAINT `fk_friends_users1`
     FOREIGN KEY (`users_user_id`)
     REFERENCES `activitizedbtest`.`users` (`user_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -210,13 +210,13 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_has_friend_groups` (
   CONSTRAINT `fk_users_has_friend_groups_users`
     FOREIGN KEY (`users_user_id`)
     REFERENCES `activitizedbtest`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_users_has_friend_groups_friend_groups1`
     FOREIGN KEY (`friend_groups_friend_group_id`)
     REFERENCES `activitizedbtest`.`friend_groups` (`friend_groups_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE utf8mb4_unicode_ci;

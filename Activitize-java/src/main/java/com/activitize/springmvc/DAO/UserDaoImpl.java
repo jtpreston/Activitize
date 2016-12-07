@@ -65,9 +65,10 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		User userTemp = (User)crit.uniqueResult();
 		Query query = getSession().createSQLQuery("delete from users_user_profile where users_user_id=:id").setParameter("id", userTemp.getUserId());
 		query.executeUpdate();
-		query = getSession().createSQLQuery("delete from users_has_events where users_user_id=:id").setParameter("id", userTemp.getUserId());
-		query.executeUpdate();
 		query = getSession().createQuery("delete User where username = :username");
+		query.setParameter("username", user.getUsername());
+		query.executeUpdate();
+		query = getSession().createQuery("delete from Event where creator = :username");
 		query.setParameter("username", user.getUsername());
 		query.executeUpdate();
 	}

@@ -87,9 +87,7 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 			logger.info("User: " + user.toString() + " was not allowed to edit this event");
 			return;
 		}
-		Query q = getSession().createSQLQuery("delete from users_has_events where events_event_id=:id").setParameter("id", event.getEventId());
-		q.executeUpdate();
-		q = getSession().createQuery("delete Event where event_id = :id");
+		Query q = getSession().createQuery("delete from Event where event_id = :id");
 		q.setParameter("id", event.getEventId());
 		q.executeUpdate();
 	}
