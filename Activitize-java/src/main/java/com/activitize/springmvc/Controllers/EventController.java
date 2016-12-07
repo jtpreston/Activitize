@@ -106,6 +106,50 @@ public class EventController {
 		return new JsonResponse("OK","");
 	}
 
+	@RequestMapping(value = "/makeEventUserAdmin", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse makeEventUserAdmin(@RequestBody UserEventWrapper userEventWrapper) {
+		if (userEventWrapper.getEvent().getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
+		User user = new User();
+		user.setUsername(getPrincipal());
+		boolean success = service.doesRequestingUserHavePermission(userEventWrapper.getEvent(), user);
+		if (!success) {
+			return new JsonResponse("FAILED","User did not have permission to add a user to this event");
+		}
+		if (!service.makeEventUserAdmin(userEventWrapper.getEvent(), userEventWrapper.getUser())) {
+			return new JsonResponse("FAILED", "Could not add selected user as being event admin");
+		}
+		return new JsonResponse("OK","");
+	}
+
+	@RequestMapping(value = "/removeEventUserAdmin", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public JsonResponse removeEventUserAdmin(@RequestBody UserEventWrapper userEventWrapper) {
+		if (userEventWrapper.getEvent().getEventId() == null) {
+			return new JsonResponse("FAILED", "No event ID present in request");
+		}
+		User user = new User();
+		user.setUsername(getPrincipal());
+		boolean success = service.doesRequestingUserHavePermission(userEventWrapper.getEvent(), user);
+		if (!success) {
+			return new JsonResponse("FAILED","User did not have permission to add a user to this event");
+		}
+		Event tempEvent = service.canUserBeRemoved(userEventWrapper.getEvent(), user);
+		if (tempEvent.getCreator().equals(userEventWrapper.getUser().getUsername())) {
+			return new JsonResponse("FAILED","User did not have permission to remove a user as admin from this event");
+		}
+		if (!service.removeEventUserAdmin(userEventWrapper.getEvent(), userEventWrapper.getUser())) {
+			return new JsonResponse("FAILED", "Could not remove selected user from being event admin");
+		}
+		return new JsonResponse("OK","");
+	}
+
 	@RequestMapping(value = "/addUserToEvent", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})

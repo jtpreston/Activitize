@@ -116,6 +116,14 @@ public class EventServiceImpl implements EventService {
 		return dao.unfavoriteAnEvent(event, user);
 	}
 
+	public boolean makeEventUserAdmin(Event event, User user) {
+		return dao.makeEventUserAdmin(event, user);
+	}
+
+	public boolean removeEventUserAdmin(Event event, User user) {
+		return dao.removeEventUserAdmin(event, user);
+	}
+
 	public Event canUserBeRemoved(Event event, User user) {
 		return dao.canUserBeRemoved(event, user);
 	}

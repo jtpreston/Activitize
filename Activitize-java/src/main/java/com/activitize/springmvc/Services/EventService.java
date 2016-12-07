@@ -29,6 +29,10 @@ public interface EventService {
 
 	boolean unfavoriteAnEvent(Event event, User user);
 
+	boolean makeEventUserAdmin(Event event, User user);
+
+	boolean removeEventUserAdmin(Event event, User user);
+
 	void createEvent(Event event, User user);
 
 	void deleteEvent(Event event, User user);
