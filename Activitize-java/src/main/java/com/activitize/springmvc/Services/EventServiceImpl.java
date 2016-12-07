@@ -30,6 +30,14 @@ public class EventServiceImpl implements EventService {
 		return dao.findAllEvents();
 	}
 
+	public List<User> getAllAdminsForEvent(Event event, User user) {
+		return dao.getAllAdminsForEvent(event, user);
+	}
+
+	public List<User> getAllNonAdminsForEvent(Event event, User user) {
+		return dao.getAllNonAdminsForEvent(event, user);
+	}
+
 	public void createEvent(Event event, User user) {
 		dao.createEvent(event, user);
 	}

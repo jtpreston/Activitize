@@ -30,8 +30,12 @@ public interface EventService {
 	List<Event> findAllEvents();
 
 	List<Event> getAllEventsForUser(User user);
-	
+
 	List<User> getAllUsersForEvent(Event event, User user);
+
+	List<User> getAllAdminsForEvent(Event event, User user);
+
+	List<User> getAllNonAdminsForEvent(Event event, User user);
 
 	boolean doesRequestingUserHavePermission(Event event, User user);
 

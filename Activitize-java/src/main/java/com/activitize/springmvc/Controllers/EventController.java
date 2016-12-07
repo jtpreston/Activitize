@@ -212,11 +212,31 @@ public class EventController {
 		return service.getAllEventsForUser(user);
 	}
 
+	@RequestMapping(value = "/getAllAdminsForEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public List<User> getAllAdminsForEvent(@RequestBody Event event) {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllAdminsForEvent(event, user);
+	}
+
+	@RequestMapping(value = "/getAllNonAdminsForEvent", 
+			method = RequestMethod.POST,
+			headers = {"Content-type=application/json"})
+	@ResponseBody
+	public List<User> getAllNonAdminsForEvent(@RequestBody Event event) {
+		User user = new User();
+		user.setUsername(getPrincipal());
+		return service.getAllNonAdminsForEvent(event, user);
+	}
+
 	@RequestMapping(value = "/getAllUsersForEvent", 
 			method = RequestMethod.POST,
 			headers = {"Content-type=application/json"})
 	@ResponseBody
-	public List<User> getAllUserForEvent(@RequestBody Event event) {
+	public List<User> getAllUsersForEvent(@RequestBody Event event) {
 		User user = new User();
 		user.setUsername(getPrincipal());
 		return service.getAllUsersForEvent(event, user);

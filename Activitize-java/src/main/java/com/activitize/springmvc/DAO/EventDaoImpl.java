@@ -64,6 +64,44 @@ public class EventDaoImpl extends AbstractDao<Integer, Event> implements EventDa
 		return result;
 	}
 
+	public List<User> getAllAdminsForEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			return null;
+		}
+		Query q = getSession().createSQLQuery("SELECT username, first_name, last_name, nickname, admin, going FROM users INNER JOIN users_has_events ON users.user_id = users_has_events.users_user_id WHERE users_has_events.events_event_id = ? AND users_has_events.admin = ?");
+		q.setParameter(0, event.getEventId());
+		q.setParameter(1, 1);
+		List result = q.list();
+		return result;
+	}
+
+	public List<User> getAllNonAdminsForEvent(Event event, User user) {
+		Criteria crit = getSession().createCriteria(User.class);
+		crit.add(Restrictions.eq("username", user.getUsername()));
+		User userTemp = (User)crit.uniqueResult();
+		SQLQuery query = getSession().createSQLQuery("SELECT COUNT(*) FROM users_has_events WHERE events_event_id = ? AND users_user_id = ?");
+		query.setParameter(0, event.getEventId());
+		query.setParameter(1, userTemp.getUserId());
+		Object countobj = query.list().get(0);
+		int count = ((Number) countobj).intValue();
+		if (count == 0) {
+			return null;
+		}
+		Query q = getSession().createSQLQuery("SELECT username, first_name, last_name, nickname, admin, going FROM users INNER JOIN users_has_events ON users.user_id = users_has_events.users_user_id WHERE users_has_events.events_event_id = ? AND users_has_events.admin = ?");
+		q.setParameter(0, event.getEventId());
+		q.setParameter(1, 0);
+		List result = q.list();
+		return result;
+	}
+
 	public void createEvent(Event event, User user) {
 		Criteria crit = getSession().createCriteria(User.class);
 		crit.add(Restrictions.eq("username", user.getUsername()));

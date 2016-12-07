@@ -13,6 +13,10 @@ public interface EventDao {
 
 	List<Event> findAllEvents();
 
+	List<User> getAllAdminsForEvent(Event event, User user);
+
+	List<User> getAllNonAdminsForEvent(Event event, User user);
+
 	boolean addUserToEvent(Event event, User user);
 
 	boolean removeUserFromEvent(Event event, User user);
