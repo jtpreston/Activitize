@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users` (
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -53,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`events` (
   PRIMARY KEY (`event_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -78,7 +80,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`subevents` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -105,7 +108,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_has_events` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -126,7 +130,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`comments` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -151,7 +156,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`replies_to_comments` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -171,7 +177,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`reactions` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -196,7 +203,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friends` (
    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -209,7 +217,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friend_groups` (
   PRIMARY KEY (`friend_groups_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -233,7 +242,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_has_friend_groups` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -247,7 +257,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`persistent_logins` (
   PRIMARY KEY (series))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -260,7 +271,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`user_profile` (
   UNIQUE (type))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -276,7 +288,8 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_user_profile` (
   CONSTRAINT `fk_user_profile1` FOREIGN KEY (`user_profile_id`) REFERENCES `activitizedbtest`.`user_profile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE utf8mb4_unicode_ci;
+COLLATE utf8mb4_unicode_ci
+ROW_FORMAT = DYNAMIC;
 
 
 -- -----------------------------------------------------
@@ -284,6 +297,27 @@ COLLATE utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 ALTER TABLE `friends`
 ADD UNIQUE KEY `unique_users_id` (`users_user_id`,`other_user_id`);
+
+
+-- -----------------------------------------------------
+-- Alter `activitizedbtest`.`events` to add unique index
+-- -----------------------------------------------------
+ALTER TABLE `events`
+ADD UNIQUE INDEX `ix_events` (`creator`, `event_name`, `event_start`, `location`);
+
+
+-- -----------------------------------------------------
+-- Alter `activitizedbtest`.`users` to add unique index
+-- -----------------------------------------------------
+ALTER TABLE `users`
+ADD UNIQUE INDEX `ix_users_username` (`username`);
+
+
+-- -----------------------------------------------------
+-- Alter `activitizedbtest`.`users` to add unique index
+-- -----------------------------------------------------
+ALTER TABLE `users`
+ADD UNIQUE INDEX `ix_users_email` (`email`);
 
 
 -- -----------------------------------------------------
