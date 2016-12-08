@@ -37,10 +37,6 @@ public class FriendGroup implements Serializable {
 	@Column(name = "group_name", nullable = false)
 	private String group_name;
 	
-	@NotNull
-	@Column(name = "group_size", nullable = false)
-	private int group_size = 1;
-	
 	@NotNull	
 	@Size(max = 256)
 	@Column(name = "group_owner", nullable = false)
@@ -53,10 +49,9 @@ public class FriendGroup implements Serializable {
 
 	}
 
-	public FriendGroup(Integer friend_groups_id, String group_name, int group_size, String group_owner, Set<User> users) {
+	public FriendGroup(Integer friend_groups_id, String group_name, String group_owner, Set<User> users) {
 		this.friend_groups_id = friend_groups_id;
 		this.group_name = group_name;
-		this.group_size = group_size;
 		this.group_owner = group_owner;
 		this.users = users;
 	}
@@ -75,14 +70,6 @@ public class FriendGroup implements Serializable {
 
 	public void setGroupName(String group_name) {
 		this.group_name = group_name;
-	}
-
-	public int getGroupSize() {
-		return group_size;
-	}
-
-	public void setGroupSize(int group_size) {
-		this.group_size = group_size;
 	}
 
 	public String getGroupOwner() {

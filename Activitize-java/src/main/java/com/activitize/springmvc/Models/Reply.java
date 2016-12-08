@@ -34,8 +34,8 @@ public class Reply implements Serializable {
 	private Integer comments_comment_id;
 	
 	@NotNull
-	@Column(name = "comments_events_event_id", nullable = false)
-	private Integer comments_events_event_id;
+	@Column(name = "replies_to_comments_comment_id", nullable = true)
+	private Integer replies_to_comments_comment_id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "comment_id", nullable = false)
@@ -45,10 +45,10 @@ public class Reply implements Serializable {
 
 	}
 
-	public Reply(Integer replies_to_comments_id, Integer comments_comment_id, Integer comments_events_event_id, Comment comment) {
+	public Reply(Integer replies_to_comments_id, Integer comments_comment_id, Integer replies_to_comments_comment_id, Comment comment) {
 		this.replies_to_comments_id = replies_to_comments_id;
 		this.comments_comment_id = comments_comment_id;
-		this.comments_events_event_id = comments_events_event_id;
+		this.replies_to_comments_comment_id = replies_to_comments_comment_id;
 		this.comment = comment;
 	}
 
@@ -68,12 +68,12 @@ public class Reply implements Serializable {
 		this.comments_comment_id = comments_comment_id;
 	}
 
-	public Integer getCommentsEventsEventId() {
-		return comments_events_event_id;
+	public Integer getRepliesToCommentsCommentId() {
+		return replies_to_comments_comment_id;
 	}
 
-	public void setCommentsEventsEventId(Integer comments_events_event_id) {
-		this.comments_events_event_id = comments_events_event_id;
+	public void setRepliesToCommentsCommentId(Integer replies_to_comments_comment_id) {
+		this.replies_to_comments_comment_id = replies_to_comments_comment_id;
 	}
 
 	public Comment getComment() {

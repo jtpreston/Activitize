@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users` (
   `email` VARCHAR(255) NOT NULL,
   `phone_number` VARCHAR(20) NULL,
   `path_to_profile_picture` VARCHAR(255) NULL,
-  `number_of_friends` INT NOT NULL DEFAULT 0,
   `using_facebook` TINYINT(1) NOT NULL DEFAULT 0,
   `facebook_user_id` BIGINT(20) UNSIGNED NULL,
   PRIMARY KEY (`user_id`))
@@ -48,7 +47,6 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`events` (
   `description` TEXT NULL,
   `location` VARCHAR(255) NOT NULL,
   `private` TINYINT(1) NOT NULL DEFAULT 0,
-  `number_of_comments` INT NOT NULL DEFAULT 0,
   `path_to_event_picture` VARCHAR(255) NULL,
   `subevent` TINYINT(1) NOT NULL DEFAULT 0,
   `creator` VARCHAR(255) NOT NULL,
@@ -66,8 +64,15 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`subevents` (
   `events_event_id` BIGINT NOT NULL,
   `subevents_event_id` BIGINT NOT NULL,
   PRIMARY KEY (`subevents_id`),
-  CONSTRAINT `fk_subevents_events1`
+  INDEX `fk_subevents_subevents1_idx` (`subevents_event_id` ASC),
+  INDEX `fk_subevents_events_idx` (`events_event_id` ASC),
+  CONSTRAINT `fk_subevents_events`
     FOREIGN KEY (`events_event_id`)
+    REFERENCES `activitizedbtest`.`events` (`event_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_subevents_subevents1`
+    FOREIGN KEY (`subevents_event_id`)
     REFERENCES `activitizedbtest`.`events` (`event_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
@@ -112,10 +117,6 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`comments` (
   `timestamp` TIMESTAMP NOT NULL,
   `username` VARCHAR(255) NOT NULL,
   `events_event_id` BIGINT NOT NULL,
-  `number_of_replies` INT NOT NULL DEFAULT 0,
-  `yeah` INT NOT NULL DEFAULT 0,
-  `nah` INT NOT NULL DEFAULT 0,
-  `replies_to_comments_id` BIGINT NULL,
   PRIMARY KEY (`comment_id`),
   INDEX `fk_comments_events1_idx` (`events_event_id` ASC),
   CONSTRAINT `fk_comments_events1`
@@ -134,10 +135,17 @@ COLLATE utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `activitizedbtest`.`replies_to_comments` (
   `replies_to_comments_id` BIGINT NOT NULL AUTO_INCREMENT,
   `comments_comment_id` BIGINT NOT NULL,
+  `replies_to_comments_comment_id` BIGINT NOT NULL,
   PRIMARY KEY (`replies_to_comments_id`),
-  INDEX `fk_replies_to_comments_comments1_idx` (`comments_comment_id` ASC),
-  CONSTRAINT `fk_replies_to_comments_comments1`
+  INDEX `fk_replies_to_comments_replies_to_comments1_idx` (`replies_to_comments_comment_id` ASC),
+  INDEX `fk_replies_to_comments_comments_idx` (`comments_comment_id` ASC),
+  CONSTRAINT `fk_replies_to_comments_comments`
     FOREIGN KEY (`comments_comment_id`)
+    REFERENCES `activitizedbtest`.`comments` (`comment_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_replies_to_comments_replies_to_comments1`
+    FOREIGN KEY (`replies_to_comments_comment_id`)
     REFERENCES `activitizedbtest`.`comments` (`comment_id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
@@ -155,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `activitizedbtest`.`reactions` (
   `username` VARCHAR(255) NOT NULL,
   `yeah` TINYINT(1) NOT NULL,
   PRIMARY KEY (`reactions_id`),
+  INDEX `fk_reactions_comments1_idx` (`comments_comment_id` ASC),
   CONSTRAINT `fk_reactions_comments1`
     FOREIGN KEY (`comments_comment_id`)
     REFERENCES `activitizedbtest`.`comments` (`comment_id`)
@@ -169,16 +178,22 @@ COLLATE utf8mb4_unicode_ci;
 -- Table `activitizedbtest`.`friends`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friends` (
-  `friends_id` BIGINT NOT NULL AUTO_INCREMENT,
   `users_user_id` BIGINT NOT NULL,
   `other_user_id` BIGINT NOT NULL,
   `status` TINYINT(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`friends_id`),
-  CONSTRAINT `fk_friends_users1`
-    FOREIGN KEY (`users_user_id`)
-    REFERENCES `activitizedbtest`.`users` (`user_id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
+  `action_user_id` BIGINT NOT NULL,
+   FOREIGN KEY (`users_user_id`)
+   REFERENCES `activitizedbtest`.`users` (`user_id`)
+   ON DELETE CASCADE
+   ON UPDATE NO ACTION,
+   FOREIGN KEY (`other_user_id`)
+   REFERENCES `activitizedbtest`.`users` (`user_id`)
+   ON DELETE CASCADE
+   ON UPDATE NO ACTION,
+   FOREIGN KEY (`action_user_id`)
+   REFERENCES `activitizedbtest`.`users` (`user_id`)
+   ON DELETE CASCADE
+   ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE utf8mb4_unicode_ci;
@@ -190,7 +205,6 @@ COLLATE utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `activitizedbtest`.`friend_groups` (
   `friend_groups_id` BIGINT NOT NULL AUTO_INCREMENT,
   `group_name` VARCHAR(255) NOT NULL,
-  `group_size` INT NOT NULL DEFAULT 1,
   `group_owner` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`friend_groups_id`))
 ENGINE = InnoDB
@@ -253,14 +267,23 @@ COLLATE utf8mb4_unicode_ci;
 -- Table `activitizedbtest`.`users_user_profile`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `activitizedbtest`.`users_user_profile` (
-  users_user_id BIGINT NOT NULL,
-  user_profile_id BIGINT NOT NULL,
+  `users_user_id` BIGINT NOT NULL,
+  `user_profile_id` BIGINT NOT NULL,
   PRIMARY KEY (users_user_id, user_profile_id),
-  CONSTRAINT fk_users FOREIGN KEY (users_user_id) REFERENCES users (user_id),
-  CONSTRAINT fk_user_profile FOREIGN KEY (user_profile_id) REFERENCES user_profile (id))
+  INDEX `fk_user_profile1_idx` (`user_profile_id` ASC),
+  INDEX `fk_users_idx` (`users_user_id` ASC),
+  CONSTRAINT `fk_users` FOREIGN KEY (`users_user_id`) REFERENCES `activitizedbtest`.`users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_user_profile1` FOREIGN KEY (`user_profile_id`) REFERENCES `activitizedbtest`.`user_profile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Alter `activitizedbtest`.`friends` to add unique key
+-- -----------------------------------------------------
+ALTER TABLE `friends`
+ADD UNIQUE KEY `unique_users_id` (`users_user_id`,`other_user_id`);
 
 
 -- -----------------------------------------------------

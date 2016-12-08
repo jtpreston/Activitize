@@ -97,10 +97,6 @@ public class User implements Serializable {
 	private String path_to_profile_picture;
 	
 	@NotNull
-	@Column(name = "number_of_friends", nullable = false)
-	private int number_of_friends = 0;
-	
-	@NotNull
 	@Column(name = "using_facebook", nullable = false)
 	private boolean using_facebook = false;
 	
@@ -119,7 +115,7 @@ public class User implements Serializable {
 	}
 
 	public User(Integer user_id, String username, String password, String first_name, String last_name, String nickname, LocalDate age, 
-			String email, String phone_number, String path_to_profile_picture, int number_of_friends, boolean using_facebook, 
+			String email, String phone_number, String path_to_profile_picture, boolean using_facebook, 
 			long facebook_user_id, Set<Friend> friends, Set<UserProfile> userProfiles, Set<UserHasEvent> userHasEvents, Set<FriendGroup> friendGroups) {
 		this.user_id = user_id;
 		this.username = username;	
@@ -131,7 +127,6 @@ public class User implements Serializable {
 		this.email = email;
 		this.phone_number = phone_number;
 		this.path_to_profile_picture = path_to_profile_picture;
-		this.number_of_friends = number_of_friends;
 		this.using_facebook = using_facebook;
 		this.facebook_user_id = facebook_user_id;
 		this.friends = friends;
@@ -235,14 +230,6 @@ public class User implements Serializable {
 		this.path_to_profile_picture = path_to_profile_picture;
 	}
 
-	public int getNumberOfFriends() {
-		return number_of_friends;
-	}
-
-	public void setNumberOfFriends(int number_of_friends) {
-		this.number_of_friends = number_of_friends;
-	}
-
 	public boolean getUsingFacebook() {
 		return using_facebook;
 	}
@@ -310,7 +297,7 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", nickname="
 				+ nickname + ", age=" + age + ", phone_number=" + phone_number 
-				+ ", email=" + email + ", number_of_friends=" + number_of_friends + ", using_facebook=" + using_facebook + "]";
+				+ ", email=" + email + ", using_facebook=" + using_facebook + "]";
 	}
 	
 }

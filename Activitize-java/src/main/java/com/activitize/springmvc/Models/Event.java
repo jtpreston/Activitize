@@ -75,10 +75,6 @@ public class Event implements Serializable {
 	@Column(name = "private", nullable = false)
 	private boolean priv = false;
 
-	@NotNull
-	@Column(name = "number_of_comments", nullable = false)
-	private int number_of_comments = 0;
-
 	@Size(max = 256)
 	@Column(name = "path_to_event_picture", nullable = true)
 	private String path_to_event_picture;
@@ -97,7 +93,7 @@ public class Event implements Serializable {
 	}
 
 	public Event(Integer event_id, String event_name, DateTime event_start, DateTime event_end, String description, String location, 
-			boolean priv, int number_of_comments, String path_to_event_picture, boolean subevent, 
+			boolean priv, String path_to_event_picture, boolean subevent, 
 			Set<Comment> comments, Set<UserHasEvent> userHasEvents, Set<Subevent> subevents, String creator) {
 		this.event_id = event_id;
 		this.event_name = event_name;
@@ -106,7 +102,6 @@ public class Event implements Serializable {
 		this.description = description;
 		this.location = location;
 		this.priv = priv;
-		this.number_of_comments = number_of_comments;
 		this.path_to_event_picture = path_to_event_picture;
 		this.subevent = subevent;
 		this.comments = comments;
@@ -193,14 +188,6 @@ public class Event implements Serializable {
 
 	public void setPriv(boolean priv) {
 		this.priv = priv;
-	}
-
-	public int getNumberOfComments() {
-		return number_of_comments;
-	}
-
-	public void setNumberOfComments(int number_of_comments) {
-		this.number_of_comments = number_of_comments;
 	}
 
 	public String getPathToEventPicture() {

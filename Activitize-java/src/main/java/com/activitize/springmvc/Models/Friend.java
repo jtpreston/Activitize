@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
- 
+
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
@@ -24,23 +25,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="friends")
 public class Friend implements Serializable {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer friends_id;
-	
-	@NotNull
-	@Column(name = "users_user_id", nullable = false)
-	private Integer users_user_id;
-	
-	@NotNull
-	@Column(name = "other_user_id", nullable = false)
-	private Integer other_user_id;
-	
+
+	@EmbeddedId
+	FriendId id;
+
 	@NotNull
 	@Column(name = "status", nullable = false)
 	private boolean status = false;
-	
+
+	@NotNull
+	@Column(name = "action_user_id", nullable = false)
+	private Integer action_user_id;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
@@ -49,36 +45,19 @@ public class Friend implements Serializable {
 
 	}
 
-	public Friend(Integer friends_id, Integer users_user_id, Integer other_user_id, boolean status, User user) {
-		this.friends_id = friends_id;
-		this.users_user_id = users_user_id;
-		this.other_user_id = other_user_id;
+	public Friend(FriendId id, boolean status, Integer action_user_id, User user) {
+		this.id = id;
 		this.status = status;
+		this.action_user_id = action_user_id;
 		this.user = user;
 	}
 
-	public Integer getFriendsId() {
-		return friends_id;
+	public FriendId getFriendId() {
+		return id;
 	}
 
-	public void setFriendsId(Integer friends_id) {
-		this.friends_id = friends_id;
-	}
-
-	public Integer getUsersUserId() {
-		return users_user_id;
-	}
-
-	public void setUsersUserId(Integer users_user_id) {
-		this.users_user_id = users_user_id;
-	}
-
-	public Integer getOtherUserId() {
-		return other_user_id;
-	}
-
-	public void setOtherUserId(Integer other_user_id) {
-		this.other_user_id = other_user_id;
+	public void setFriendId(FriendId id) {
+		this.id = id;
 	}
 
 	public boolean getStatus() {
@@ -89,6 +68,14 @@ public class Friend implements Serializable {
 		this.status = status;
 	}
 
+	public Integer getActionUserId() {
+		return action_user_id;
+	}
+
+	public void setActionUserId(Integer action_user_id) {
+		this.action_user_id = action_user_id;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -97,35 +84,4 @@ public class Friend implements Serializable {
 		this.user = user;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((friends_id == null) ? 0 : friends_id.hashCode());
-		result = prime * result + ((users_user_id == null) ? 0 : users_user_id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof Friend))
-			return false;
-		Friend other = (Friend) obj;
-		if (friends_id == null) {
-			if (other.friends_id != null)
-				return false;
-		} else if (!friends_id.equals(other.friends_id))
-			return false;
-		if (users_user_id == null) {
-			if (other.users_user_id != null)
-				return false;
-		} else if (!users_user_id.equals(other.users_user_id))
-			return false;
-		return true;
-	}
-	
 }

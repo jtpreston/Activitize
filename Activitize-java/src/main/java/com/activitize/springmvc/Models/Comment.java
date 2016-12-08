@@ -54,22 +54,6 @@ public class Comment implements Serializable {
 	@Column(name = "events_event_id", nullable = false)
 	private Integer events_event_id;
 
-	@NotNull
-	@Column(name = "number_of_replies", nullable = false)
-	private int number_of_replies = 0;
-
-	@NotNull
-	@Column(name = "yeah", nullable = false)
-	private int yeah = 0;
-
-	@NotNull
-	@Column(name = "nah", nullable = false)
-	private int nah = 0;
-
-	@NotNull
-	@Column(name = "replies_to_comments_id", nullable = true)
-	private Integer replies_to_comments_id;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id", nullable = false)
 	private Event event;
@@ -85,16 +69,12 @@ public class Comment implements Serializable {
 	}
 
 	public Comment(Integer comment_id, String comment, DateTime timestamp, String username, Integer events_event_id, 
-			int number_of_replies, int yeah, int nah, Integer replies_to_comments_id, Event event, Set<Reaction> reactions, Set<Reply> repliesToComments) {
+			Event event, Set<Reaction> reactions, Set<Reply> repliesToComments) {
 		this.comment_id = comment_id;
 		this.comment = comment;
 		this.timestamp = timestamp;
 		this.username = username;
 		this.events_event_id = events_event_id;
-		this.number_of_replies = number_of_replies;
-		this.yeah = yeah;
-		this.nah = nah;
-		this.replies_to_comments_id = replies_to_comments_id;
 		this.event = event;
 		this.reactions = reactions;
 		this.repliesToComments = repliesToComments;
@@ -138,38 +118,6 @@ public class Comment implements Serializable {
 
 	public void setEventEventId(Integer events_event_id) {
 		this.events_event_id = events_event_id;
-	}
-
-	public int getNumberOfReplies() {
-		return number_of_replies;
-	}
-
-	public void setNumberOfReplies(int number_of_replies) {
-		this.number_of_replies = number_of_replies;
-	}
-
-	public int getYeah() {
-		return yeah;
-	}
-
-	public void setYeah(int yeah) {
-		this.yeah = yeah;
-	}
-
-	public int getNah() {
-		return nah;
-	}
-
-	public void setNah(int nah) {
-		this.nah = nah;
-	}
-
-	public Integer getRepliesToCommentsId() {
-		return replies_to_comments_id;
-	}
-
-	public void setRepliesToCommentsId(Integer replies_to_comments_id) {	
-		this.replies_to_comments_id = replies_to_comments_id;
 	}
 
 	public Event getEvent() {

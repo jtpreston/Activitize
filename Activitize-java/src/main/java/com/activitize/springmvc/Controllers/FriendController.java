@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.activitize.springmvc.Models.Event;
 import com.activitize.springmvc.Models.Friend;
+import com.activitize.springmvc.Models.FriendId;
 import com.activitize.springmvc.Models.JsonResponse;
 import com.activitize.springmvc.Models.User;
 import com.activitize.springmvc.Services.FriendService;
@@ -42,14 +43,24 @@ public class FriendController {
 	@ResponseBody
 	public JsonResponse addFriend(@RequestBody User user) {
 		Friend friend = new Friend();
-		User tempUser = userService.findByUsername(getPrincipal());
-		friend.setUsersUserId(tempUser.getUserId());
-		tempUser = userService.findByUsername(user.getUsername());
-		friend.setOtherUserId(tempUser.getUserId());
-		friend.setStatus(false);
-		if (service.findIfDuplicateAdd(friend) != null) {
-			return new JsonResponse("FAILED", "Cannot add this friend due to duplicate friend request");
+		User requestingUser = userService.findByUsername(getPrincipal());
+		User otherUser = userService.findByUsername(user.getUsername());
+		int compVal = requestingUser.getUserId().compareTo(otherUser.getUserId());
+		FriendId friendId = new FriendId();
+		if (compVal > 0) {
+			friendId.setUsersUserId(otherUser.getUserId());
+			friendId.setOtherUserId(requestingUser.getUserId());
 		}
+		else if (compVal < 0) {
+			friendId.setUsersUserId(requestingUser.getUserId());
+			friendId.setOtherUserId(otherUser.getUserId());
+		}
+		else {
+			return new JsonResponse("FAILED", "Cannot add yourself");
+		}
+		friend.setFriendId(friendId);
+		friend.setStatus(false);
+		friend.setActionUserId(requestingUser.getUserId());
 		service.addFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -60,13 +71,24 @@ public class FriendController {
 	@ResponseBody
 	public JsonResponse deleteFriend(@RequestBody User user) {
 		Friend friend = new Friend();
-		User tempUser = userService.findByUsername(getPrincipal());
-		friend.setUsersUserId(tempUser.getUserId());
-		tempUser = userService.findByUsername(user.getUsername());
-		friend.setOtherUserId(tempUser.getUserId());
-		if (service.findIfCurrentFriend(friend) == null) {
-			return new JsonResponse("FAILED", "Cannot delete this friend as they are not a friend of requester");
+		User requestingUser = userService.findByUsername(getPrincipal());
+		User otherUser = userService.findByUsername(user.getUsername());
+		int compVal = requestingUser.getUserId().compareTo(otherUser.getUserId());
+		FriendId friendId = new FriendId();
+		if (compVal > 0) {
+			friendId.setUsersUserId(otherUser.getUserId());
+			friendId.setOtherUserId(requestingUser.getUserId());
 		}
+		else if (compVal < 0) {
+			friendId.setUsersUserId(requestingUser.getUserId());
+			friendId.setOtherUserId(otherUser.getUserId());
+		}
+		else {
+			return new JsonResponse("FAILED", "Cannot delete yourself");
+		}
+		friend.setFriendId(friendId);
+		friend.setStatus(true);
+		friend.setActionUserId(requestingUser.getUserId());
 		service.deleteFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -77,14 +99,24 @@ public class FriendController {
 	@ResponseBody
 	public JsonResponse confirmFriend(@RequestBody User user) {
 		Friend friend = new Friend();
-		User tempUser = userService.findByUsername(getPrincipal());
-		friend.setUsersUserId(tempUser.getUserId());
-		tempUser = userService.findByUsername(user.getUsername());
-		friend.setOtherUserId(tempUser.getUserId());
-		friend.setStatus(true);
-		if (service.findIfDuplicateFriendRequest(friend) == null) {
-			return new JsonResponse("FAILED", "No friend request exists for this request");
+		User requestingUser = userService.findByUsername(getPrincipal());
+		User otherUser = userService.findByUsername(user.getUsername());
+		int compVal = requestingUser.getUserId().compareTo(otherUser.getUserId());
+		FriendId friendId = new FriendId();
+		if (compVal > 0) {
+			friendId.setUsersUserId(otherUser.getUserId());
+			friendId.setOtherUserId(requestingUser.getUserId());
 		}
+		else if (compVal < 0) {
+			friendId.setUsersUserId(requestingUser.getUserId());
+			friendId.setOtherUserId(otherUser.getUserId());
+		}
+		else {
+			return new JsonResponse("FAILED", "Cannot confirm yourself");
+		}
+		friend.setFriendId(friendId);
+		friend.setStatus(true);
+		friend.setActionUserId(requestingUser.getUserId());
 		service.confirmFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -95,13 +127,24 @@ public class FriendController {
 	@ResponseBody
 	public JsonResponse rejectFriend(@RequestBody User user) {
 		Friend friend = new Friend();
-		User tempUser = userService.findByUsername(getPrincipal());
-		friend.setUsersUserId(tempUser.getUserId());
-		tempUser = userService.findByUsername(user.getUsername());
-		friend.setOtherUserId(tempUser.getUserId());
-		if (service.findIfDuplicateFriendRequest(friend) == null) {
-			return new JsonResponse("FAILED", "No friend request exists for this request");
+		User requestingUser = userService.findByUsername(getPrincipal());
+		User otherUser = userService.findByUsername(user.getUsername());
+		int compVal = requestingUser.getUserId().compareTo(otherUser.getUserId());
+		FriendId friendId = new FriendId();
+		if (compVal > 0) {
+			friendId.setUsersUserId(otherUser.getUserId());
+			friendId.setOtherUserId(requestingUser.getUserId());
 		}
+		else if (compVal < 0) {
+			friendId.setUsersUserId(requestingUser.getUserId());
+			friendId.setOtherUserId(otherUser.getUserId());
+		}
+		else {
+			return new JsonResponse("FAILED", "Cannot reject yourself");
+		}
+		friend.setFriendId(friendId);
+		friend.setStatus(false);
+		friend.setActionUserId(requestingUser.getUserId());
 		service.rejectFriend(friend);
 		return new JsonResponse("OK","");
 	}
@@ -112,14 +155,28 @@ public class FriendController {
 	@ResponseBody
 	public List<User> getAllFriendsForSpecificUser(@RequestBody User user) {
 		Friend friend = new Friend();
-		User tempUser = userService.findByUsername(getPrincipal());
-		friend.setUsersUserId(tempUser.getUserId());
-		tempUser = userService.findByUsername(user.getUsername());
-		friend.setOtherUserId(tempUser.getUserId());
+		User requestingUser = userService.findByUsername(getPrincipal());
+		User otherUser = userService.findByUsername(user.getUsername());
+		int compVal = requestingUser.getUserId().compareTo(otherUser.getUserId());
+		FriendId friendId = new FriendId();
+		if (compVal > 0) {
+			friendId.setUsersUserId(otherUser.getUserId());
+			friendId.setOtherUserId(requestingUser.getUserId());
+		}
+		else if (compVal < 0) {
+			friendId.setUsersUserId(requestingUser.getUserId());
+			friendId.setOtherUserId(otherUser.getUserId());
+		}
+		else {
+			return null;
+		}
+		friend.setFriendId(friendId);
+		friend.setStatus(false);
+		friend.setActionUserId(requestingUser.getUserId());
 		if (service.findIfCurrentFriend(friend) == null) {
 			return null;
 		}
-		return service.findFriendsByUser(tempUser);
+		return service.findFriendsByUser(otherUser);
 	}
 
 	@RequestMapping(value = "/getAllFriendsForCurrentUser", method = RequestMethod.GET)
@@ -136,21 +193,34 @@ public class FriendController {
 	@ResponseBody
 	public User getProfileForFriend(@RequestBody User user) {
 		Friend friend = new Friend();
-		User tempUser = userService.findByUsername(getPrincipal());
-		friend.setUsersUserId(tempUser.getUserId());
-		tempUser = userService.findByUsername(user.getUsername());
-		friend.setOtherUserId(tempUser.getUserId());
+		User requestingUser = userService.findByUsername(getPrincipal());
+		User otherUser = userService.findByUsername(user.getUsername());
+		int compVal = requestingUser.getUserId().compareTo(otherUser.getUserId());
+		FriendId friendId = new FriendId();
+		if (compVal > 0) {
+			friendId.setUsersUserId(otherUser.getUserId());
+			friendId.setOtherUserId(requestingUser.getUserId());
+		}
+		else if (compVal < 0) {
+			friendId.setUsersUserId(requestingUser.getUserId());
+			friendId.setOtherUserId(otherUser.getUserId());
+		}
+		else {
+			return null;
+		}
+		friend.setFriendId(friendId);
+		friend.setStatus(false);
+		friend.setActionUserId(requestingUser.getUserId());
 		if (service.findIfCurrentFriend(friend) == null) {
 			return null;
 		}
 		User returnedUser = new User();
-		returnedUser.setAge(tempUser.getAge());
-		returnedUser.setFirstName(tempUser.getFirstName());
-		returnedUser.setLastName(tempUser.getLastName());
-		returnedUser.setPhoneNumber(tempUser.getPhoneNumber());
-		returnedUser.setNickname(tempUser.getNickname());
-		returnedUser.setUsername(tempUser.getUsername());
-		returnedUser.setNumberOfFriends(tempUser.getNumberOfFriends());
+		returnedUser.setAge(otherUser.getAge());
+		returnedUser.setFirstName(otherUser.getFirstName());
+		returnedUser.setLastName(otherUser.getLastName());
+		returnedUser.setPhoneNumber(otherUser.getPhoneNumber());
+		returnedUser.setNickname(otherUser.getNickname());
+		returnedUser.setUsername(otherUser.getUsername());
 		return returnedUser;
 	}
 
