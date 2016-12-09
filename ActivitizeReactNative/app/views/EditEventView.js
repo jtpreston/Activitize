@@ -171,9 +171,9 @@ export class EditEventView extends React.Component{
                     </View>
                     <View style={styles.inputContainer}>
                     <TextInput 
-                        style={[styles.input]}
+                        style={[styles.multiline]}
                         multiline={true}
-                        maxLength={50}
+                        maxLength={255}
                         numberOfLines={4}
                         placeholder="Description"
                         onChangeText={(e_description) => this.props.navigator.setState({e_description})}
@@ -577,7 +577,15 @@ var styles = StyleSheet.create({
         left: 61,
         top: 12,
         right: 0,
-        height: 40,
+        fontSize: 20,
+        color: '#1A1423'
+    },
+    multiline: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        height: 50,
         fontSize: 20,
         color: '#1A1423'
     },

@@ -237,6 +237,9 @@ export class EditProfile extends React.Component{
             value={this.props.navigator.state.last}
             />
           </View>
+          <View>
+            <Text style={styles.label}>Phone:</Text>
+            </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={[styles.input]}
@@ -251,7 +254,7 @@ export class EditProfile extends React.Component{
           <TouchableWithoutFeedback
             onPress={this.showPicker.bind(this, {date: this.props.navigator.state.dob})}>
             <View style={styles.inputContainer}>
-            <Text style={styles.input}>{this.props.navigator.state.dobString}</Text>
+            <Text style={styles.date}>{this.props.navigator.state.dobString}</Text>
             </View>
           </TouchableWithoutFeedback>
           <TouchableHighlight style={styles.signin} underlayColor='#840032' onPress={this.deleteUser.bind(this)}>
@@ -447,7 +450,6 @@ var styles = StyleSheet.create({
         left: 61,
         top: 12,
         right: 0,
-        height: 40,
         fontSize: 20,
         color: '#1A1423',
     },
@@ -456,7 +458,6 @@ var styles = StyleSheet.create({
         left: 61,
         top: 12,
         right: 0,
-        height: 40,
         fontSize: 10,
         color: '#1A1423',
     },
@@ -468,5 +469,14 @@ var styles = StyleSheet.create({
         left: 0,
         right: 0,
         alignItems: 'center'
-    }
+    },
+    date: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        fontSize: 20,
+        color: '#1A1423',
+        height: 40
+    },
 });
