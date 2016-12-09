@@ -303,7 +303,7 @@ ADD UNIQUE KEY `unique_users_id` (`users_user_id`,`other_user_id`);
 -- Alter `activitizedbtest`.`events` to add unique index
 -- -----------------------------------------------------
 ALTER TABLE `events`
-ADD UNIQUE INDEX `ix_events` (`creator`, `event_name`, `event_start`, `location`);
+ADD UNIQUE INDEX `ix_events` (`event_name`, `event_start`, `location`, `creator`);
 
 
 -- -----------------------------------------------------
